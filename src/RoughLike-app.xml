@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<application xmlns="http://ns.adobe.com/air/application/30.0">
+ 
+    <!-- <id>com.miracle.SwordOfMiracle</id>-->
+    <id>MiracleRoughLike</id>
+    <filename>MiracleRoughLike</filename>
+    <name>MiracleRoughLike</name>
+    <versionNumber>1.0.0</versionNumber>
+    <initialWindow>
+        <content>[此值将由 Flash Builder 在输出 app.xml 中覆盖]</content>
+        <autoOrients>true</autoOrients>
+        <fullScreen>true</fullScreen>
+        <renderMode>direct</renderMode>
+        <visible>true</visible>
+        <aspectRatio>landscape</aspectRatio>
+        <depthAndStencil>true</depthAndStencil>
+    </initialWindow>
+    <icon>
+    </icon>
+ 
+<android>
+        <manifestAdditions><![CDATA[
+        <manifest android:installLocation="auto">
+                <!-- sdk的权限 -->
+                <uses-permission android:name="android.permission.INTERNET"/>
+                <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+                <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+                <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+                <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+                <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+                <uses-permission android:name="android.permission.WAKE_LOCK"/>
+                <uses-permission android:name="android.permission.CAMERA"/>
+                <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+                <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+                <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+                <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+                <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+                <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+                <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+                <uses-permission android:name="android.permission.GET_TASKS" />
+                <uses-permission android:name="android.permission.SEND_SMS" />
+                <uses-permission android:name="android.permission.READ_SMS" />
+                <uses-permission android:name="android.permission.VIBRATE" />
+                <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+                <uses-permission android:name="android.permission.RECEIVE_SMS" />
+                <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+                <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+                 
+               <!--  易接  {A85571BB-10D98254}-->
+               <!--
+              	<application
+               	android:name="com.snowfish.cn.ganga.helper.SFOnlineApplication">
+                android:allowBackup="true"
+                <uses-sdk android:minSdkVersion="8"/>
+				<uses-sdk android:targetSdkVersion="14"/>
+				<supports-screens
+					android:anyDensity="true"
+					android:largeScreens="true"
+					android:normalScreens="true"
+					android:resizeable="true"
+					android:smallScreens="true" />
+		        <service
+		            android:name="com.snowfish.a.a.s.ABGSvc"
+		            android:enabled="true" 
+		            android:process="com.snowfish.a.a.bg">
+		            <intent-filter>
+		                <action android:name="com.snowfish.a.a.s.ABGSvc" />
+		                <category android:name="android.intent.category.DEFAULT" />
+		            </intent-filter>
+		        </service>
+		        <meta-data
+		            android:name="com.snowfish.customer"
+		            android:value="SNOWFISH" >
+		        </meta-data>
+		        <meta-data
+		            android:name="com.snowfish.channel"
+		            android:value="SNOWFISH" >
+		        </meta-data>
+		        <meta-data
+		            android:name="com.snowfish.sdk.version"
+		            android:value="1" >
+		        </meta-data>
+		        <meta-data
+		            android:name="com.snowfish.appid"
+		            android:value="{A85571BB-10D98254}" >
+		        </meta-data>
+		        <meta-data
+		            android:name="com.snowfish.channelid"
+		            android:value="{4ff036a1-3254eafe}" >
+		        </meta-data>
+	           	<activity
+	            android:name="com.snowfish.a.a.s.PA"
+	            android:configChanges="keyboardHidden|orientation"
+	            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+	            android:windowSoftInputMode="stateHidden" >
+	        	</activity>
+	        	</application>
+	        	-->
+              	<!--  易接end -->
+                 
+        </manifest>
+        ]]></manifestAdditions>
+</android>
+<iPhone>
+        <InfoAdditions><![CDATA[
+            <key>UIDeviceFamily</key>
+            <array>
+                <string>1</string>
+                <string>2</string>
+            </array>
+        ]]></InfoAdditions>
+        <requestedDisplayResolution>high</requestedDisplayResolution>
+</iPhone>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+</application>

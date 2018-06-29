@@ -1,0 +1,449 @@
+package StaticDatas{
+	import com.MyClass.VertionVo;
+
+	public class SData_AI{
+		//===============Tar================
+		//对方
+		public static const Tar_Closest:String="顺序";
+		public static const Tar_Front:String="前排";
+		public static const Tar_Middle:String="中排";
+		public static const Tar_Back:String="后排";
+		public static const Tar_CanKill:String="秒杀";
+		public static const Tar_HaveBadBuff:String="有不良状态";
+		public static const Tar_HPMin:String="hp最少的敌人";
+		public static const Tar_HPLessPer:String="hp小于";//前缀
+		public static const Tar_MPLessPerSelf:String="自身mp小于";//前缀
+		public static const Tar_HaveBuffName:String="有buff";
+		public static const Tar_HaveNoBuffName:String="没有buff";
+		public static const Tar_HaveBuffNameSelf:String="自身有buff";
+		public static const Tar_MaxAtkPhy:String="物攻最高";
+		public static const Tar_MaxAtkMag:String="魔攻最高";
+		
+		public static const Tar_HaveMoreThan1Role_HP50:String="hp小于50%多于1人";
+		public static const Tar_HaveMoreThan2Role_HP50:String="hp小于50%多于2人";
+		//===============技能================
+		public static const Act_Random:String="随机";
+		public static const Act_Item_1:String="1号道具";
+		//===============二级判断================
+		public static const Second_HpMin:String="HP最少";
+		public static const Second_Random:String="随机";
+		
+		
+		private static var instance:SData_AI;
+		public static function getInstance():SData_AI{
+			if(instance==null){
+				instance=new  SData_AI();
+			}
+			return instance;
+		}
+		
+		public var Dic:*;
+		public function SData_AI(){
+			Dic=VertionVo.getData(this);
+			if(Dic==null){
+				onLocalF();
+			}
+		}
+		private function onLocalF():void{
+			Dic={};
+			var id:int;
+			var dic:*;
+			//=================='id=501;dic={};Dic[id]=dic;
+dic["tar"]="秒杀";
+dic["per"]=100;
+dic["act"]=5009;
+//==================
+id=502;dic={};Dic[id]=dic;
+dic["tar"]="秒杀";
+dic["per"]=100;
+dic["act"]=5001;
+//==================
+id=503;dic={};Dic[id]=dic;
+dic["tar"]="自身mp小于25";
+dic["per"]=100;
+dic["act"]="喝蓝";
+//==================
+id=504;dic={};Dic[id]=dic;
+dic["tar"]="秒杀";
+dic["per"]=100;
+dic["act"]=5006;
+//==================
+id=505;dic={};Dic[id]=dic;
+dic["tar"]="秒杀";
+dic["per"]=70;
+dic["act"]=5004;
+//==================
+id=506;dic={};Dic[id]=dic;
+dic["tar"]="有buff诅咒";
+dic["per"]=100;
+dic["act"]=5004;
+dic["second"]="血量最低";
+//==================
+id=507;dic={};Dic[id]=dic;
+dic["tar"]="有buff诅咒";
+dic["per"]=100;
+dic["act"]=5008;
+//==================
+id=508;dic={};Dic[id]=dic;
+dic["tar"]="有不良状态";
+dic["per"]=100;
+dic["act"]=5004;
+dic["second"]="血量最低";
+//==================
+id=509;dic={};Dic[id]=dic;
+dic["tar"]="hp小于25%";
+dic["per"]=70;
+dic["act"]=5009;
+//==================
+id=510;dic={};Dic[id]=dic;
+dic["tar"]="hp小于25%";
+dic["per"]=70;
+dic["act"]=5006;
+//==================
+id=511;dic={};Dic[id]=dic;
+dic["tar"]="hp小于35%";
+dic["per"]=60;
+dic["act"]=5004;
+//==================
+id=512;dic={};Dic[id]=dic;
+dic["tar"]="hp小于25%";
+dic["per"]=60;
+dic["act"]=5001;
+//==================
+id=513;dic={};Dic[id]=dic;
+dic["tar"]="hp小于35%";
+dic["per"]=60;
+dic["act"]=5008;
+//==================
+id=514;dic={};Dic[id]=dic;
+dic["tar"]="自身mp小于30";
+dic["per"]=100;
+dic["act"]="喝蓝";
+//==================
+id=515;dic={};Dic[id]=dic;
+dic["tar"]="hp小于25%";
+dic["per"]=100;
+dic["act"]=5001;
+//==================
+id=516;dic={};Dic[id]=dic;
+dic["tar"]="自身有buff流血";
+dic["per"]=100;
+dic["act"]=5006;
+//==================
+id=517;dic={};Dic[id]=dic;
+dic["tar"]="hp大于10%";
+dic["per"]=70;
+dic["act"]=5005;
+//==================
+id=518;dic={};Dic[id]=dic;
+dic["tar"]="无";
+dic["per"]=100;
+dic["act"]=5009;
+//==================
+id=519;dic={};Dic[id]=dic;
+dic["tar"]="无";
+dic["per"]=70;
+dic["act"]=5007;
+//==================
+id=520;dic={};Dic[id]=dic;
+dic["tar"]="hp小于50%";
+dic["per"]=90;
+dic["act"]=5004;
+dic["second"]="血量最低";
+//==================
+id=521;dic={};Dic[id]=dic;
+dic["tar"]="hp小于50%";
+dic["per"]=70;
+dic["act"]=5008;
+//==================
+id=522;dic={};Dic[id]=dic;
+dic["tar"]="无";
+dic["per"]=50;
+dic["act"]=5006;
+//==================
+id=523;dic={};Dic[id]=dic;
+dic["tar"]="无";
+dic["per"]=50;
+dic["act"]=5004;
+dic["second"]="血量最低";
+//==================
+id=524;dic={};Dic[id]=dic;
+dic["tar"]="无";
+dic["per"]=50;
+dic["act"]=5007;
+//==================
+id=525;dic={};Dic[id]=dic;
+dic["tar"]="无";
+dic["per"]=50;
+dic["act"]=5008;
+//==================
+id=526;dic={};Dic[id]=dic;
+dic["tar"]="无";
+dic["per"]=100;
+dic["act"]=5001;
+//==================
+id=701;dic={};Dic[id]=dic;
+dic["tar"]="秒杀";
+dic["per"]=100;
+dic["act"]=7001;
+//==================
+id=702;dic={};Dic[id]=dic;
+dic["tar"]="秒杀，攻击人数最多";
+dic["per"]=100;
+dic["act"]=7005;
+//==================
+id=703;dic={};Dic[id]=dic;
+dic["tar"]="秒杀";
+dic["per"]=100;
+dic["act"]=7002;
+//==================
+id=704;dic={};Dic[id]=dic;
+dic["tar"]="秒杀";
+dic["per"]=100;
+dic["act"]=7007;
+//==================
+id=705;dic={};Dic[id]=dic;
+dic["tar"]="秒杀";
+dic["per"]=100;
+dic["act"]=7006;
+//==================
+id=706;dic={};Dic[id]=dic;
+dic["tar"]="自身mp小于30";
+dic["per"]=100;
+dic["act"]="喝蓝";
+//==================
+id=707;dic={};Dic[id]=dic;
+dic["tar"]="hp大于60%";
+dic["per"]=100;
+dic["act"]=7006;
+//==================
+id=708;dic={};Dic[id]=dic;
+dic["tar"]="hp大于40%";
+dic["per"]=60;
+dic["act"]=7006;
+//==================
+id=709;dic={};Dic[id]=dic;
+dic["tar"]="hp小于25%";
+dic["per"]=100;
+dic["act"]=7002;
+//==================
+id=710;dic={};Dic[id]=dic;
+dic["tar"]="hp小于25%，攻击人数最多";
+dic["per"]=100;
+dic["act"]=7005;
+//==================
+id=711;dic={};Dic[id]=dic;
+dic["tar"]="hp小于25%";
+dic["per"]=100;
+dic["act"]=7001;
+//==================
+id=712;dic={};Dic[id]=dic;
+dic["tar"]="hp小于25%";
+dic["per"]=100;
+dic["act"]=7007;
+//==================
+id=713;dic={};Dic[id]=dic;
+dic["tar"]="魔攻最高，没有buff诅咒";
+dic["per"]=100;
+dic["act"]=7008;
+//==================
+id=714;dic={};Dic[id]=dic;
+dic["tar"]="物攻最高，没有buff诅咒";
+dic["per"]=100;
+dic["act"]=7008;
+//==================
+id=715;dic={};Dic[id]=dic;
+dic["tar"]="hp小于50%";
+dic["per"]=50;
+dic["act"]=7002;
+//==================
+id=716;dic={};Dic[id]=dic;
+dic["tar"]="hp小于50%，攻击人数最多";
+dic["per"]=55;
+dic["act"]=7005;
+//==================
+id=717;dic={};Dic[id]=dic;
+dic["tar"]="hp小于50%";
+dic["per"]=60;
+dic["act"]=7001;
+//==================
+id=718;dic={};Dic[id]=dic;
+dic["tar"]="hp小于50%";
+dic["per"]=65;
+dic["act"]=7007;
+//==================
+id=719;dic={};Dic[id]=dic;
+dic["tar"]="魔攻最高，没有buff眩晕，没有buff我的朋友a，没有buff雷光，没有buff狂雷，没有buff玄冰";
+dic["per"]=100;
+dic["act"]=7003;
+//==================
+id=720;dic={};Dic[id]=dic;
+dic["tar"]="物攻最高，没有buff眩晕，没有buff我的朋友a，没有buff雷光，没有buff狂雷，没有buff玄冰";
+dic["per"]=100;
+dic["act"]=7003;
+//==================
+id=721;dic={};Dic[id]=dic;
+dic["tar"]="魔攻最高，没有buff眩晕，没有buff我的朋友a，没有buff雷光，没有buff狂雷，没有buff玄冰";
+dic["per"]=50;
+dic["act"]=7004;
+//==================
+id=722;dic={};Dic[id]=dic;
+dic["tar"]="物攻最高，没有buff眩晕，没有buff我的朋友a，没有buff雷光，没有buff狂雷，没有buff玄冰";
+dic["per"]=55;
+dic["act"]=7004;
+//==================
+id=723;dic={};Dic[id]=dic;
+dic["tar"]="攻击人数最多";
+dic["per"]=50;
+dic["act"]=7005;
+//==================
+id=724;dic={};Dic[id]=dic;
+dic["tar"]="无";
+dic["per"]=50;
+dic["act"]=7002;
+//==================
+id=725;dic={};Dic[id]=dic;
+dic["tar"]="无";
+dic["per"]=50;
+dic["act"]=7007;
+//==================
+id=726;dic={};Dic[id]=dic;
+dic["tar"]="无";
+dic["per"]=100;
+dic["act"]=7001;
+//==================
+id=111;dic={};Dic[id]=dic;
+dic["tar"]="秒杀";
+dic["per"]=100;
+dic["act"]=1101;
+//==================
+id=112;dic={};Dic[id]=dic;
+dic["tar"]="秒杀";
+dic["per"]=100;
+dic["act"]=1107;
+dic["second"]="血量最低";
+//==================
+id=113;dic={};Dic[id]=dic;
+dic["tar"]="自身mp小于25";
+dic["per"]=100;
+dic["act"]=1108;
+//==================
+id=114;dic={};Dic[id]=dic;
+dic["tar"]="自身mp小于10";
+dic["per"]=100;
+dic["act"]="喝蓝";
+//==================
+id=115;dic={};Dic[id]=dic;
+dic["tar"]="hp小于40%";
+dic["per"]=100;
+dic["act"]=1102;
+dic["second"]="血量最低";
+//==================
+id=116;dic={};Dic[id]=dic;
+dic["tar"]="hp小于50%多于1人";
+dic["per"]=100;
+dic["act"]=1103;
+//==================
+id=117;dic={};Dic[id]=dic;
+dic["tar"]="hp小于50%多于2人";
+dic["per"]=100;
+dic["act"]=1104;
+//==================
+id=118;dic={};Dic[id]=dic;
+dic["tar"]="有不良状态";
+dic["per"]=100;
+dic["act"]=1105;
+dic["second"]="血量最低";
+//==================
+id=119;dic={};Dic[id]=dic;
+dic["tar"]="没有buff护盾，前排";
+dic["per"]=100;
+dic["act"]=1106;
+//==================
+id=120;dic={};Dic[id]=dic;
+dic["tar"]="没有buff护盾";
+dic["per"]=100;
+dic["act"]=1106;
+dic["second"]="血量最低";
+//==================
+id=121;dic={};Dic[id]=dic;
+dic["tar"]="hp小于60%";
+dic["per"]=80;
+dic["act"]=1102;
+//==================
+id=122;dic={};Dic[id]=dic;
+dic["tar"]="hp小于60%，多于1人";
+dic["per"]=80;
+dic["act"]=1103;
+//==================
+id=123;dic={};Dic[id]=dic;
+dic["tar"]="hp小于60%，多于2人";
+dic["per"]=80;
+dic["act"]=1104;
+//==================
+id=124;dic={};Dic[id]=dic;
+dic["tar"]="hp小于20%";
+dic["per"]=70;
+dic["act"]=1107;
+dic["second"]="血量最低";
+//==================
+id=125;dic={};Dic[id]=dic;
+dic["tar"]="无";
+dic["per"]=100;
+dic["act"]=1101;
+//==================
+id=301;dic={};Dic[id]=dic;
+dic["tar"]="秒杀";
+dic["per"]=100;
+dic["act"]=3001;
+//==================
+id=302;dic={};Dic[id]=dic;
+dic["tar"]="无";
+dic["per"]=80;
+dic["act"]=3008;
+//==================
+id=303;dic={};Dic[id]=dic;
+dic["tar"]="无";
+dic["per"]=80;
+dic["act"]=3007;
+//==================
+id=304;dic={};Dic[id]=dic;
+dic["tar"]="魔攻最高";
+dic["per"]=70;
+dic["act"]=3006;
+//==================
+id=305;dic={};Dic[id]=dic;
+dic["tar"]="物攻最高";
+dic["per"]=70;
+dic["act"]=3006;
+//==================
+id=306;dic={};Dic[id]=dic;
+dic["tar"]="无";
+dic["per"]=60;
+dic["act"]=3005;
+//==================
+id=307;dic={};Dic[id]=dic;
+dic["tar"]="无";
+dic["per"]=80;
+dic["act"]=3003;
+//==================
+id=308;dic={};Dic[id]=dic;
+dic["tar"]="无";
+dic["per"]=100;
+dic["act"]=3001;
+//==================
+id=1001;dic={};Dic[id]=dic;
+dic["tar"]="无";
+dic["per"]=100;
+dic["act"]=1001;
+//==================
+id=1002;dic={};Dic[id]=dic;
+dic["tar"]="无";
+dic["per"]=100;
+dic["act"]=1002;
+//==================
+}
+		
+		
+}
+}
