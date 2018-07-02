@@ -5,10 +5,11 @@ import com.MyClass.Tools.Tool_ObjUtils;
  * 地图上的所有物体
  * */
 public class Map_Object	{
-	public var Role:Map_ObjectRole;
+	public var Role:Map_ObjectView;
 	private var _x:Number=0;
 	private var _y:Number=0;
 	private var _z:Number=0;
+	public var index:int;
 	public var hitArea:MyHitArea;
 	
 	public function Map_Object(){
@@ -43,6 +44,10 @@ public class Map_Object	{
 		return hitArea.hitTest(obj.hitArea,this._x,this._y,this._z,obj._x,obj._y,obj._z);
 	}
 
+	/** 清理：人物等不缓存，直接清理。地面等地图素材缓存。 */
+	public function removeF():void{
+		destroyF();
+	}
 	public function destroyF():void{
 		Role=Tool_ObjUtils.destroyF_One(Role);
 	}

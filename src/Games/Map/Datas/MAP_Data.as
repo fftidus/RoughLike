@@ -3,13 +3,13 @@ package Games.Map.Datas{
  * 地图的整体数据
  * */
 public class MAP_Data{
+	public var ID:int;
 	public var Name:String;
 	public var size:int=40;
 	public var rec:* ={"x0":0,"x1":500,"y0":0,"y1":500};//显示区域
-	public var hitRec:*;//碰撞区域
 	public var Arr_gripSource:Array=[];
 	public var Arr_grips:Array;
-	public var Arr_groundType:Array;
+	public var Arr_groundType:Array;//二维数组，地形
 	
 	public function MAP_Data(){
 	}
@@ -19,7 +19,6 @@ public class MAP_Data{
 		Name=dic["Name"];
 		size=dic["size"];
 		rec=dic["rec"];
-		hitRec=dic["hit"];
 		Arr_gripSource=dic["资源"];
 		Arr_grips=dic["地图"];
 		Arr_groundType=dic["地形"];
@@ -39,6 +38,19 @@ public class MAP_Data{
 					Arr_grips[i]["type"] =Arr_gripSource[Arr_grips[i]["type"]].Url;
 				}
 				Arr_grips[i]=[tmpdic[Arr_grips[i]["type"]],Arr_grips[i]["info"]];
+			}
+		}
+	}
+	
+	public function addSource(source:Array):void{
+		var arrswf:Array=[];
+		if(Arr_gripSource!=null) {
+			for (var i:int = 0; i < Arr_gripSource.length; i++) {
+				var data:MapData_Grip =Arr_gripSource[i];
+				if(arrswf.indexOf(data.swf)==-1){
+					arrswf.push(data.swf);
+					source.push([data.swf,"swf"]);
+				}
 			}
 		}
 	}

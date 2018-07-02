@@ -1,0 +1,22 @@
+<TextureAtlas imagePath="SWF_Map1.png">
+  <SubTexture name="img_img石头1" x="0" y="0" width="241" height="172"/>
+  <SubTexture name="img_碰撞范围圆" x="243" y="0" width="100" height="100"/>
+  <SubTexture name="img_img草2" x="243" y="102" width="147" height="62"/>
+  <SubTexture name="img_wall2" x="243" y="166" width="289" height="436"/>
+  <SubTexture name="img_npc3_img" x="392" y="0" width="104" height="117"/>
+  <SubTexture name="img_wall4" x="0" y="174" width="32" height="436"/>
+  <SubTexture name="img_阴影_墙门" x="34" y="604" width="231" height="189" frameX="0" frameWidth="232" frameY="0" frameHeight="190"/>
+  <SubTexture name="img_wall3" x="267" y="604" width="285" height="436"/>
+  <SubTexture name="img_img草1" x="34" y="174" width="89" height="65"/>
+  <SubTexture name="img_npc2_img" x="34" y="241" width="86" height="145"/>
+  <SubTexture name="img_wall_1" x="0" y="795" width="32" height="436"/>
+  <SubTexture name="img_阴影_圆1" x="34" y="388" width="123" height="33" frameX="0" frameWidth="123" frameY="0" frameHeight="34"/>
+  <SubTexture name="img_池塘边缘" x="534" y="0" width="327" height="118" frameX="0" frameWidth="328" frameY="0" frameHeight="118"/>
+  <SubTexture name="img_G1" x="34" y="423" width="201" height="100"/>
+  <SubTexture name="img_池塘_水" x="534" y="120" width="301" height="93" frameX="-4" frameWidth="315" frameY="-8" frameHeight="112"/>
+  <SubTexture name="img_npc4_img" x="159" y="174" width="74" height="226"/>
+  <SubTexture name="img_npc1_img" x="34" y="795" width="79" height="133"/>
+  <SubTexture name="img_item1_img" x="534" y="215" width="346" height="263"/>
+  <SubTexture name="img_树1" x="837" y="480" width="296" height="443"/>
+  <SubTexture name="img_碰撞范围方" x="534" y="480" width="100" height="100"/>
+</TextureAtlas>

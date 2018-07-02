@@ -5,19 +5,17 @@ package
 	import com.MyClass.MainManager;
 	import com.MyClass.MySourceManager;
 	import com.MyClass.MySourceManager_AIR;
-	import com.MyClass.VertionVo;
+import com.MyClass.Tools.MyErrorSend;
+import com.MyClass.VertionVo;
 	import com.MyClass.VertionVo_Air;
 	import com.MyClass.MyView.ImageNum;
 	import com.MyClass.MyView.LoadingView;
-	import com.MyClass.NetTools.MgsSocket;
 	import com.MyClass.Tools.AlertSmall;
 	import com.MyClass.Tools.AlertWindow;
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.UncaughtErrorEvent;
-	
-	import CMD.CMD010;
 	
 	import StaticDatas.SData_Strings;
 	
@@ -44,6 +42,7 @@ package
 			MySourceManager.ClassManager=MySourceManager_AIR;
 			ImageNum.SWFDefault=SData_Strings.SWF_默认UI;
 			this.addEventListener(Event.ADDED_TO_STAGE,init);
+			MyErrorSend.onSendF(null);
 		}
 		private function uncatchErrorF(e:UncaughtErrorEvent):void{
 			e.preventDefault();
@@ -53,11 +52,7 @@ package
 			AlertWindow.showSimpleF(SData_Strings.Alert_意外错误,{"title":SData_Strings.Alert_意外错误Title},Config.on重启);
 			//发送
 			var str:String	= (e.error as Error).getStackTrace();
-			if(MgsSocket.getInstance().now状态=="连接"){
-				var c10:CMD010=new  CMD010();
-				c10.writeValue_Dic("内容",str);
-				c10.sendF(false);
-			}
+			MyErrorSend.onSendF(str);
 		}
 		private function init(e:Event):void
 		{

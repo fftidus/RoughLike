@@ -12,9 +12,15 @@ import starling.filters.FragmentFilter;
 public class MAP_Instance extends Sprite{
 	private static const Index_Object:int=4;
 	public var data:MAP_Data;
+	private var areaControll:Map_ShowAreaController;
+	private var camera:Map_Camera;
 	public var mainRole:*;
 	private var dicLayers:* ={};
-	private var needSort:Boolean=false;
+	public var needSort:Boolean=false;
+	public function get nowMinX():int{return camera.nowX-camera.cameraW;}
+	public function get nowMaxX():int{return camera.nowX+camera.cameraW;}
+	public function get nowMinY():int{return camera.nowY-camera.cameraH;}
+	public function get nowMaxY():int{return camera.nowY+camera.cameraH;}
 	
 	public function MAP_Instance(_data:*){
 		data=_data;
@@ -28,13 +34,14 @@ public class MAP_Instance extends Sprite{
 			}
 		}
 	}
+	public function initF():void{
+		camera=new Map_Camera(this);
+		areaControll=new Map_ShowAreaController(this);
+	}
 	/** 必须调用的初始化 */
 	public function setMainRole(role:*):void{
 		mainRole=role;
 		enterF();
-	}
-	/** 限制角色移动范围 */
-	public function onLimiteRole(role:*):void{
 	}
 	/** 根据世界坐标得到对应行 */
 	public function getRowByY(_y:Number):int{
@@ -52,9 +59,15 @@ public class MAP_Instance extends Sprite{
 	 * 帧频事件
 	 * */
 	public function enterF():void{
+		camera.enterF();
+		areaControll.onCheckF();
 		if(needSort){
 			onSortGrips();
 		}
+	}
+	/** 计算当前需要显示的地图块的范围 */
+	private function onCheckGripShowArea():void{
+		
 	}
 	/** 排序图块 */
 	private function onSortGrips():void{
@@ -73,9 +86,13 @@ public class MAP_Instance extends Sprite{
 		}
 		this.setRequiresRedraw();
 	}
-	/** 添加role */
-	public function addRoleF(role:*):void{
-		dicLayers[Index_Object].addChild(role);
+	/** 添加obj */
+	public function addMapObjectToLayer(role:Map_Object,   index:int=-1):void{
+		if(index==-1) {//默认添加到物体层
+			index =Index_Object;
+		}
+		dicLayers[index].addChild(role.Role);
+		needSort=true;
 	}
 	/** 添加动画到最上层级 */
 	public function addMcToTopLayer(mc:*):void{
@@ -87,6 +104,8 @@ public class MAP_Instance extends Sprite{
 	public function destroyF():void{
 		Tool_ObjUtils.getInstance().destroyDisplayObj(this);
 		dicLayers=Tool_ObjUtils.destroyF_One(dicLayers);
+		camera=Tool_ObjUtils.destroyF_One(camera);
+		areaControll=Tool_ObjUtils.destroyF_One(areaControll);
 	}
 }
 }
