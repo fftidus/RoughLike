@@ -12,8 +12,18 @@ public class Map_Object	{
 	public var hitArea:MyHitArea;
 	
 	public function Map_Object(){
+
 	}
-	
+
+	public function initHitArea(dic:*):Boolean{
+		var hitArea:MyHitArea = MyHitArea.getHitArea(dic);
+		if(hitArea != null){
+			this.hitArea = hitArea;
+			return true;
+		}
+		return false;
+	}
+
 	public function get x():Number {return _x;}
 	public function set x(value:Number):void {
 		_x = value;
@@ -30,7 +40,7 @@ public class Map_Object	{
 	/** 碰撞检测 */
 	public function hitTestWith(obj:Map_Object):Boolean{
 		if(this.hitArea==null || obj.hitArea==null){return false;}
-		return hitArea.hitTest(obj.hitArea);
+		return hitArea.hitTest(obj.hitArea,this._x,this._y,this._z,obj._x,obj._y,obj._z);
 	}
 
 	public function destroyF():void{
