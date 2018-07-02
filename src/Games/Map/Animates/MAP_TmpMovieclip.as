@@ -1,4 +1,4 @@
-package Games.Fuben{
+package Games.Map.Animates{
 	import com.MyClass.MyView.TmpMovieClip;
 	import com.MyClass.Tools.Tool_Function;
 	import com.MyClass.Tools.Tool_ObjUtils;

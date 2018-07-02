@@ -3,8 +3,8 @@ import com.MyClass.Config;
 import com.MyClass.Tools.Tool_Function;
 import com.MyClass.Tools.Tool_ObjUtils;
 
-import Games.Fuben.MAP_Ground;
-import Games.Fuben.MAP_Item;
+import Games.Map.MAP_Ground;
+import Games.Map.MAP_Item;
 
 import starling.display.Sprite;
 	

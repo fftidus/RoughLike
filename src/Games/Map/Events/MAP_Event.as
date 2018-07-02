@@ -1,8 +1,9 @@
-package Games.Fuben
+package Games.Map.Events
 {
 	import com.MyClass.Tools.Tool_ObjUtils;
 	
 	import starling.display.Sprite;
+	import Games.Map.MAP_Instance;
 
 	public class MAP_Event extends Sprite
 	{
@@ -16,7 +17,7 @@ package Games.Fuben
 			one.setInfo(_info);
 			return one;
 		}
-		public var map:MAP_Square;
+		public var map:MAP_Instance;
 		public var Mc:*;
 		public var Info:*;
 		public var row:int;

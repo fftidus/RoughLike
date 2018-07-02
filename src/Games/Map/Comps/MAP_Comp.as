@@ -1,12 +1,14 @@
-package Games.Fuben{
+package Games.Map.Comps{
 	import com.MyClass.Tools.Tool_Function;
 	
 	import laya.utils.Handler;
 	
 	import lzm.starling.swf.display.SwfMovieClip;
+	import Games.Map.MAP_Instance;
+	import Games.Map.Animates.MAP_TmpMovieclip;
 
-public class MAP_CompOne{
-	public static function getOneByInfo(info:*, item:MAP_Item):MAP_CompOne{
+public class MAP_Comp{
+	public static function getOneByInfo(info:*, item:MAP_Item):MAP_Comp{
 		//info = {"Name"：fileName， "默认数据"：{}，	"Hide":……}
 		if(info["默认数据"] &&  info["默认数据"]["Name"]=="宝箱"){
 			return new MAP_CompOne_Box(info,item);
@@ -23,7 +25,7 @@ public class MAP_CompOne{
 		if(info["默认数据"] &&  info["默认数据"]["Name"]=="出口"){
 			return new MAP_CompOne_Door(info,item);
 		}
-		return new MAP_CompOne(info,item);
+		return new MAP_Comp(info,item);
 	}
 	
 	
@@ -31,7 +33,7 @@ public class MAP_CompOne{
 	public var item:MAP_Item;
 	public var Info:*;
 	/** 地图组件 */
-	public function MAP_CompOne(info:*,_item:MAP_Item)	{
+	public function MAP_Comp(info:*,_item:MAP_Item)	{
 		Info=info;
 		if(info["默认数据"]){
 			Name =Info["默认数据"]["Name"];
@@ -73,7 +75,7 @@ public class MAP_CompOne{
 		tmc.x =item.x;
 		tmc.y =item.y;
 		//"层级":"当前层最上"，"最上"
-		var map:MAP_Square =item.map as MAP_Square;
+		var map:MAP_Instance =item.map as MAP_Instance;
 		if(typeIndex.indexOf("当前")==0){//遮挡当前层和上层，但会被下层遮挡
 			tmc.renderIndex++;
 			map.addMcToLayerUp(tmc);
