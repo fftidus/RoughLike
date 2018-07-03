@@ -16,6 +16,9 @@ public class Map_Camera {
 	/** 当前摄像机的中心点 */
 	public var nowX:Number=0;
 	public var nowY:Number=0;
+	/** 镜头放大的倍数 */
+	private var _scale:Number=1;
+	public function set scale(value:Number):void{_scale=value;}
 	
 	public function Map_Camera(map:MAP_Instance) {
 		this.Map=map;

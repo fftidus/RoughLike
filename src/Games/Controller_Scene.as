@@ -12,7 +12,7 @@ public class Controller_Scene {
 		if(instance==null){instance=new Controller_Scene();}
 		return instance;
 	}
-	
+	public var nowScene:Scene;
 	private var DicDatas:* ={};
 	public function Controller_Scene() {
 	}
@@ -57,7 +57,7 @@ public class Controller_Scene {
 		getMapData(fubenID,Handler.create(this,onNewSceneEnd));
 	}
 	private function onNewSceneEnd(data:MAP_Data):void{
-		new Scene(data,loadView);
+        nowScene =new Scene(data,loadView);
 	}
 	
 	

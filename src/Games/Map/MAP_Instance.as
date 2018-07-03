@@ -41,6 +41,7 @@ public class MAP_Instance extends Sprite{
 	/** 必须调用的初始化 */
 	public function setMainRole(role:*):void{
 		mainRole=role;
+        addMapObjectToLayer(role);
 		enterF();
 	}
 	/** 根据世界坐标得到对应行 */
@@ -91,7 +92,7 @@ public class MAP_Instance extends Sprite{
 		if(index==-1) {//默认添加到物体层
 			index =Index_Object;
 		}
-		dicLayers[index].addChild(role.Role);
+		dicLayers[index].addChild(role);
 		needSort=true;
 	}
 	/** 添加动画到最上层级 */

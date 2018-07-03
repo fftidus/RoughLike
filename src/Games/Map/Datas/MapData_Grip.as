@@ -10,7 +10,7 @@ public class MapData_Grip {
 	/** 图块显示的外框 {"x0":rec.x,"x1":rec.x+rec.width,"y0":rec.y,"y1":rec.y+rec.height} */
 	public var rec:*;
     /** 图块的碰撞区域 */
-    public var hitRec:MapData_HitArea;
+    public var hitRec:*;
     
     public function MapData_Grip() {
     }
@@ -19,8 +19,7 @@ public class MapData_Grip {
         Url=dic["Url"];
         rec=dic["rec"];
         if(dic["hitRec"]) {
-            hitRec=new MapData_HitArea();
-            hitRec.initFromDic(dic["hitRec"]);
+            hitRec =dic["hitRec"];
         }
     }
     public function initFromOther(other:MapData_Grip):void{
@@ -28,15 +27,6 @@ public class MapData_Grip {
         Url=other["Url"];
         rec=other["rec"];
         hitRec=other.hitRec;
-    }
-    public function getJsonStr():String{
-        var str:String="{";
-        str+='"swf":'+JSON.stringify(swf);
-        str+=',"Url":'+JSON.stringify(Url);
-        str+=',"rec":'+JSON.stringify(rec);
-        if(hitRec!=null) str+=',"hitRec":'+hitRec.getJson();
-        str+="}";
-        return str;
     }
 }
 }

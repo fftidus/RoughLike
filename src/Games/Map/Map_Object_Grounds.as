@@ -1,39 +1,22 @@
 package Games.Map {
+import Games.Controller_Scene;
 import Games.Map.Datas.MapData_Grip;
 
 import com.MyClass.Config;
-import com.MyClass.Tools.MyPools;
+import com.MyClass.Tools.Tool_Function;
 
 public class Map_Object_Grounds extends Map_Object {
-	public static function getOne(data:MapData_Grip,    info:*):Map_Object_Grounds{
-		if(MyPools.getInstance().hasPool("Map_G")==false){
-			MyPools.getInstance().registF("Map_G");
-		}
-		var one:Map_Object_Grounds =MyPools.getInstance().getFromPool("Map_G");
-		if(one==null){
-			one=new Map_Object_Grounds();
-		}
-		one.x =info.x;
-		one.y =info.y;
-		one.index=info["层级"];
-		one.initF(data);
-		return one;
-	}
-	/*******************************************************************************/
-	/*******************************************************************************/
-	
 	public function Map_Object_Grounds() {
 		super();
 	}
 	
-	public function initF(data:MapData_Grip):void{
-		if(Role==null){
-			Role=Map_ObjectView_Grounds.getOne(data.swf,data.Url);
+	override public function initF(_data:*,info:*):void{
+		if(_data is MapData_Grip == false){
+			Config.onThrowError("地面被传入错误的数据类型"+Tool_Function.getLastClassName(_data));
 		}
-		Role.initF();
+		super.initF(_data,info);
 	}
 
-	override public function get z():Number {return 0;}
 	override public function set z(value:Number):void {Config.Log("地面不应该有z！");}
 	override public function hitTestWith(obj:Map_Object):Boolean {Config.Log(" 地面不会有碰撞！");return false;}
 	
@@ -43,7 +26,9 @@ public class Map_Object_Grounds extends Map_Object {
 			Role.removeF();
 			Role=null;
 		}
-		MyPools.getInstance().returnToPool("Map_G",this);
+		if(Controller_Scene.getInstance().nowScene){
+			Controller_Scene.getInstance().nowScene.pool.returnToPool(Map_Object.PoolName_Ground,this);
+        }
 	}
 }
 }

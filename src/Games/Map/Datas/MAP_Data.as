@@ -37,6 +37,9 @@ public class MAP_Data{
 				if(Arr_grips[i]["type"] is String == false){
 					Arr_grips[i]["type"] =Arr_gripSource[Arr_grips[i]["type"]].Url;
 				}
+				if(Arr_grips[i]["info"]["x"]==null)Arr_grips[i]["info"]["x"]=0;
+				if(Arr_grips[i]["info"]["y"]==null)Arr_grips[i]["info"]["y"]=0;
+				if(Arr_grips[i]["info"]["层级"]==null)Arr_grips[i]["info"]["层级"]=1;
 				Arr_grips[i]=[tmpdic[Arr_grips[i]["type"]],Arr_grips[i]["info"]];
 			}
 		}

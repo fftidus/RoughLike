@@ -1,14 +1,16 @@
 package Games {
-import Games.Map.Datas.MAP_Data;
-import Games.Map.MAP_Instance;
+import Games.Map.Map_Object_Roles;
 
 import com.MyClass.MainManagerOne;
-
 import com.MyClass.MySourceManagerOne;
-
 import com.MyClass.MyView.LayerStarlingManager;
 import com.MyClass.MyView.LoadingSmall;
+import com.MyClass.Tools.MyPools;
 import com.MyClass.Tools.Tool_ObjUtils;
+
+import Games.Map.MAP_Instance;
+import Games.Map.Map_Object;
+import Games.Map.Datas.MAP_Data;
 
 import laya.utils.Handler;
 
@@ -19,9 +21,11 @@ import starling.display.Sprite;
  * */
 public class Scene extends Sprite{
 	public var ID:int;
-	public var Map:MAP_Instance;
+	public var pool:MyPools=new MyPools();
 	private var mso:MySourceManagerOne=new MySourceManagerOne();
 	private var mmo:MainManagerOne=new MainManagerOne();
+	public var Map:MAP_Instance;
+	private var mainRole:Map_Object;
 	
 	public function Scene(data:MAP_Data,    loadView:int) {
 		LayerStarlingManager.instance.LayerView.addChild(this);
@@ -44,6 +48,9 @@ public class Scene extends Sprite{
 		LoadingSmall.removeF();
 		this.addChild(this.Map);
 		this.Map.initF();
+		mainRole=new Map_Object_Roles();
+		mainRole.initF(null,{"x":0,"y":0});
+		this.Map.setMainRole(mainRole);
 		mmo.addEnterFrameFun(Handler.create(this,enterF,null,false));
 	}
 	
@@ -52,10 +59,14 @@ public class Scene extends Sprite{
 	}
 	
 	public function destroyF():void{
+		if(Controller_Scene.getInstance().nowScene==this){
+			Controller_Scene.getInstance().nowScene=null;
+		}
 		Tool_ObjUtils.destroyDisplayObj(this);
 		Map=Tool_ObjUtils.destroyF_One(Map);
 		mso=Tool_ObjUtils.destroyF_One(mso);
 		mmo=Tool_ObjUtils.destroyF_One(mmo);
+        pool=Tool_ObjUtils.destroyF_One(pool);
 	}
 }
 }
