@@ -48,7 +48,7 @@ package StaticDatas
 					s=Tool_Function.onNewClass(getInstance().Dic[sid]["class"],role);
 				}
 			}else{
-				s=Tool_Function.onNewClass(Fight_Action_SkillDefault,role);
+//				s=Tool_Function.onNewClass(Fight_Action_SkillDefault,role);
 			}
 			if(s==null){
 				trace("创造技能："+sid+"失败");
