@@ -1,17 +1,12 @@
-package Games
-{
+package Games{
 import com.MyClass.Config;
 import com.MyClass.MainManager;
-import com.MyClass.MySourceManagerOne;
 import com.MyClass.SoundManagerMy;
-import com.MyClass.MyView.LoadingSmall;
 import com.MyClass.Tools.AlertWindow;
 import com.MyClass.Tools.MyLocalStorage;
 import com.MyClass.Tools.MyNetAlertWindow;
 import com.MyClass.Tools.Tool_Function;
 import com.MyClass.Tools.Tool_ObjUtils;
-
-import CMD.CMD103;
 
 import Games.Models.ItemModel;
 import Games.Models.MaterialModel;
@@ -22,56 +17,16 @@ import Games.Models.WeaponModel;
 
 import StaticDatas.SData_Default;
 import StaticDatas.SData_EventNames;
-import StaticDatas.SData_Faces;
 import StaticDatas.SData_Strings;
 
 import laya.utils.Handler;
 import Games.Models.ArmorModel;
 
-public class PlayerMain
-{
+public class PlayerMain{
 	private static var Instance:PlayerMain;
-	public static function getInstance():PlayerMain
-	{
+	public static function getInstance():PlayerMain{
 		if(Instance==null)Instance=new PlayerMain();
 		return Instance;
-	}
-	private static var tmpMso:MySourceManagerOne;
-	public static function getStaticMSO():MySourceManagerOne{
-		if(tmpMso==null){
-			tmpMso=new  MySourceManagerOne();
-		}
-		return tmpMso;
-	}
-	public static var DicRoleSource:*;
-	public static function addFightRoleSource(rid:int,fun:*):void{
-		if(DicRoleSource==null){
-			DicRoleSource={};
-		}
-		if(DicRoleSource[rid]==null){
-			DicRoleSource[rid]=true;
-			var source:Array=[];
-			var info:* =SData_Faces.getInstance().Dic[rid];
-			if(info["spine"]!=null){
-				source.push(["Role"+rid,"zmc","Role"+rid]);
-			}else{
-				source.push(["Role"+rid,"swf"]);
-			}
-			var j:int;
-			if(info["swf资源"]!=null){
-				for(j=0;j<info["swf资源"].length;j++){
-					source.push([info["swf资源"][j],"swf"]);
-				}
-			}
-			if(info["spine资源"]!=null){
-				for(j=0;j<info["spine资源"].length;j++){
-					source.push([info["spine资源"][j],"zmc",info["spine资源"][j]]);
-				}
-			}
-			getStaticMSO().addSource(source,fun,false);
-		}else{
-			Tool_Function.onRunFunction(fun);
-		}
 	}
 	
 	public var ID:int=-1;
@@ -94,8 +49,7 @@ public class PlayerMain
 	public var Dic_酒馆:*;
 	public var Dic_Fuben:*;
 	
-	public function PlayerMain()
-	{
+	public function PlayerMain(){
 		var soundObj:* =MyLocalStorage.getF(SData_Strings.LOCS_声音信息);
 		if(soundObj && soundObj[SData_Strings.LOCS_声音信息_音量]!=null){
 			SoundManagerMy.soundVal=soundObj[SData_Strings.LOCS_声音信息_音量];
@@ -115,12 +69,9 @@ public class PlayerMain
 	public function valueChanged(dic:*):void{
 		for(var vname:String in dic){
 			var val:*	= dic[vname];
-			var key:String;
 			switch (vname){
 				case "修改背包":	onChangePackageF(val);break;
-				case "修改仓库":	onChangeStorageF(val);break;
 				case "修改佣兵":    onRoleChangeF(val);break;
-				case "修改商品":	onChangeShopGoods(val);break;
 				case "修改任务":    onChangeTaskF(val);break;
 				default:
 					onChangeValueDefault(vname,val);
@@ -148,29 +99,9 @@ public class PlayerMain
 			MainManager.getInstence().MEM.dispatchF(SData_EventNames.Package_Change,po);
 		}
 	}
-	private function onChangeStorageF(dic:*):void{
-		if(Dic_仓库==null){Dic_仓库={};}
-		if(dic["页数"]!=null){
-			Info仓库["页数"]=dic["页数"];
-			delete dic["页数"];
-			MainManager.getInstence().MEM.dispatchF(SData_EventNames.Storage_Update);
-		}
-		for(var i:int in dic){
-			var val:* =dic[i];//val = {"类型","id","baseid","num"}
-			var po:int=i;
-			Config.Log("收到修改仓库po="+i,val);
-			if(val == "删除"){
-				Dic_仓库[po]=null;
-			}else{
-				Dic_仓库[po]=getObjByInfo(val);
-			}
-			MainManager.getInstence().MEM.dispatchF(SData_EventNames.Storage_Change,po);
-		}
-	}
 	public function onRoleChangeF(val:*):void{//{"netid","baseid","lv","rank","属性","skill"}
 		if(Dic_Roles==null){Dic_Roles={};}
 		for(var nid:int in val){
-			Config.Log("收到修改佣兵：",val[nid]);
 			var dic:* = val[nid];
 			if(dic=="删除"){
 				if(Dic_Roles[nid]!=null){
@@ -187,13 +118,6 @@ public class PlayerMain
 				}
 			}
 			MainManager.getInstence().MEM.dispatchF(SData_EventNames.Role_Change,nid);
-		}
-	}
-	private function onChangeShopGoods(val:*):void{// {1::{货币::1, 单价::500, 售罄::1, 类型::武器, baseid::1}}
-		var dicGoods:* =Dic_商城["商店"]["商品"];
-		for(var id:int in val){
-			Config.Log("收到修改商品：",val[id]);
-			dicGoods[id]=val[id];
 		}
 	}
 	private function onChangeTaskF(val:*):void{
@@ -414,45 +338,6 @@ public class PlayerMain
 	private function net弹窗(dic:*):void{
 		new MyNetAlertWindow(dic);
 	}
-	//==============================================
-	/** 装备 */
-	public function onWantEquipF(roleid:int,	equip:*, fun:*):void{
-		var c103:CMD103=new  CMD103();
-		c103.writeValue_Dic("操作","穿上");
-		if(Tool_Function.isTypeOf(equip,WeaponModel))		c103.writeValue_Dic("类型","武器");
-		else																		c103.writeValue_Dic("类型","防具");
-		c103.writeValue_Dic("rid",roleid);
-		c103.writeValue_Dic("eid",equip.NetID);
-		c103.func_添加监听(fun,true);
-		LoadingSmall.showF();
-		c103.sendF();
-	}
-	/** 卸下 */
-	public function onWantRemoveF(roleid:int,equip:*,	fun:*):void{
-		var c103:CMD103=new  CMD103();
-		c103.writeValue_Dic("操作","脱下");
-		if(Tool_Function.isTypeOf(equip,WeaponModel))		c103.writeValue_Dic("类型","武器");
-		else																		c103.writeValue_Dic("类型","防具");
-		c103.writeValue_Dic("rid",roleid);
-		c103.writeValue_Dic("eid",equip.NetID);
-		c103.func_添加监听(fun,true);
-		LoadingSmall.showF();
-		c103.sendF();
-	}
-	/** 鉴定 */
-	public function onWantCheckEquip(obj:*,	fun:*):void{
-		var c103:CMD103=new  CMD103();
-		c103.writeValue_Dic("操作","辨识");
-		if(Tool_Function.isTypeOf(obj,WeaponModel)){
-			c103.writeValue_Dic("类型","武器");
-		}else{
-			c103.writeValue_Dic("类型","防具");
-		}
-		c103.writeValue_Dic("eid",obj.NetID);
-		c103.func_添加监听(fun,true);
-		LoadingSmall.showF();
-		c103.sendF();
-	}
 	
 	
 	
@@ -462,8 +347,6 @@ public class PlayerMain
 	//-------------------------------------------------------
 	public function destroyF():void{
 		Instance=null;
-		tmpMso=Tool_ObjUtils.getInstance().destroyF_One(tmpMso);
-		DicRoleSource=null;
 		NetMessageModel.getInstance().destroyF();
 	}
 }

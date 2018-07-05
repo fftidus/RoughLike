@@ -1,4 +1,5 @@
 package Games.Map {
+
 public class Map_Object_Roles extends Map_Object{
     public function Map_Object_Roles() {
         super();
@@ -10,7 +11,6 @@ public class Map_Object_Roles extends Map_Object{
             this.addChild(Role);
         }
     }
-    
     
 }
 }

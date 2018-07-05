@@ -11,7 +11,7 @@ public class Map_ShowAreaController {
 	private var Map:MAP_Instance;
 	private var lastArea:*;
 	private var newArea:*;
-	private var Dic_grips:* ={};//保存的所有图块
+	public var Dic_grips:* ={};//保存的所有图块
 	
 	public function Map_ShowAreaController(map:MAP_Instance) {
 		this.Map=map;
@@ -156,7 +156,9 @@ public class Map_ShowAreaController {
 		lastArea["min"] = newMin;
 		lastArea["max"] = newMax;
 		for(i=newMin;i<=newMax;i++){
-			if(Dic_grips[i]!=null || lastArea[i]!=true){continue;}
+			if(Dic_grips[i]!=null || lastArea[i]!=true){
+				continue;
+			}
 			objOne=Map_Object.getOne(this.Map.data.Arr_grips[i][0],this.Map.data.Arr_grips[i][1]);
 			Dic_grips[i]=objOne;
 			this.Map.addMapObjectToLayer(objOne,objOne.index);

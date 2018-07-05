@@ -18,7 +18,7 @@ public class Map_Object_Grounds extends Map_Object {
 	}
 
 	override public function set z(value:Number):void {Config.Log("地面不应该有z！");}
-	override public function hitTestWith(obj:Map_Object):Boolean {Config.Log(" 地面不会有碰撞！");return false;}
+	override protected function hitTestWith(obj:Map_Object):Boolean {Config.Log(" 地面不会有碰撞！");return false;}
 	
 	//地面的清理不会清理掉图片
 	override public function removeF():void {

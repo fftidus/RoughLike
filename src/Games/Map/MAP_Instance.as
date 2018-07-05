@@ -12,8 +12,8 @@ import starling.filters.FragmentFilter;
 public class MAP_Instance extends Sprite{
 	private static const Index_Object:int=4;
 	public var data:MAP_Data;
-	private var areaControll:Map_ShowAreaController;
-	private var camera:Map_Camera;
+	public var areaControll:Map_ShowAreaController;
+	public var camera:Map_Camera;
 	public var mainRole:*;
 	private var dicLayers:* ={};
 	public var needSort:Boolean=false;
@@ -37,24 +37,12 @@ public class MAP_Instance extends Sprite{
 	public function initF():void{
 		camera=new Map_Camera(this);
 		areaControll=new Map_ShowAreaController(this);
+		enterF();
 	}
 	/** 必须调用的初始化 */
 	public function setMainRole(role:*):void{
 		mainRole=role;
         addMapObjectToLayer(role);
-		enterF();
-	}
-	/** 根据世界坐标得到对应行 */
-	public function getRowByY(_y:Number):int{
-		_y -=this.y;
-		var row:int = Tool_Function.on强制转换(_y / data.size);
-		return row;
-	}
-	/** 根据世界坐标得到对应列 */
-	public function getColumnByX(_x:Number):int{
-		_x -=this.x;
-		var col:int = Tool_Function.on强制转换(_x / data.size);
-		return col;
 	}
 	/**
 	 * 帧频事件
@@ -62,13 +50,9 @@ public class MAP_Instance extends Sprite{
 	public function enterF():void{
 		camera.enterF();
 		areaControll.onCheckF();
-		if(needSort){
+		if(needSort || true){
 			onSortGrips();
 		}
-	}
-	/** 计算当前需要显示的地图块的范围 */
-	private function onCheckGripShowArea():void{
-		
 	}
 	/** 排序图块 */
 	private function onSortGrips():void{
@@ -93,6 +77,7 @@ public class MAP_Instance extends Sprite{
 			index =Index_Object;
 		}
 		dicLayers[index].addChild(role);
+        role.map=this;
 		needSort=true;
 	}
 	/** 添加动画到最上层级 */
@@ -100,6 +85,23 @@ public class MAP_Instance extends Sprite{
 		if(dicLayers && dicLayers[Index_Object+1]){
 			dicLayers[Index_Object+1].addChild(mc);
 		}
+	}
+	
+	/** 根据世界坐标得到对应行 */
+	public function getRowByY(_y:Number):int{
+		_y -=this.y;
+		var row:int = Tool_Function.on强制转换(_y / data.size);
+		return row;
+	}
+	/** 根据世界坐标得到对应列 */
+	public function getColumnByX(_x:Number):int{
+		_x -=this.x;
+		var col:int = Tool_Function.on强制转换(_x / data.size);
+		return col;
+	}
+	/** 获得所有层级4上的物体 */
+	public function getAllObjects():*{
+		return dicLayers[Index_Object]._children;
 	}
 	
 	public function destroyF():void{

@@ -1,10 +1,9 @@
 package Games.Map{
-import Games.Controller_Scene;
-
 import com.MyClass.Tools.MyHitArea;
 import com.MyClass.Tools.MyPools;
 import com.MyClass.Tools.Tool_ObjUtils;
 
+import Games.Controller_Scene;
 import Games.Map.Datas.MapData_Grip;
 
 import starling.display.Sprite;
@@ -39,6 +38,7 @@ public class Map_Object extends Sprite{
     }
     /*******************************************************************************/
     /*******************************************************************************/
+	public var map:MAP_Instance;
 	public var Role:Map_ObjectView;
 	private var _z:Number=0;
 	public var index:int=1;
@@ -72,19 +72,106 @@ public class Map_Object extends Sprite{
 		}
 		return false;
 	}
+	
+	/**
+	 * 移动XY，判断碰撞
+	 * */
+	public function moveF(_x:Number,_y:Number):void{
+		if(hitArea==null){
+			hitArea=new  MyHitArea();
+			hitArea.initFromDic({"type":2,"p":{"x":0,"y":0},"r":1});
+		}
+		var tar:Map_Object;
+		while(_x != 0){
+			if(_x > 0){
+				this.x++;
+				tar=checkHit();
+                this.x--;
+				if(tar!=null){
+					break;
+				}
+				if(_x>=1){
+					this.x+=1;
+					_x--;
+                }
+				else{
+					this.x+=_x;
+					_x=0;
+                }
+			}else{
+                this.x--;
+                tar=checkHit();
+                this.x++;
+                if(tar!=null){
+                    break;
+                }
+                if(_x<=-1){
+                    this.x-=1;
+                    _x++;
+                }
+                else{
+                    this.x+=_x;
+                    _x=0;
+                }
+			}
+		}
+        while(_y != 0){
+            if(_y > 0){
+                this.y++;
+                tar=checkHit();
+                this.y--;
+                if(tar!=null){
+                    break;
+                }
+                if(_y>=1){
+                    this.y+=1;
+                    _y--;
+                }
+                else{
+                    this.y+=_y;
+                    _y=0;
+                }
+            }else{
+                this.y--;
+                tar=checkHit();
+                this.y++;
+                if(tar!=null){
+                    break;
+                }
+                if(_y<=-1){
+                    this.y-=1;
+                    _y++;
+                }
+                else{
+                    this.y+=_y;
+                    _y=0;
+                }
+            }
+        }
+	}
 
-	override public function set x(value:Number):void {
-		super.x=value;
-	}
-	override public function set y(value:Number):void {
-		super.y = value;
-	}
+	public function get z():Number{return _z;}
 	public function set z(value:Number):void {
 		_z = value;
+		Role.y =-_z;
 	}
 	
 	/** 碰撞检测 */
-	public function hitTestWith(obj:Map_Object):Boolean{
+	protected function checkHit():Map_Object{
+		if(map==null){
+			trace("没有map");
+			return null;
+        }
+		var arr:* =map.getAllObjects();
+		var tar:Map_Object;
+		for(var i:int=0;i<arr.length;i++){
+			tar=arr[i];
+			if(tar==this)continue;
+			if(hitTestWith(tar)==true)return tar;
+		}
+		return null;
+	}
+	protected function hitTestWith(obj:Map_Object):Boolean{
 		if(this.hitArea==null || obj.hitArea==null){return false;}
 		return hitArea.hitTest(obj.hitArea,this.x,this.y,this._z,obj.x,obj.y,obj._z);
 	}
@@ -94,8 +181,10 @@ public class Map_Object extends Sprite{
 		destroyF();
 	}
 	public function destroyF():void{
+		map=null;
 		Tool_ObjUtils.destroyDisplayObj(this);
 		Role=Tool_ObjUtils.destroyF_One(Role);
+		hitArea=Tool_ObjUtils.destroyF_One(hitArea);
 	}
 }
 }

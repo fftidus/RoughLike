@@ -9,31 +9,22 @@ public class RoleModel {
 	public var NetID:int;
 	public var baseID:int;
 	public var job:int;
-//	public var face:int;
 	public var Name:String;
 	public var sex:String;
 	public var 种族:String;
-	public var Lv:int;
-	public var LvMax:int=60;
-	public var Rank:int;
+	public var Lv:int=1;
+	public var Rank:int=1;
 	public var Exp:int;
-	public var ExpNeed:int;
 	public var isMainRole:Boolean=false;
 	public var DicValues:* =Tool_ObjUtils.getNewObjectFromPool();
 	public var DicEquipe:*;
 	public var DicSkills:*;
 	public var Arr_SkillEquip:Array;
-	public var DicGem:*;//符文（宝石）
-	public var baseBuff:int;
-	//副本用临时数据，不保存
-	public var infoTemp:*;
 	
 	/** 
 	 * 角色模型，用来保存每个角色，可以生成战斗用Fight_Role
 	 * */
 	public function RoleModel() {
-//		baseID=bid;
-		Lv=1;
 	}
 	/** 外部的属性 */
 	public function initRoleInfo(dic:*):void{//{"netid","baseid","lv","rank","属性","skill"}
@@ -42,12 +33,10 @@ public class RoleModel {
 		if(dic["职业"]!=null){job=dic["职业"];}
 		if(dic["等级"]!=null){Lv=dic["等级"];}
 		if(dic["当前经验"]!=null){Exp=dic["当前经验"];}
-		if(dic["所需经验"]!=null){ExpNeed=dic["所需经验"];}
 		if(dic["品质"]!=null){Rank=dic["品质"];}
 		if(dic["昵称"]!=null){Name=dic["昵称"];}
 		if(dic["主角"]==1){isMainRole=true;}
 		if(dic["当前经验"]!=null){Exp=dic["当前经验"];}
-		if(dic["下级经验"]!=null){ExpNeed=dic["下级经验"];}
 		if(dic["装备"]!=null){
 			if(DicEquipe==null)DicEquipe=Tool_ObjUtils.getNewObjectFromPool("防具",Tool_ObjUtils.getNewObjectFromPool());
 			if(dic["装备"]["武器"]==null || dic["装备"]["武器"]==-1){
@@ -75,9 +64,6 @@ public class RoleModel {
 				}
 			}
 		}
-		if(dic["宝石"]!=null){
-			DicGem=dic["宝石"];
-		}
 		if(dic["拥有技能"] != null){
 			DicSkills=dic["拥有技能"];
 			for(var sid:int in DicSkills){
@@ -94,8 +80,6 @@ public class RoleModel {
 				DicValues["hpMax"] =DicValues["hp"];
 			}
 		}
-		if(dic["能量Buff"]!=null)baseBuff=dic["能量Buff"];
-		if(dic["能量"]!=null)onChangeValues("显示属性",dic["能量"],true);
 	}
 	/** 添加额外的属性 */
 	public function setDicValue(dic:*):void{
@@ -130,13 +114,6 @@ public class RoleModel {
 			if(nullToZero==true){return 0;}
 		}
 		return DicValues[vname];
-	}
-	/** 获得战斗中的当前hp */
-	public function getFightNowHP():int{
-		if(infoTemp && infoTemp["hp"]!=null){
-			return infoTemp["hp"];
-		}
-		return getValues("hp");
 	}
 	
 	public function getHeadIcon():String{
@@ -188,22 +165,6 @@ public class RoleModel {
 				}
 			}
 		}
-		//宝石
-		if(DicGem!=null){
-			for(var typeGem:String in DicGem){//孔数，详情：{位置：baseid}
-				var infoGem:* =DicGem[typeGem]["详情"];
-				if(infoGem){
-					for(var poGem:int in infoGem){
-						if(infoGem[poGem]!=null && infoGem[poGem]>0){
-							var infoValueGemOne:* =SData_Item.getInstance().Dic[infoGem[poGem]]["效果"];//效果::{闪避::5}
-							for(key in infoValueGemOne){
-								onChangeValues(key,infoValueGemOne[key]);
-							}
-						}
-					}
-				}
-			}
-		}
 		//---------------------------------
 		info ={};
 		info["rm"]=this;
@@ -211,7 +172,6 @@ public class RoleModel {
 		info["RoleID"]=baseID;
 		info["Name"]=Name;
 		info["Lv"]=Lv;
-		info["baseBuff"]=baseBuff;
 		var dic:* =Tool_ObjUtils.getInstance().CopyF(DicValues);
 		info["属性"]=dic;
 		if(isMainRole==true)dic["主角"]=true;
@@ -235,17 +195,13 @@ public class RoleModel {
 			delete dic["属性随等级加成"];
 		}
 		delete dic["技能等级增加"];
-		dic["hpMax"]=dic["hp"];
-		if(this.infoTemp!=null && infoTemp["hp"]!=null){
-			dic["hp"]=infoTemp["hp"];
-		}
 		//还原基础属性
 		DicValues=save;
 		return info;
 	}
 	
 	public function toString():String{
-		return "RoleModel："+Name+"(nid="+NetID+",baseid="+baseID+",Rank="+Rank+")";
+		return "RoleModel："+Name+"(nid="+NetID+",baseid="+baseID+")";
 	}
 	
 	public function destroyF():void{

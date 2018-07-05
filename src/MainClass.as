@@ -90,7 +90,7 @@ public class MainClass
 		}
 		function onGameF():void{
 			if(isLoaded==true && isAniend==true){
-				Controller_Scene.getInstance().onNewScene(1,1);
+				Controller_Scene.getInstance().onNewScene(1,1,null,0);
 			}
 		}
 	}

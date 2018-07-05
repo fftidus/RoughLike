@@ -1,4 +1,6 @@
 package Games {
+import Games.Datas.Data_Scene_init;
+import Games.Fights.FightRole;
 import Games.Map.Datas.MAP_Data;
 
 import com.MyClass.MySourceManager;
@@ -28,9 +30,9 @@ public class Controller_Scene {
 			MySourceManager.getInstance().addTexture([["mapdata"+id,"json","assets/MapDatas/mapdata"+id+".json"]],Handler.create(this,loadF));
 		}
 	}
-	private var fubenID:int;
-	private var loadView:int;
-	private var funWaite:*;
+	private var initData:Data_Scene_init;
+    private var fubenID:int;
+    private var funWaite:*;
 	private function loadF():void{
 		var str:String =MySourceManager.getInstance().getJson("mapdata"+fubenID);
 		if(str==null){
@@ -51,13 +53,19 @@ public class Controller_Scene {
 		funWaite=null;
 	}
 	/** needLoadView：小于0表示无加载界面，0表示小加载界面， 大于0表示对应大加载界面*/
-	public function onNewScene(id:int,  needLoadView):void{
+	public function onNewScene(id:int,  needLoadView:int,	rm:FightRole,door:int):void{
 		fubenID=id;
-		loadView=needLoadView;
+        initData=new Data_Scene_init();
+        initData.ID=id;
+        initData.loadView=needLoadView;
+		initData.mainRole=rm;
+		initData.startDoor=door;
+		
 		getMapData(fubenID,Handler.create(this,onNewSceneEnd));
 	}
 	private function onNewSceneEnd(data:MAP_Data):void{
-        nowScene =new Scene(data,loadView);
+        initData.data=data;
+        nowScene =new Scene(initData);
 	}
 	
 	
