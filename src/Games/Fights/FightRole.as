@@ -1,5 +1,6 @@
 package Games.Fights {
 import com.MyClass.Tools.MyHitArea;
+import com.MyClass.Tools.Tool_Function;
 import com.MyClass.Tools.Tool_ObjUtils;
 
 import Games.Datas.Data_FightRole;
@@ -22,18 +23,24 @@ public class FightRole {
     public var mapRole:Map_Object_Roles;
     /** 控制器 */
     public var controller:RoleController;
-    //移动缓存
+    /** 移动缓存*/
     private var moveWaite:* =Tool_ObjUtils.getNewObjectFromPool("x",0,"y",0);
+	/** Buff */
+	public var buffs:FightRole_Buffs;
     //其他属性
     public var camp:int;//阵营
     public var nowDirection:int=0;//方向：0向右，1向左，10无方向角色
     public var isGod:int=0;//无敌
-    public var isIron:int=0;//霸体
+    public var isEndure:int=0;//霸体
+    public var ToughnessCon:FightRole_ToughnessControl;//韧性恢复控制
     public var isDead:int=0;//死亡的步骤，0未死，1死亡动画中，100可清理
-    private var DicActions:Fight_DicActions;
+    //动作
+    private var DicActions:FightRole_DicActions;
     public var nowAction:FAction_Default;
     public var nextAction:String;
     public var nextAction_Item:Map_Object;//下一个动作来自的某个组件
+	/** 帧频事件 */
+	public var DicEnterHandler:*;
     
     public function FightRole(rm:RoleModel) {
         baseRoleMo=rm;
@@ -42,7 +49,9 @@ public class FightRole {
         mapRole=new Map_Object_Roles();
 		mapRole.hitArea=new  MyHitArea();
 		mapRole.hitArea.initFromDic({"type":2,"p":{"x":0,"y":0},"r":50});
-        DicActions=new Fight_DicActions(this);
+        DicActions=new FightRole_DicActions(this);
+		buffs=new  FightRole_Buffs(this);
+        ToughnessCon=new FightRole_ToughnessControl(this);
         onWantChangeAction(SData_RolesInfo.ActionName_Stand);
     }
     public function getValue(vname:String, nullToZero:Boolean=true):*{
@@ -53,6 +62,7 @@ public class FightRole {
         if(value==null && nullToZero==true)return 0;
         return value;
     }
+    
     /** 改变动画 */
     public function onChangeroleMC(swf:String,url:String):void{
     }
@@ -98,11 +108,15 @@ public class FightRole {
             destroyF();
             return;
         }else if(isDead==100){return;}
+		//属性
+		onRunEnterHandler();
+		//移动
         if(moveWaite.x != 0 || moveWaite.y != 0){
             mapRole.moveF(moveWaite);
             moveWaite.x=0;
             moveWaite.y=0;
         }
+		//动作
         if(nextAction!=null){//修改动作，本次帧频不计算
             onChangeAction();
         }else if(nowAction){
@@ -111,6 +125,33 @@ public class FightRole {
             onWantChangeAction(SData_RolesInfo.ActionName_Stand);
         }
     }
+	
+	/** 注册帧频事件 */
+	public function registEnterHandler(key:String,handler:*):void{
+		if(DicEnterHandler==null){
+			DicEnterHandler =Tool_ObjUtils.getNewObjectFromPool();
+		}
+		if(DicEnterHandler[key]!=null){
+			Tool_ObjUtils.destroyF_One(DicEnterHandler[key]);
+		}
+		DicEnterHandler[key]=handler;
+	}
+	/** 注册的帧频事件 */
+	private function onRunEnterHandler():void{
+		if(DicEnterHandler==null)return;
+		for(var key:String in DicEnterHandler){
+			Tool_Function.onRunFunction(DicEnterHandler[key]);
+		}
+	}
+	/** 移除帧频事件 */
+	public function removeEnterHandler(key:String):void{
+		if(DicEnterHandler && DicEnterHandler[key]!=null){
+			Tool_ObjUtils.destroyF_One(DicEnterHandler[key]);
+			delete DicEnterHandler[key];
+		}
+	}
+	
+	
     /** 移动 */
     public function onWantMoveX(_x:Number):void{
         moveWaite.x +=_x;
@@ -128,7 +169,10 @@ public class FightRole {
         mapRole=Tool_ObjUtils.destroyF_One(mapRole);
         controller=Tool_ObjUtils.destroyF_One(controller);
         DicActions=Tool_ObjUtils.destroyF_One(DicActions);
+		buffs=Tool_ObjUtils.destroyF_One(buffs);
         moveWaite=Tool_ObjUtils.destroyF_One(moveWaite);
+		DicEnterHandler=Tool_ObjUtils.destroyF_One(DicEnterHandler);
+        ToughnessCon=Tool_ObjUtils.destroyF_One(ToughnessCon);
     }
 }
 }

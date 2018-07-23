@@ -1,8 +1,6 @@
 package Games.Fights.FightActions {
 import Games.Datas.Data_FActionStep;
 import Games.Fights.FightRole;
-import Games.Fights.Fight_ActionCost;
-
 import StaticDatas.SData_RolesInfo;
 
 import com.MyClass.Config;
@@ -14,9 +12,8 @@ public class FAction_Default {
     public var Name:String;
     public var swf:String;
     public var url:String;
-    public var cost:Fight_ActionCost;
     public var isGod:Boolean=false;
-    public var isIron:Boolean=false;
+    public var isEndure:Boolean=false;
 
     protected var isEffectBySpd:Boolean=true;//受到攻速影响
     protected var isLoopAni:Boolean=false;//循环动画
@@ -34,9 +31,6 @@ public class FAction_Default {
     public function FAction_Default() {
     }
     public function canUse():Boolean{
-        if(cost){
-            return cost.canUse();       
-        }
         return true;
     }
     /** 判断能否被使用物品操作打断 */
@@ -149,15 +143,15 @@ public class FAction_Default {
         }
     }
     public function addIron():void{
-        if(isIron==false){
-            isIron=true;
-            Role.isIron++;
+        if(isEndure==false){
+            isEndure=true;
+            Role.isEndure++;
         }
     }
     public function removeIron():void{
-        if(isIron==true){
-            isIron=false;
-            Role.isIron--;
+        if(isEndure==true){
+            isEndure=false;
+            Role.isEndure--;
         }
     }
     /** 获得介绍文字 */
@@ -167,7 +161,6 @@ public class FAction_Default {
 
     public function destroyF():void{
         Role=null;
-        cost=Tool_ObjUtils.destroyF_One(cost);
     }
 }
 }

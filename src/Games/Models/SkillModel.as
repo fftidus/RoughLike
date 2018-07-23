@@ -1,25 +1,19 @@
 package Games.Models{
-	import com.MyClass.Tools.Tool_Function;
-	
-	import StaticDatas.SData_Skills;
+import StaticDatas.SData_Skills;
 
 public class SkillModel{
 	public var Name:String;
 	public var SID:int;
 	public var Lv:int;
 	public var isPassive:Boolean=false;
-	public var Type:String;
+	public var Type:String;//攻击，被动，辅助
 	public var cd:int;
 	public var costValue:String;
 	public var costNum:int;
 	
-	public function SkillModel(id:int,lv:*){
+	public function SkillModel(id:int,lv:int){
 		SID=id;
-		if(Tool_Function.isTypeOf(lv,Number)==true){
-			Lv=lv;
-		}else{
-			Lv=lv["等级"];
-		}
+		Lv=lv;
 		var dic:* =SData_Skills.getInstance().Dic[SID];
 		if(dic){
 			Name =dic["Name"];
@@ -32,14 +26,9 @@ public class SkillModel{
 	}
 	
 	public function getRealLv(role:RoleModel):int{
-		if(role){
-			if(role.DicValues && role.DicValues["技能等级增加"]!=null && role.DicValues["技能等级增加"][SID]!=null){
-				return Lv+role.DicValues["技能等级增加"][SID];
-			}
-		}
 		return Lv;
 	}
-	public function getURL():String{
+	public function getIconURL():String{
 		return "img_SIco_"+SID;
 	}
 	
