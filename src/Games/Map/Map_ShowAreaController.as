@@ -91,7 +91,7 @@ public class Map_ShowAreaController {
         }else{
 			lastArea={};
 			newArea={};
-			trace("数据图块总长度："+length);
+//			trace("数据图块总长度："+length);
 			for(i=0;i<length;i++){
 				data=this.Map.data.Arr_grips[i][0];
 				can=canShowGrip_X(data,this.Map.data.Arr_grips[i][1]);
@@ -110,7 +110,7 @@ public class Map_ShowAreaController {
 			onShowF(newArea["min"],newArea["max"]);
 			this.Map.needSort=true;
 //			trace(this.Map.nowMinX,this.Map.nowMaxX);
-			trace("显示的图块数量："+Tool_ObjUtils.getLengthOfObject(this.Dic_grips));
+//			trace("显示的图块数量："+Tool_ObjUtils.getLengthOfObject(this.Dic_grips));
 		}
 	}
 	/** 单个图块能否显示 */

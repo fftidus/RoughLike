@@ -60,13 +60,13 @@ public class NetMessageModel {
 		}else{
 			MainManager._instence.MEM.addListenF(MgsSocket.Event_Close,Handler.create(this,on断网F,null,false));
 			C101=new CMD101();
-			C101.func_添加监听(Handler.create(this,valueChanged,null,false),false);
+			C101.funAddListener(Handler.create(this,valueChanged,null,false),false);
 			C6=new CMD006();
-			C6.func_添加监听(Handler.create(this,net弹窗,null,false),false);
+			C6.funAddListener(Handler.create(this,net弹窗,null,false),false);
 			C3=new  CMD003();
-			C3.func_添加监听(Handler.create(this,netChangeStatic,null,false),false);
+			C3.funAddListener(Handler.create(this,netChangeStatic,null,false),false);
 			C2=new CMD002();
-			C2.func_添加监听(Handler.create(this,net心跳,null,false),false);
+			C2.funAddListener(Handler.create(this,net心跳,null,false),false);
 		}
 	}
 	/** 默认事件 */
@@ -119,7 +119,7 @@ public class NetMessageModel {
 			MainManager._instence.pause=false;
 		}
 		function on重启():void{
-			Config.on重启();
+			Config.onRestart();
 		}
 	}
 	public function valueChanged(dic:*):void{
@@ -164,7 +164,7 @@ public class NetMessageModel {
 	public function onStaticConnectF(f:*):void{
 		var message:String;
 		var c2:CMD002=new CMD002();
-		c2.func_添加监听(netConnectWrongReson,true);
+		c2.funAddListener(netConnectWrongReson,true);
 		function netConnectWrongReson(dic:*):void{
 			message=dic["失败原因"];
 		}
@@ -208,12 +208,12 @@ public class NetMessageModel {
 		}
 		Starling.juggler.delayCall(onLoginTimerF,MgsSocket.getInstance().timeLimite);
 		var c100:CMD100=new  CMD100();
-		c100.func_添加监听(netLoginF,true);
+		c100.funAddListener(netLoginF,true);
 		c100.writeValue_Dic("账号",账号);
 		c100.writeValue_Dic("密码",密码);
-		c100.writeValue_Dic("平台",Config.Main平台);
-		if(Config.设备信息){
-			c100.writeValue_Dic("设备信息",Config.设备信息);
+		c100.writeValue_Dic("平台",Config.MainDevice);
+		if(Config.DeviceInfos){
+			c100.writeValue_Dic("设备信息",Config.DeviceInfos);
 		}
 		c100.sendF(false);
 		function netLoginF(dic:*):void{

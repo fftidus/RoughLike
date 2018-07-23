@@ -90,13 +90,13 @@ public class MAP_Instance extends Sprite{
 	/** 根据世界坐标得到对应行 */
 	public function getRowByY(_y:Number):int{
 		_y -=this.y;
-		var row:int = Tool_Function.on强制转换(_y / data.size);
+		var row:int = Tool_Function.onForceConvertType(_y / data.size);
 		return row;
 	}
 	/** 根据世界坐标得到对应列 */
 	public function getColumnByX(_x:Number):int{
 		_x -=this.x;
-		var col:int = Tool_Function.on强制转换(_x / data.size);
+		var col:int = Tool_Function.onForceConvertType(_x / data.size);
 		return col;
 	}
 	/** 获得所有层级4上的物体 */

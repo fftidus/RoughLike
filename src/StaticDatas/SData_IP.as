@@ -20,14 +20,14 @@ package StaticDatas
 				Dic=VertionVo.instance.get数据资源("SData_IP");
 			}
 			if(Dic==null)	_本地数据();
-			if(Config.Main平台=="易接")
+			if(Config.MainDevice=="易接")
 			{
 				Dic["支付回调"]	= "http://"+Dic["ip"]+":"+Dic["端口2"]+"/1sdk_pay";
 				Dic["登陆回调"]	= "http://"+Dic["ip"]+":"+Dic["端口2"]+"/1sdk_login";
 			}
 		}
 		public function getNowPort():int{
-			if(Config.Main平台=="H5"){
+			if(Config.MainDevice=="H5"){
 				return Dic["端口3"];
 			}
 			return Dic["端口"];

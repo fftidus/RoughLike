@@ -19,7 +19,7 @@ public class Fight_ActionCost {
         if(costValue!=null){
             if(Tool_Function.isTypeOf(costValue,Array) == false){
                 if(costValue == "hp" && Tool_Function.isTypeOf(costName,String) == true){//百分比
-                    if(Role.getValue("hp")/Role.getValue("hpMax") < Tool_Function.on强制转换((costName as String).substr(costName.length-1))){
+                    if(Role.getValue("hp")/Role.getValue("hpMax") < Tool_Function.onForceConvertType((costName as String).substr(costName.length-1))){
                         return false;
                     }
                 }else	if(Role.getValue(costValue) < costName){

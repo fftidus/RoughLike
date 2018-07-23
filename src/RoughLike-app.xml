@@ -97,6 +97,35 @@
 	        	</application>
 	        	-->
               	<!--  易接end -->
+              	
+              	<application>
+                    <!-- AUTO START and ALARM MANAGER -->
+                    <receiver android:enabled="true"
+                        android:name="com.distriqt.extension.application.receivers.ApplicationStartupReceiver"
+                        android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+                        <intent-filter>
+                            <action android:name="android.intent.action.BOOT_COMPLETED" />
+                            <category android:name="android.intent.category.DEFAULT" />
+                        </intent-filter>
+                    </receiver>
+            
+                    <!-- AUTHORISATION -->
+                    <activity android:name="com.distriqt.extension.application.permissions.AuthorisationActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            
+                    <!-- ALARM MANAGER -->
+                    <receiver android:name="com.distriqt.extension.application.alarms.AlarmReceiver" android:enabled="true" />
+                    <activity android:name="com.distriqt.extension.application.alarms.AlarmActivity" />
+            
+                    <!-- SETTINGS -->
+                    <activity android:name="com.distriqt.extension.application.settings.SettingsActivity" android:label="Settings" />
+            
+                    <!-- APPLICATION STATE EVENTS -->
+                    <provider
+                        android:name="android.arch.lifecycle.ProcessLifecycleOwnerInitializer"
+                        android:authorities="YOUR_APPLICATION_PACKAGE.lifecycle-trojan"
+                        android:exported="false"
+                        android:multiprocess="true" />
+                </application>
                  
         </manifest>
         ]]></manifestAdditions>

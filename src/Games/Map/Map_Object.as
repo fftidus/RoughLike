@@ -1,6 +1,7 @@
 package Games.Map{
 import com.MyClass.Tools.MyHitArea;
 import com.MyClass.Tools.MyPools;
+import com.MyClass.Tools.Tool_ArrayUtils;
 import com.MyClass.Tools.Tool_ObjUtils;
 
 import Games.Controller_Scene;
@@ -76,78 +77,42 @@ public class Map_Object extends Sprite{
 	/**
 	 * 移动XY，判断碰撞
 	 * */
-	public function moveF(_x:Number,_y:Number):void{
+	public function moveF(moveWaite:*):void{
 		if(hitArea==null){
 			hitArea=new  MyHitArea();
 			hitArea.initFromDic({"type":2,"p":{"x":0,"y":0},"r":1});
 		}
-		var tar:Map_Object;
-		while(_x != 0){
-			if(_x > 0){
-				this.x++;
-				tar=checkHit();
-                this.x--;
-				if(tar!=null){
-					break;
+		if(moveWaite==null)return;
+        if(map==null){
+            trace("没有map，不计算碰撞和移动！");
+            return;
+        }
+		var arrHit:Array=Tool_ArrayUtils.getNewArrayFromPool();
+        var arr:* =map.getAllObjects();
+        var tar:Map_Object;
+        for(var i:int=0;i<arr.length;i++){
+            tar=arr[i];
+            if(tar==this)continue;
+            if(hitTestWith(tar)==true){
+                arrHit.push(tar);
+			}
+        }
+		if(arrHit.length>0){
+			for(i=0;i<arrHit.length;i++){
+				tar =arrHit[i];
+				var tmpMove:* =hitArea.moveTest(tar.hitArea,this.x,this.y,tar.x,tar.y,moveWaite);
+				if(tmpMove !=null){
+					if((moveWaite.x > 0 && tmpMove.x < moveWaite.x) || (moveWaite.x < 0 && tmpMove.x > moveWaite.x)){
+							moveWaite.x =tmpMove.x;
+					}
+					Tool_ObjUtils.onClearObj(tmpMove);
+					Tool_ObjUtils.returnObjectToPool(tmpMove);
 				}
-				if(_x>=1){
-					this.x+=1;
-					_x--;
-                }
-				else{
-					this.x+=_x;
-					_x=0;
-                }
-			}else{
-                this.x--;
-                tar=checkHit();
-                this.x++;
-                if(tar!=null){
-                    break;
-                }
-                if(_x<=-1){
-                    this.x-=1;
-                    _x++;
-                }
-                else{
-                    this.x+=_x;
-                    _x=0;
-                }
 			}
 		}
-        while(_y != 0){
-            if(_y > 0){
-                this.y++;
-                tar=checkHit();
-                this.y--;
-                if(tar!=null){
-                    break;
-                }
-                if(_y>=1){
-                    this.y+=1;
-                    _y--;
-                }
-                else{
-                    this.y+=_y;
-                    _y=0;
-                }
-            }else{
-                this.y--;
-                tar=checkHit();
-                this.y++;
-                if(tar!=null){
-                    break;
-                }
-                if(_y<=-1){
-                    this.y-=1;
-                    _y++;
-                }
-                else{
-                    this.y+=_y;
-                    _y=0;
-                }
-            }
-        }
+		this.x += moveWaite.x;
+		this.y += moveWaite.y;
+		Tool_ArrayUtils.returnArrayToPool(arrHit);
 	}
 
 	public function get z():Number{return _z;}
@@ -162,6 +127,7 @@ public class Map_Object extends Sprite{
 			trace("没有map");
 			return null;
         }
+        if(this.hitArea==null){return null;}
 		var arr:* =map.getAllObjects();
 		var tar:Map_Object;
 		for(var i:int=0;i<arr.length;i++){

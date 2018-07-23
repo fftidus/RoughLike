@@ -65,8 +65,21 @@ public class FAction_Run extends FAction_Default{
         }else{//移动速度计算
             var spdx:Number;
             var spdy:Number;
-            spdx =Math.sin(deg2rad(ang)) * spdMove;
-            spdy =-Math.cos(deg2rad(ang)) * spdMove;
+			if(ang==90){
+				spdx=spdMove;
+				spdy=0;
+			}
+			else if(ang==270){
+				spdx=-spdMove;
+				spdy=0;
+			}
+			else if(ang==180){
+				spdx =0;
+				spdy =spdMove;
+			}else{
+            	spdx =Math.sin(deg2rad(ang)) * spdMove;
+            	spdy =-Math.cos(deg2rad(ang)) * spdMove;
+			}
             Role.onWantMoveX(spdx);
             Role.onWantMoveY(spdy);
         }

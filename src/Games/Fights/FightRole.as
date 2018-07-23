@@ -22,6 +22,8 @@ public class FightRole {
     public var mapRole:Map_Object_Roles;
     /** 控制器 */
     public var controller:RoleController;
+    //移动缓存
+    private var moveWaite:* =Tool_ObjUtils.getNewObjectFromPool("x",0,"y",0);
     //其他属性
     public var camp:int;//阵营
     public var nowDirection:int=0;//方向：0向右，1向左，10无方向角色
@@ -96,6 +98,11 @@ public class FightRole {
             destroyF();
             return;
         }else if(isDead==100){return;}
+        if(moveWaite.x != 0 || moveWaite.y != 0){
+            mapRole.moveF(moveWaite);
+            moveWaite.x=0;
+            moveWaite.y=0;
+        }
         if(nextAction!=null){//修改动作，本次帧频不计算
             onChangeAction();
         }else if(nowAction){
@@ -106,10 +113,10 @@ public class FightRole {
     }
     /** 移动 */
     public function onWantMoveX(_x:Number):void{
-        mapRole.moveF(_x,0);
+        moveWaite.x +=_x;
     }
     public function onWantMoveY(_y:Number):void{
-        mapRole.moveF(0,_y);
+        moveWaite.y +=_y;
     }
     public function onWantMoveZ(_z:Number):void{
         mapRole.z+=_z;
@@ -121,6 +128,7 @@ public class FightRole {
         mapRole=Tool_ObjUtils.destroyF_One(mapRole);
         controller=Tool_ObjUtils.destroyF_One(controller);
         DicActions=Tool_ObjUtils.destroyF_One(DicActions);
+        moveWaite=Tool_ObjUtils.destroyF_One(moveWaite);
     }
 }
 }

@@ -1,4 +1,5 @@
 package Games.Fights.FightActions {
+import Games.Datas.Data_FActionStep;
 import Games.Fights.FightRole;
 import Games.Fights.Fight_ActionCost;
 
@@ -13,7 +14,6 @@ public class FAction_Default {
     public var Name:String;
     public var swf:String;
     public var url:String;
-    public var Arr_step:Array;
     public var cost:Fight_ActionCost;
     public var isGod:Boolean=false;
     public var isIron:Boolean=false;
@@ -81,25 +81,26 @@ public class FAction_Default {
 
     /** 下一帧动作 */
     protected function nextFrame():void{
-//        var rsm:RoleActionStepModel=Arr_aniStep[nowStep];
-//        if(rsm==null || rsm.Arr_frame==null){//没有帧数据，表示必然是循环播放动画！
-//            if(Role.roleMc && Role.roleMc.mc){
-//                nowIndex++;
-//                if(nowIndex >= Role.roleMc.mc.totalFrames){
-//                    nowIndex=0;
-//                }
-//            }
-//        }else{
-//            if(nowIndex+1>=rsm.Arr_frame.length){
-//                nextStep();
-//            }else{
-//                nowIndex++;
-//            }
-//        }
+        var rsm:Data_FActionStep;
+		if(Arr_aniStep)rsm=Arr_aniStep[nowStep];
+        if(rsm==null || rsm.Arr_frame==null || rsm.loop==true){//没有帧数据，表示必然是循环播放动画！
+            if(Role.mapRole && Role.mapRole.Role){
+                nowIndex++;
+                if(nowIndex >= Role.mapRole.Role.totalFrames){
+                    nowIndex=0;
+                }
+            }
+        }else{
+            if(nowIndex+1>=rsm.Arr_frame.length){
+                nextStep();
+            }else{
+                nowIndex++;
+            }
+        }
         onDoFrameEvent();
     }
     /** 下一个步骤动作 */
-    protected function nextStep():void{
+    public function nextStep():void{
         if(isLoopAni == false){
             if(nowStep+1 >=Arr_aniStep.length){
                 onActEndF();
@@ -111,10 +112,6 @@ public class FAction_Default {
     }
     /** 执行本帧上的操作：攻击、位移、震动、残影…… */
     protected function onDoFrameEvent():void{
-    }
-    /** 判断应该掉落时，确定该动作能否中断并进入掉落 */
-    public function checkCanFalling():Boolean{
-        return true;
     }
     /** 动作结束 */
     protected function onActEndF():void{
@@ -134,7 +131,7 @@ public class FAction_Default {
     /** 结束 */
     public function breakF():void{
         removeGod();
-        removeIcon();
+        removeIron();
         isListeningKey=false;
         keys=Tool_ObjUtils.getInstance().destroyF_One(keys);
     }
@@ -157,7 +154,7 @@ public class FAction_Default {
             Role.isIron++;
         }
     }
-    public function removeIcon():void{
+    public function removeIron():void{
         if(isIron==true){
             isIron=false;
             Role.isIron--;

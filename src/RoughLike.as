@@ -34,7 +34,7 @@ import com.MyClass.VertionVo;
 			VertionVo.getInstance();
 			LoadingView.ArrBack=[__Loading_Big_Back11];
 			LoadingView.Need外部背景图=true;
-			Config.适配方式=2;
+			Config.TypeFit=2;
 			Config.stageW=1136;
 			Config.stageH=640;
 			Config.ClassFunction=new Config_FunAIR();
@@ -49,7 +49,7 @@ import com.MyClass.VertionVo;
 			e.stopImmediatePropagation();
 			e.stopPropagation();
 			MainManager.getInstence().clearF();
-			AlertWindow.showSimpleF(SData_Strings.Alert_意外错误,{"title":SData_Strings.Alert_意外错误Title},Config.on重启);
+			AlertWindow.showSimpleF(SData_Strings.Alert_意外错误,{"title":SData_Strings.Alert_意外错误Title},Config.onRestart);
 			//发送
 			var str:String	= (e.error as Error).getStackTrace();
 			MyErrorSend.onSendF(str);
@@ -61,7 +61,7 @@ import com.MyClass.VertionVo;
 			Config.mStage	= stage;
 			Config.initF();
 			if(Config.OS.indexOf("Windows")!=-1){
-				VertionVo.StaticVer =Config.版本号;
+				VertionVo.StaticVer =Config.VerMain;
 			}
 			new MainClass();
 		}

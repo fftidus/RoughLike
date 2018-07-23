@@ -332,7 +332,7 @@ public class PlayerMain{
 	public function onErrorF(info:*):void{
 		Config.Log("报错："+info);
 		MainManager.getInstence().clearF();
-		AlertWindow.showF(SData_Strings.Alert_意外错误,SData_Strings.Alert_意外错误Title,Config.on直接关闭);
+		AlertWindow.showF(SData_Strings.Alert_意外错误,SData_Strings.Alert_意外错误Title,Config.onCloseProgram);
 	}
 	
 	private function net弹窗(dic:*):void{

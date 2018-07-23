@@ -1,12 +1,10 @@
 package Games.Map {
-import Games.Controller_Scene;
-
 import com.MyClass.Config;
-
 import com.MyClass.MySourceManager;
-
 import com.MyClass.Tools.MyPools;
 import com.MyClass.Tools.Tool_ObjUtils;
+
+import Games.Controller_Scene;
 
 import lzm.starling.swf.display.SwfMovieClip;
 
@@ -49,6 +47,20 @@ public class Map_ObjectView extends Sprite{
             (mc as SwfMovieClip).play(true);
         }
 	}
+	
+	public function get currentFrame():int{
+		if(mc && mc is SwfMovieClip){
+			return (mc as SwfMovieClip).currentFrame;
+		}
+		return 0;
+	}
+	public function get totalFrames():int{
+		if(mc && mc is SwfMovieClip){
+			return (mc as SwfMovieClip).totalFrames;
+		}
+		return 0;
+	}
+	
 	
 	public function removeF():void{
         if(mc){
