@@ -2,7 +2,6 @@ package Games.Models {
 import com.MyClass.Tools.Tool_ObjUtils;
 
 import StaticDatas.SData_Faces;
-import StaticDatas.SData_Item;
 import StaticDatas.SData_Set;
 
 public class RoleModel {
@@ -180,7 +179,7 @@ public class RoleModel {
 			info["技能"]=[];
 			for(var sid:int in DicSkills){
 				var sdata:SkillModel=DicSkills[sid];
-				if(sdata.isPassive==false && Arr_SkillEquip!=null && Arr_SkillEquip.indexOf(sid)==-1){continue;}
+//				if(sdata.isPassive==false && Arr_SkillEquip!=null && Arr_SkillEquip.indexOf(sid)==-1){continue;}
 				var slv:int =sdata.getRealLv(this);
 				info["技能"].push({"id":sdata.SID,"lv":sdata.Lv});
 			}

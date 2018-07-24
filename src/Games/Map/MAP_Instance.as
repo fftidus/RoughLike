@@ -20,7 +20,12 @@ public class MAP_Instance extends Sprite{
 	public function get nowMinX():int{return camera.nowX-camera.cameraW;}
 	public function get nowMaxX():int{return camera.nowX+camera.cameraW;}
 	public function get nowMinY():int{return camera.nowY-camera.cameraH;}
-	public function get nowMaxY():int{return camera.nowY+camera.cameraH;}
+	public function get nowMaxY():int{
+		if(camera.nowY+camera.cameraH==0){
+			trace("!@@@@@");
+		}
+		return camera.nowY+camera.cameraH;
+	}
 	
 	public function MAP_Instance(_data:*){
 		data=_data;

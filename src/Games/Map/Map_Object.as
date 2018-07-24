@@ -102,16 +102,19 @@ public class Map_Object extends Sprite{
 				tar =arrHit[i];
 				var tmpMove:* =hitArea.moveTest(tar.hitArea,this.x,this.y,tar.x,tar.y,moveWaite);
 				if(tmpMove !=null){
-					if((moveWaite.x > 0 && tmpMove.x < moveWaite.x) || (moveWaite.x < 0 && tmpMove.x > moveWaite.x)){
+					if((moveWaite.x > 0 && tmpMove.x < moveWaite.x) || (moveWaite.x < 0 && tmpMove.x > moveWaite.x) || (moveWaite.x ==0 && tmpMove.x != 0) ){
 							moveWaite.x =tmpMove.x;
+					}
+					if((moveWaite.y > 0 && tmpMove.y < moveWaite.y) || (moveWaite.y < 0 && tmpMove.y > moveWaite.y) || (moveWaite.y ==0 && tmpMove.y != 0) ){
+						moveWaite.y =tmpMove.y;
 					}
 					Tool_ObjUtils.onClearObj(tmpMove);
 					Tool_ObjUtils.returnObjectToPool(tmpMove);
 				}
 			}
 		}
-		this.x += moveWaite.x;
-		this.y += moveWaite.y;
+		if(moveWaite.x != null)this.x += moveWaite.x;
+		if(moveWaite.y != null)this.y += moveWaite.y;
 		Tool_ArrayUtils.returnArrayToPool(arrHit);
 	}
 

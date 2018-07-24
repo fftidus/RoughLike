@@ -1,7 +1,6 @@
 package{
 import com.MyClass.Config;
 import com.MyClass.MainManager;
-import com.MyClass.MultiTextureStyle;
 import com.MyClass.MySourceManager;
 import com.MyClass.SoundManagerMy;
 import com.MyClass.MyView.LayerManager;
@@ -16,13 +15,10 @@ import StaticDatas.SData_Strings;
 
 import laya.utils.Handler;
 
-import starling.display.Mesh;
-	
 public class MainClass
 {
 	public function MainClass()
 	{
-		Mesh.defaultStyle = MultiTextureStyle;
 		Config.mainClassInstance=this;
 		if(Config.FunRestart!=null){FunRestartOld=Config.FunRestart;};
 		Config.FunRestart=Handler.create(this,on重启);
