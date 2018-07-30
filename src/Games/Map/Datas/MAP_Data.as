@@ -9,6 +9,7 @@ public class MAP_Data{
 	public var rec:* ={"x0":0,"x1":500,"y0":0,"y1":500};//显示区域
 	public var Arr_gripSource:Array=[];
 	public var Arr_grips:Array;
+	public var dicGripSegmentation:*;//地块分段
 	public var Arr_groundType:Array;//二维数组，地形
 	
 	public function MAP_Data(){
@@ -21,6 +22,7 @@ public class MAP_Data{
 		rec=dic["rec"];
 		Arr_gripSource=dic["资源"];
 		Arr_grips=dic["地图"];
+        dicGripSegmentation=dic["分段"];
 		Arr_groundType=dic["地形"];
 		
 		var tmpdic:* ={};

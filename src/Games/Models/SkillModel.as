@@ -9,6 +9,7 @@ public class SkillModel{
 	public var Lv:int;
 	public var data:Data_Skill;
 	
+	
 	public function SkillModel(id:int,lv:int){
 		SID=id;
 		Lv=lv;

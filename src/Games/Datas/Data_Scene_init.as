@@ -1,5 +1,4 @@
 package Games.Datas {
-import Games.Fights.FightRole;
 import Games.Map.Datas.MAP_Data;
 
 /**
@@ -9,8 +8,9 @@ public class Data_Scene_init {
     public var ID:int;
     public var data:MAP_Data;
     public var loadView:int;
-    public var mainRole:FightRole;
     public var startDoor:int;
+    public var otherSource:Array;
+    public var FunInit:*;
     
     public function Data_Scene_init() {
     }

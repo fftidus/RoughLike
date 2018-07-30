@@ -1,10 +1,12 @@
 package Games {
+import com.MyClass.MySourceManager;
+import com.MyClass.Tools.Tool_Function;
+
 import Games.Datas.Data_Scene_init;
 import Games.Fights.FightRole;
 import Games.Map.Datas.MAP_Data;
 
-import com.MyClass.MySourceManager;
-import com.MyClass.Tools.Tool_Function;
+import com.MyClass.Tools.Tool_ObjUtils;
 
 import laya.utils.Handler;
 
@@ -53,14 +55,15 @@ public class Controller_Scene {
 		funWaite=null;
 	}
 	/** needLoadView：小于0表示无加载界面，0表示小加载界面， 大于0表示对应大加载界面*/
-	public function onNewScene(id:int,  needLoadView:int,	rm:FightRole,door:int):void{
+	public function onNewScene(id:int,  needLoadView:int,door:int,source:Array,	fend:*):void{
+		if(nowScene)nowScene=Tool_ObjUtils.destroyF_One(nowScene);
 		fubenID=id;
         initData=new Data_Scene_init();
         initData.ID=id;
         initData.loadView=needLoadView;
-		initData.mainRole=rm;
 		initData.startDoor=door;
-		
+		initData.otherSource=source;
+		initData.FunInit=fend;
 		getMapData(fubenID,Handler.create(this,onNewSceneEnd));
 	}
 	private function onNewSceneEnd(data:MAP_Data):void{

@@ -1,0 +1,7 @@
+<TextureAtlas imagePath="Role1_A1.png">
+  <SubTexture name="img_师匠_200-4" x="0" y="0" width="140" height="118" frameX="-413" frameWidth="1000" frameY="-405" frameHeight="976"/>
+  <SubTexture name="img_师匠_200-2" x="0" y="120" width="152" height="116" frameX="-409" frameWidth="1000" frameY="-406" frameHeight="976"/>
+  <SubTexture name="img_师匠_200-3" x="142" y="0" width="154" height="116" frameX="-410" frameWidth="1000" frameY="-406" frameHeight="976"/>
+  <SubTexture name="img_师匠_200-0" x="154" y="118" width="140" height="118" frameX="-413" frameWidth="1000" frameY="-405" frameHeight="976"/>
+  <SubTexture name="img_师匠_200-1" x="296" y="118" width="151" height="115" frameX="-408" frameWidth="1000" frameY="-407" frameHeight="976"/>
+</TextureAtlas>

@@ -55,7 +55,7 @@ public class MAP_Instance extends Sprite{
 	public function enterF():void{
 		camera.enterF();
 		areaControll.onCheckF();
-		if(needSort || true){
+		if(needSort){
 			onSortGrips();
 		}
 	}

@@ -1,25 +1,26 @@
 package Games.Fights.FightActions {
-import Games.Datas.Data_FActionStep;
-import Games.Fights.FightRole;
-import StaticDatas.SData_RolesInfo;
+import Games.Datas.Data_AttackArea;
 
 import com.MyClass.Config;
-
 import com.MyClass.Tools.Tool_ObjUtils;
+
+import Games.Datas.Data_FActionStep;
+import Games.Fights.FightRole;
+
+import StaticDatas.SData_Strings;
 
 public class FAction_Default {
     public var Role:FightRole;
     public var Name:String;
     public var swf:String;
     public var url:String;
+    public var hitArea:Data_AttackArea;
     public var isGod:Boolean=false;
     public var isEndure:Boolean=false;
-
-    protected var isEffectBySpd:Boolean=true;//受到攻速影响
+	
+	private var _nowIndex:int;//当前步骤的位置
+    protected var isSpdEffectByValue:String;//动作的速度受到某属性影响
     protected var isLoopAni:Boolean=false;//循环动画
-    public var Arr_aniStep:Array;//动画步骤，null表示循环播放
-    public var nowStep:int;//当前动画的步骤
-    public var nowIndex:int;//当前步骤的位置
     protected var nowCountFrame:Number;//当前动画的计时，100速度下每次加Config.frameMS
     protected var perMSofFrame:Number;
     protected var MsOfSwf:Number =1000/Config.swfFPS;
@@ -30,6 +31,13 @@ public class FAction_Default {
     
     public function FAction_Default() {
     }
+    public function initF(info:*):void{
+        if(info){
+            if(info["swf"]!=null)swf=info["swf"];
+            if(info["url"]!=null)url=info["url"];
+            if(info["被击范围"]!=null)hitArea=new Data_AttackArea(info["被击范围"]);
+        }
+    }
     public function canUse():Boolean{
         return true;
     }
@@ -39,9 +47,8 @@ public class FAction_Default {
     }
     public function resetF():void{
         nowCountFrame=0;
-        nowStep=0;
-        nowIndex=0;
         perMSofFrame =1;
+        nowIndex=0;
         isEnd=false;
         onChangeRoleMcByURL();
     }
@@ -51,8 +58,8 @@ public class FAction_Default {
 
     /** 收到攻速影响的动作 */
     protected function onCheckAtkSpd():void{
-        if(isEffectBySpd==false){return;}
-        var spdAtk:int =Role.getValue("攻速");
+        if(isSpdEffectByValue==null){return;}
+        var spdAtk:int =Role.getValue(isSpdEffectByValue);
         if(spdAtk>0){//y = x/(x+0.5)		厂形状弧线，永不达到1
             perMSofFrame += spdAtk / (spdAtk + 60);
         }else if(spdAtk<0){
@@ -75,35 +82,17 @@ public class FAction_Default {
 
     /** 下一帧动作 */
     protected function nextFrame():void{
-        var rsm:Data_FActionStep;
-		if(Arr_aniStep)rsm=Arr_aniStep[nowStep];
-        if(rsm==null || rsm.Arr_frame==null || rsm.loop==true){//没有帧数据，表示必然是循环播放动画！
-            if(Role.mapRole && Role.mapRole.Role){
-                nowIndex++;
-                if(nowIndex >= Role.mapRole.Role.totalFrames){
-                    nowIndex=0;
-                }
-            }
-        }else{
-            if(nowIndex+1>=rsm.Arr_frame.length){
-                nextStep();
-            }else{
-                nowIndex++;
-            }
+	    nowIndex++;
+        if(Role.mapRole.Role==null || nowIndex > Role.mapRole.Role.totalFrames-1){
+            nowIndex=0;
         }
+	    if(Role.mapRole.Role!=null){
+            Role.mapRole.Role.currentFrame = nowIndex;
+	    }
         onDoFrameEvent();
     }
-    /** 下一个步骤动作 */
-    public function nextStep():void{
-        if(isLoopAni == false){
-            if(nowStep+1 >=Arr_aniStep.length){
-                onActEndF();
-                return;
-            }
-            nowStep++;
-        }
-        nowIndex=0;
-    }
+	public function get nowIndex():int {	return _nowIndex;}
+	public function set nowIndex(value:int):void {_nowIndex = value;}
     /** 执行本帧上的操作：攻击、位移、震动、残影…… */
     protected function onDoFrameEvent():void{
     }
@@ -111,7 +100,7 @@ public class FAction_Default {
     protected function onActEndF():void{
         isEnd=true;
         if(Role.nowAction==this){
-            Role.onWantChangeAction(SData_RolesInfo.ActionName_Stand);
+            Role.onWantChangeAction(SData_Strings.ActionName_Stand);
         }
     }
     /** 开始监听键盘事件 */

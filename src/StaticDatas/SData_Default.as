@@ -54,7 +54,7 @@ package StaticDatas
 		private function on本地():void
 		{
 			Dic={};
-			Dic[SData_Strings.SD_Default_保存数量]=5;
+			Dic[SData_Strings.SD_Default_SaveLoginNum]=5;
 			Dic["默认字体"]="微软雅黑";
 			Dic["百分比属性"]=["命中","闪避","技能命中","技能抵抗","暴击率","暴击值","物理减免","魔法减免","物攻加成","魔攻加成","伤害加成"
 			,"解锁隐藏","陷阱解除"];

@@ -9,7 +9,7 @@ import Games.Map.Map_Object;
 import Games.Map.Map_Object_Roles;
 import Games.Models.RoleModel;
 
-import StaticDatas.SData_RolesInfo;
+import StaticDatas.SData_Strings;
 
 /**
  * 角色战斗
@@ -46,14 +46,28 @@ public class FightRole {
         baseRoleMo=rm;
         valueFight=new Data_FightRole();
         valueFight.initFromDic(baseRoleMo.getFightRoleInfo());
-        mapRole=new Map_Object_Roles();
-		mapRole.hitArea=new  MyHitArea();
-		mapRole.hitArea.initFromDic({"type":2,"p":{"x":0,"y":0},"r":50});
         DicActions=new FightRole_DicActions(this);
 		buffs=new  FightRole_Buffs(this);
         ToughnessCon=new FightRole_ToughnessControl(this);
-        onWantChangeAction(SData_RolesInfo.ActionName_Stand);
+        initF();
+        onWantChangeAction(SData_Strings.ActionName_Stand);
     }
+    /** 初始化 */
+    public function initF():void{
+        mapRole=new Map_Object_Roles(baseRoleMo);
+        mapRole.mhitArea=new  MyHitArea();
+        mapRole.mhitArea.initFromDic({"type":2,"p":{"x":0,"y":0},"r":50});
+    }
+    /** 获得基础属性 */
+    public function getBaseValue(vname:String, nullToZero:Boolean=true):*{
+        var value:* =null;
+        if(this.baseRoleMo && baseRoleMo.DicBaseValues){
+            value =baseRoleMo.DicBaseValues[vname];
+        }
+        if(value==null && nullToZero==true)return 0;
+        return value;
+    }
+    /** 获得属性 */
     public function getValue(vname:String, nullToZero:Boolean=true):*{
         var value:* =null;
         if(valueFight){
@@ -65,6 +79,7 @@ public class FightRole {
     
     /** 改变动画 */
     public function onChangeroleMC(swf:String,url:String):void{
+        mapRole.Role.initBaseMc(swf,url);
     }
     /** 改变方向 */
     public function onChangeDirect(dir:String):void{
@@ -80,7 +95,7 @@ public class FightRole {
     /** 修改动作，但不会立刻修改 */
     public function onWantChangeAction(act:String,fromComp:Map_Object=null):void{
         if(DicActions.hasAction(act)==false){
-            act= SData_RolesInfo.ActionName_Stand;
+            act= SData_Strings.ActionName_Stand;
         }
         var newact:FAction_Default=DicActions.getActionByName(act);
         if(newact.canUse()==false){return;}
@@ -91,7 +106,7 @@ public class FightRole {
     /** 真实修改动作 */
     protected function onChangeAction():void{
         if(DicActions.hasAction(nextAction)==false){
-            nextAction=SData_RolesInfo.ActionName_Stand;
+            nextAction=SData_Strings.ActionName_Stand;
         }
         if(nowAction){
             nowAction.breakF();
@@ -111,18 +126,22 @@ public class FightRole {
 		//属性
 		onRunEnterHandler();
 		//移动
-        if(moveWaite.x != 0 || moveWaite.y != 0){
-            mapRole.moveF(moveWaite);
-            moveWaite.x=0;
-            moveWaite.y=0;
-        }
+        onRealMoveF();
 		//动作
         if(nextAction!=null){//修改动作，本次帧频不计算
             onChangeAction();
         }else if(nowAction){
             nowAction.enterF();
         }else{
-            onWantChangeAction(SData_RolesInfo.ActionName_Stand);
+            onWantChangeAction(SData_Strings.ActionName_Stand);
+        }
+    }
+    /** 真实移动 */
+    public function onRealMoveF():void{
+        if(moveWaite.x != 0 || moveWaite.y != 0){
+            mapRole.moveF(moveWaite);
+            moveWaite.x=0;
+            moveWaite.y=0;
         }
     }
 	
@@ -163,6 +182,12 @@ public class FightRole {
         mapRole.z+=_z;
     }
     
+    /** 清理数据，但保留引用等待进入下一个场景 */
+    public function clearF():void{
+        if(mapRole){
+            mapRole.removeFromParent(false);
+        }
+    }
     public function destroyF():void{
         baseRoleMo=null;
         valueFight=Tool_ObjUtils.destroyF_One(valueFight);

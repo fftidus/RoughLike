@@ -1,0 +1,10 @@
+<TextureAtlas imagePath="SWF_Fight.png">
+  <SubTexture name="img_跳tmp1" x="0" y="0" width="50" height="50" frameX="0" frameWidth="50" frameY="0" frameHeight="52"/>
+  <SubTexture name="img_vb_back" x="0" y="52" width="90" height="90"/>
+  <SubTexture name="img_玩家信息1" x="0" y="144" width="227" height="104"/>
+  <SubTexture name="img_vb_now" x="92" y="0" width="51" height="51"/>
+  <SubTexture name="img_攻击底" x="145" y="0" width="215" height="142" frameX="0" frameWidth="216" frameY="0" frameHeight="142"/>
+  <SubTexture name="img_透明" x="92" y="53" width="50" height="50"/>
+  <SubTexture name="s9_背景1" x="229" y="144" width="110" height="93"/>
+  <SubTexture name="s9_hp" x="52" y="0" width="7" height="11" frameX="0" frameWidth="8" frameY="0" frameHeight="11"/>
+</TextureAtlas>

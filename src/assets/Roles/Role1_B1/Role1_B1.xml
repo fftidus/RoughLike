@@ -1,0 +1,11 @@
+<TextureAtlas imagePath="Role1_B1.png">
+  <SubTexture name="img_师匠_210-1" x="0" y="0" width="139" height="101" frameX="-423" frameWidth="1000" frameY="-412" frameHeight="976"/>
+  <SubTexture name="img_师匠_210-8" x="141" y="0" width="105" height="127" frameX="-434" frameWidth="1000" frameY="-396" frameHeight="976"/>
+  <SubTexture name="img_师匠_210-2" x="0" y="129" width="154" height="70" frameX="-418" frameWidth="1000" frameY="-416" frameHeight="976"/>
+  <SubTexture name="img_师匠_210-6" x="156" y="129" width="134" height="116" frameX="-442" frameWidth="1000" frameY="-406" frameHeight="976"/>
+  <SubTexture name="img_师匠_210-7" x="0" y="201" width="98" height="132" frameX="-453" frameWidth="1000" frameY="-391" frameHeight="976"/>
+  <SubTexture name="img_师匠_210-0" x="100" y="247" width="112" height="128" frameX="-436" frameWidth="1000" frameY="-392" frameHeight="976"/>
+  <SubTexture name="img_师匠_210-5" x="214" y="247" width="111" height="146" frameX="-450" frameWidth="1000" frameY="-375" frameHeight="976"/>
+  <SubTexture name="img_师匠_210-4" x="0" y="377" width="182" height="119" frameX="-405" frameWidth="1000" frameY="-401" frameHeight="976"/>
+  <SubTexture name="img_师匠_210-3" x="292" y="0" width="101" height="128" frameX="-434" frameWidth="1000" frameY="-392" frameHeight="976"/>
+</TextureAtlas>

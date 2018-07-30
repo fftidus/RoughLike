@@ -40,7 +40,7 @@ import com.MyClass.VertionVo;
 			Config.ClassFunction=new Config_FunAIR();
 			Config.ClassLostContext=__Loading_TextureRecover;
 			MySourceManager.ClassManager=MySourceManager_AIR;
-			ImageNum.SWFDefault=SData_Strings.SWF_默认UI;
+			ImageNum.SWFDefault=SData_Strings.SWF_DefaultUI;
 			this.addEventListener(Event.ADDED_TO_STAGE,init);
 			MyErrorSend.onSendF(null);
 		}
@@ -49,7 +49,7 @@ import com.MyClass.VertionVo;
 			e.stopImmediatePropagation();
 			e.stopPropagation();
 			MainManager.getInstence().clearF();
-			AlertWindow.showSimpleF(SData_Strings.Alert_意外错误,{"title":SData_Strings.Alert_意外错误Title},Config.onRestart);
+			AlertWindow.showSimpleF(SData_Strings.Alert_Error,{"title":SData_Strings.Alert_ErrorTitle},Config.onRestart);
 			//发送
 			var str:String	= (e.error as Error).getStackTrace();
 			MyErrorSend.onSendF(str);

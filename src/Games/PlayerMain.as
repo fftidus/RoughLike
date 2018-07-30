@@ -50,9 +50,9 @@ public class PlayerMain{
 	public var Dic_Fuben:*;
 	
 	public function PlayerMain(){
-		var soundObj:* =MyLocalStorage.getF(SData_Strings.LOCS_声音信息);
-		if(soundObj && soundObj[SData_Strings.LOCS_声音信息_音量]!=null){
-			SoundManagerMy.soundVal=soundObj[SData_Strings.LOCS_声音信息_音量];
+		var soundObj:* =MyLocalStorage.getF(SData_Strings.LOCS_SoundControl);
+		if(soundObj && soundObj[SData_Strings.LOCS_SoundControl_volume]!=null){
+			SoundManagerMy.soundVal=soundObj[SData_Strings.LOCS_SoundControl_volume];
 			SoundManagerMy.getInstance().setVol(SoundManagerMy.soundVal);
 		}
 		NetMessageModel.getInstance().initF(Handler.create(this,onNetMessageF,null,false));
@@ -287,16 +287,6 @@ public class PlayerMain{
 		return role;
 	}
 	
-	public function getPlayerMainRole():RoleModel{
-		for(var nid:int in Dic_Roles){
-			var role:RoleModel =Dic_Roles[nid];
-			if(role.isMainRole==true){
-				return role;
-			}
-		}
-		return null;
-	}
-	
 	public function on手动修改F(want:String,	val:*,		f:*):void{
 		MainManager._instence.MEM.addListenF("玩家"+want+"改变",f,null,true);
 		NetMessageModel.getInstance().on手动修改F(want,val);
@@ -332,7 +322,7 @@ public class PlayerMain{
 	public function onErrorF(info:*):void{
 		Config.Log("报错："+info);
 		MainManager.getInstence().clearF();
-		AlertWindow.showF(SData_Strings.Alert_意外错误,SData_Strings.Alert_意外错误Title,Config.onCloseProgram);
+		AlertWindow.showF(SData_Strings.Alert_Error,SData_Strings.Alert_ErrorTitle,Config.onCloseProgram);
 	}
 	
 	private function net弹窗(dic:*):void{

@@ -1,9 +1,9 @@
 package Games.Fights.FightActions {
+import com.MyClass.Config;
+
 import Games.Fights.FightRole;
 
-import StaticDatas.SData_RolesInfo;
-
-import com.MyClass.Config;
+import StaticDatas.SData_Strings;
 
 import starling.utils.deg2rad;
 
@@ -15,7 +15,6 @@ public class FAction_Run extends FAction_Default{
         Name="移动";
         Role=fr;
         isLoopAni=true;
-        isEffectBySpd=false;
     }
     override public function checkCanStopByItem():Boolean{
         return true;
@@ -29,9 +28,14 @@ public class FAction_Run extends FAction_Default{
     public function checkSpd():void{
         var spd:Number =Role.getValue("移速");
         if(spd<0)spd=0;
-        spd=100;
+        spd=200;
         spdMove= spd / Config.playSpeedTrue;
-        perMSofFrame += spdMove / (spdMove + 60);
+        var spdmore:int =spd - Role.getBaseValue("移速");
+        if(spdmore>0){//y = x/(x+0.5)		厂形状弧线，永不达到1
+            perMSofFrame += spdmore / (spdmore + 60);
+        }else if(spdmore<0){
+            perMSofFrame -= -spdmore / (-spdmore + 50);
+        }
     }
 
     override public function enterF():void{
@@ -46,7 +50,7 @@ public class FAction_Run extends FAction_Default{
             onActEndF();
             return;
         }
-        var ang:int =onCheckNowAngle();
+        var ang:int =Role.controller.nowMoveAng;
         if(ang==-1){
             onActEndF();
             return;
@@ -84,32 +88,6 @@ public class FAction_Run extends FAction_Default{
             Role.onWantMoveY(spdy);
         }
     }
-    /** 计算当前操作器的方向角度 */
-    private function onCheckNowAngle():int{
-        if(Role.controller.isdown_Left()==true){
-            if(Role.controller.isdown_Up()==true){
-                return 270+45;
-            }else if(Role.controller.isdown_Down()==true){
-                return 270-45;
-            }
-            return 270;
-        }
-        else if(Role.controller.isdown_Right()==true){
-            if(Role.controller.isdown_Up()==true){
-                return 45;
-            }else if(Role.controller.isdown_Down()==true){
-                return 90+45;
-            }
-            return 90;
-        }
-        else  if(Role.controller.isdown_Up()==true){
-            return 0;
-        }
-        else if(Role.controller.isdown_Down()==true){
-            return 180;
-        }
-        return -1;
-    }
     
     /** 是否需要急停 */
     private function neetStopAct():Boolean{
@@ -120,7 +98,7 @@ public class FAction_Run extends FAction_Default{
 
     override protected function onActEndF():void{
         if(neetStopAct()==true){
-            Role.onWantChangeAction(SData_RolesInfo.ActionName_RunStop);
+            Role.onWantChangeAction(SData_Strings.ActionName_RunStop);
         }else{
             super.onActEndF();
         }

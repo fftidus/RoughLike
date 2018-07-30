@@ -7,6 +7,7 @@ import com.MyClass.MySourceManagerOne;
 import com.MyClass.MyView.LayerStarlingManager;
 import com.MyClass.MyView.LoadingSmall;
 import com.MyClass.Tools.MyPools;
+import com.MyClass.Tools.Tool_Function;
 import com.MyClass.Tools.Tool_ObjUtils;
 
 import Games.Map.MAP_Instance;
@@ -25,7 +26,7 @@ public class Scene extends Sprite{
 	private var mso:MySourceManagerOne=new MySourceManagerOne();
 	private var mmo:MainManagerOne=new MainManagerOne();
 	public var Map:MAP_Instance;
-	private var DicRoles:Fight_DicRoles;
+    public var DicRoles:Fight_DicRoles;
 	
 	public function Scene(info:Data_Scene_init) {
         initData=info;
@@ -35,6 +36,9 @@ public class Scene extends Sprite{
 		var source:Array=[
 		];
 		data.addSource(source);
+		if(initData.otherSource!=null){
+			source=source.concat(initData.otherSource);
+		}
 		if(info.loadView<0){
 			mso.addSource(source,Handler.create(this,initF),false);
 		}else if(info.loadView==0){
@@ -49,9 +53,9 @@ public class Scene extends Sprite{
 		LoadingSmall.removeF();
 		this.addChild(this.Map);
 		DicRoles=new Fight_DicRoles(this);
-        DicRoles.addMainRole();
 		this.Map.initF();
 		mmo.addEnterFrameFun(Handler.create(this,enterF,null,false));
+		Tool_Function.onRunFunction(initData.FunInit);
 	}
 	
 	private function enterF():void{

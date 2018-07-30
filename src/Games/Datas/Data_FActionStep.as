@@ -1,4 +1,6 @@
 package Games.Datas {
+import com.MyClass.Tools.Tool_Function;
+
 /**
  * 动作的步骤数据
  * */
@@ -10,7 +12,9 @@ public class Data_FActionStep {
     /** 循环，true则不会自动进入下一步，需要外部触发 */
     public var loop:Boolean=false;
     /** 攻击 */
-    public var attackInfo:*;
+    public var attackInfo:Array;
+    /** 飞行物体 */
+    public var flyobjInfo:Array;
     /** 是否霸体 */
     public var isEndure:Boolean;
     /** 霸体帧：isEndure为true时，霸体帧为null表示一直霸体 */
@@ -34,11 +38,24 @@ public class Data_FActionStep {
             url =dic["url"];
             Arr_frame=dic["帧"];
             loop=dic["循环"]==true;
-            if(dic["伤害"]!=null){
-                
-            }else{
-                attackInfo=null;
+            if(dic["伤害"]!=null){//[{范围，伤害……}]
+                attackInfo=[];
+                if(Tool_Function.isTypeOf(dic["伤害"],Array)==true) {
+                    for (var i:int = 0; i < dic["伤害"].length; i++) {
+                        attackInfo[i] = new Data_Attack(dic["伤害"][i]);
+                    }
+                }else{
+                    attackInfo[0] = new Data_Attack(dic["伤害"]);
+                }
             }
+            isEndure=dic["霸体"]==true;
+            frameEndure=dic["霸体帧"];
+            isGod=dic["无敌"]==true;
+            frameGod=dic["无敌帧"];
+            moveInfo=dic["位移"];
+            soundInfo=dic["音效"];
+            ghostInfo=dic["残影"];
+            shockInfo=dic["震动"];
         }
     }
 }

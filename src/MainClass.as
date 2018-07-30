@@ -1,4 +1,6 @@
 package{
+import Games.Fights.ViewClass_FightMain;
+
 import com.MyClass.Config;
 import com.MyClass.MainManager;
 import com.MyClass.MySourceManager;
@@ -68,7 +70,7 @@ public class MainClass
 		isLoaded=false;
 		isAniend=false;
 		var source:Array=[
-			[SData_Strings.SWF_默认UI,"swf"]
+			[SData_Strings.SWF_DefaultUI,"swf"]
 		];
 		MySourceManager.getInstance().addTexture(source,loadedF);
 		
@@ -89,7 +91,7 @@ public class MainClass
 		}
 		function onGameF():void{
 			if(isLoaded==true && isAniend==true){
-				Controller_Scene.getInstance().onNewScene(1,1,null,0);
+				new ViewClass_FightMain(null);
 			}
 		}
 	}

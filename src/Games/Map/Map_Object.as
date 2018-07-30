@@ -43,7 +43,7 @@ public class Map_Object extends Sprite{
 	public var Role:Map_ObjectView;
 	private var _z:Number=0;
 	public var index:int=1;
-	public var hitArea:MyHitArea;
+	public var mhitArea:MyHitArea;
 	
 	public function Map_Object(){
 	}
@@ -66,9 +66,9 @@ public class Map_Object extends Sprite{
 	}
 
 	public function initHitArea(dic:*):Boolean{
-		var hitArea:MyHitArea = MyHitArea.getHitArea(dic);
-		if(hitArea != null){
-			this.hitArea = hitArea;
+		var _hitArea:MyHitArea = MyHitArea.getHitArea(dic);
+		if(_hitArea != null){
+			this.mhitArea = _hitArea;
 			return true;
 		}
 		return false;
@@ -78,18 +78,22 @@ public class Map_Object extends Sprite{
 	 * 移动XY，判断碰撞
 	 * */
 	public function moveF(moveWaite:*):void{
-		if(hitArea==null){
-			hitArea=new  MyHitArea();
-			hitArea.initFromDic({"type":2,"p":{"x":0,"y":0},"r":1});
+		if(mhitArea==null){
+			mhitArea=new  MyHitArea();
+			mhitArea.initFromDic({"type":2,"p":{"x":0,"y":0},"r":1});
 		}
 		if(moveWaite==null)return;
         if(map==null){
             trace("没有map，不计算碰撞和移动！");
             return;
         }
+		//地形
+		
+		//与其他物体的碰撞
 		var arrHit:Array=Tool_ArrayUtils.getNewArrayFromPool();
         var arr:* =map.getAllObjects();
         var tar:Map_Object;
+		trace("enter");
         for(var i:int=0;i<arr.length;i++){
             tar=arr[i];
             if(tar==this)continue;
@@ -100,7 +104,7 @@ public class Map_Object extends Sprite{
 		if(arrHit.length>0){
 			for(i=0;i<arrHit.length;i++){
 				tar =arrHit[i];
-				var tmpMove:* =hitArea.moveTest(tar.hitArea,this.x,this.y,tar.x,tar.y,moveWaite);
+				var tmpMove:* =mhitArea.moveTest(tar.mhitArea,this.x,this.y,tar.x,tar.y,moveWaite);
 				if(tmpMove !=null){
 					if((moveWaite.x > 0 && tmpMove.x < moveWaite.x) || (moveWaite.x < 0 && tmpMove.x > moveWaite.x) || (moveWaite.x ==0 && tmpMove.x != 0) ){
 							moveWaite.x =tmpMove.x;
@@ -125,24 +129,9 @@ public class Map_Object extends Sprite{
 	}
 	
 	/** 碰撞检测 */
-	protected function checkHit():Map_Object{
-		if(map==null){
-			trace("没有map");
-			return null;
-        }
-        if(this.hitArea==null){return null;}
-		var arr:* =map.getAllObjects();
-		var tar:Map_Object;
-		for(var i:int=0;i<arr.length;i++){
-			tar=arr[i];
-			if(tar==this)continue;
-			if(hitTestWith(tar)==true)return tar;
-		}
-		return null;
-	}
 	protected function hitTestWith(obj:Map_Object):Boolean{
-		if(this.hitArea==null || obj.hitArea==null){return false;}
-		return hitArea.hitTest(obj.hitArea,this.x,this.y,this._z,obj.x,obj.y,obj._z);
+		if(this.mhitArea==null || obj.mhitArea==null){return false;}
+		return mhitArea.hitTestWith(obj.mhitArea,this.x,this.y,this._z,obj.x,obj.y,obj._z);
 	}
 
 	/** 清理：人物等不缓存，直接清理。地面等地图素材缓存。 */
@@ -153,7 +142,7 @@ public class Map_Object extends Sprite{
 		map=null;
 		Tool_ObjUtils.destroyDisplayObj(this);
 		Role=Tool_ObjUtils.destroyF_One(Role);
-		hitArea=Tool_ObjUtils.destroyF_One(hitArea);
+		mhitArea=Tool_ObjUtils.destroyF_One(mhitArea);
 	}
 }
 }

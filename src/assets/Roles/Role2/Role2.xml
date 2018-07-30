@@ -1,0 +1,10 @@
+<TextureAtlas imagePath="Role2.png">
+  <SubTexture name="img_站立1" x="0" y="0" width="126" height="103" frameX="0" frameWidth="127" frameY="0" frameHeight="104"/>
+  <SubTexture name="img_站立3" x="0" y="105" width="126" height="104" frameX="0" frameWidth="127" frameY="0" frameHeight="104"/>
+  <SubTexture name="img_站立2" x="0" y="211" width="127" height="103" frameX="0" frameWidth="128" frameY="0" frameHeight="104"/>
+  <SubTexture name="img_站立5" x="129" y="211" width="127" height="105"/>
+  <SubTexture name="img_站立7" x="0" y="316" width="127" height="104"/>
+  <SubTexture name="img_站立6" x="129" y="318" width="126" height="104" frameX="0" frameWidth="127" frameY="0" frameHeight="105"/>
+  <SubTexture name="img_站立8" x="257" y="318" width="127" height="103" frameX="0" frameWidth="127" frameY="0" frameHeight="104"/>
+  <SubTexture name="img_站立4" x="258" y="0" width="127" height="104"/>
+</TextureAtlas>

@@ -73,14 +73,14 @@ public class NetMessageModel {
 	private var countReConnect:int=0;
 	private function on断网F():void{
 		trace("收到断网监听");
-		var _账号信息:* =LSOManager.get(SData_Strings.LOCS_账号密码);
+		var _账号信息:* =LSOManager.get(SData_Strings.LOCS_LoginInfo);
 		if(PlayerMain.getInstance().ID>0 && _账号信息!=null && _账号信息["账号"]!=null && _账号信息["密码"]!=null){
 			//已登录
 			if(countReConnect==0){//自动重练一次
 				countReConnect++;
 				MainManager._instence.pause=true;
 				MgsSocket.getInstance().need断网事件=false;
-				LoadingSmall.showF(SData_Strings.Loading_联网中);
+				LoadingSmall.showF(SData_Strings.Loading_netting);
 				if(MgsSocket.getInstance().now状态 == "连接"){
 					onConnectF(true);
 				}else{
@@ -89,11 +89,11 @@ public class NetMessageModel {
 			}else{//提示
 				LoadingSmall.removeF();
 				countReConnect=0;
-				AlertWindow.showF(SData_Strings.Alert_联网失败,null,Handler.create(this,on断网F));
+				AlertWindow.showF(SData_Strings.Alert_badNet,null,Handler.create(this,on断网F));
 			}
 		}else{//还未登陆
 			LoadingSmall.removeF();
-			AlertWindow.showF(SData_Strings.Alert_联网失败,null,on重启);
+			AlertWindow.showF(SData_Strings.Alert_badNet,null,on重启);
 		}
 		function onConnectF(suc:*):void{
 			if(suc == true){
@@ -101,7 +101,7 @@ public class NetMessageModel {
 			}else{
 				LoadingSmall.removeF();
 				if(suc is String)		AlertWindow.showF(suc,null,on断网F);
-				else					AlertWindow.showF(SData_Strings.Alert_联网失败,null,on断网F);
+				else					AlertWindow.showF(SData_Strings.Alert_badNet,null,on断网F);
 			}
 		}
 		function onNet重连F(dic:*):void{
@@ -222,7 +222,7 @@ public class NetMessageModel {
 		}
 		function onLoginTimerF():void{
 			c100=Tool_ObjUtils.getInstance().destroyF_One(c100);
-			Tool_Function.onRunFunction(f,{"结果":false,"失败原因":SData_Strings.Alert_联网失败});
+			Tool_Function.onRunFunction(f,{"结果":false,"失败原因":SData_Strings.Alert_badNet});
 		}
 	}
 	/** 手动修改属性并发送 */

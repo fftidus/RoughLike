@@ -19,6 +19,7 @@ public class Map_Camera {
 	/** 镜头放大的倍数 */
 	private var _scale:Number=1;
 	public function set scale(value:Number):void{_scale=value;}
+    public function get scale():Number{return _scale;}
 	
 	public function Map_Camera(map:MAP_Instance) {
 		this.Map=map;
@@ -35,9 +36,10 @@ public class Map_Camera {
 		updataF();
 	}
 	private function updataF():void{
-		if(this.Map.mainRole==null){return;}
-		nowX=this.Map.mainRole.x;
-		nowY=this.Map.mainRole.y;
+		if(this.Map.mainRole!=null) {
+            nowX = this.Map.mainRole.x;
+            nowY = this.Map.mainRole.y;
+        }
 		if(nowX<minX){nowX=minX;}
 		else if(nowX>maxX){nowX=maxX;}
 		if(nowY<minY){nowY=minY;}

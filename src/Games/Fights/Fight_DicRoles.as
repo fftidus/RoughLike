@@ -15,15 +15,10 @@ public class Fight_DicRoles {
     }
 
     /** 添加玩家角色，根据入口门数据确定初始位置 */
-    public function addMainRole():void{
-        var initData:Data_Scene_init=nowScenc.initData;
-        if(initData && initData.mainRole){
-            mainRole=initData.mainRole;
-        }else{
-            mainRole=new FightRole(new RoleModel());
-            mainRole.controller=new RoleController_Player(mainRole);
-        }
+    public function addMainRole(role:FightRole):void{
+        mainRole=role;
         var door:int=0;
+        var initData:Data_Scene_init=nowScenc.initData;
         if(initData){
             door=initData.startDoor;
         }

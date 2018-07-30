@@ -1,6 +1,7 @@
 package Games.Map {
 import com.MyClass.Config;
 import com.MyClass.MySourceManager;
+import com.MyClass.MyView.MyMC;
 import com.MyClass.Tools.MyPools;
 import com.MyClass.Tools.Tool_ObjUtils;
 
@@ -48,15 +49,20 @@ public class Map_ObjectView extends Sprite{
         }
 	}
 	
+	public function set currentFrame(value:int):void{
+		if(mc){
+			mc.gotoAndStop(value);
+		}
+	}
 	public function get currentFrame():int{
-		if(mc && mc is SwfMovieClip){
-			return (mc as SwfMovieClip).currentFrame;
+		if(mc){
+			return mc.currentFrame;
 		}
 		return 0;
 	}
 	public function get totalFrames():int{
-		if(mc && mc is SwfMovieClip){
-			return (mc as SwfMovieClip).totalFrames;
+		if(mc){
+			return mc.totalFrames;
 		}
 		return 0;
 	}
@@ -66,6 +72,8 @@ public class Map_ObjectView extends Sprite{
         if(mc){
             if(mc is SwfMovieClip){
                 (mc as SwfMovieClip).stop(true);
+            }else if(mc is MyMC){
+	            (mc as MyMC).stop();
             }
         }
         if(Controller_Scene.getInstance().nowScene){

@@ -1,5 +1,5 @@
 package Games.Fights {
-	import laya.utils.Handler;
+import laya.utils.Handler;
 
 /**
  * 战斗角色的韧性控制，韧性被攻击时减少，进入受伤状态后恢复，或无伤状态30秒后恢复，技能会提供韧性倍率，每次使用技能会重置为当前韧性 * 倍率。
