@@ -36,7 +36,7 @@ public class ItemModel {
 		}
 	}
 
-	public function get 介绍():String {
+	public function get strIntroduce():String {
 		var dic:* =SData_Item.getInstance().Dic[baseID];
 		if(dic){
 			return dic["介绍"];

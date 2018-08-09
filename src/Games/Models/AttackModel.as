@@ -20,6 +20,11 @@ public class AttackModel {
         data=_data;
         fromRole=from;
     }
+    /** 削韧数量 */
+    public function get costToughness():int{
+        var base:int =fromRole
+        data.perCostToughness;
+    }
     
     public function destroyF():void{
         data=null;

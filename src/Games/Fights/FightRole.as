@@ -225,7 +225,13 @@ public class FightRole {
     
     /** 被击打 */
     public function beHurt(hurtone:AttackModel):void{
+        if(hurtone==null){return;}
         //有霸体则不进入被击打状态
+        if(isEndure==true){
+            if(ToughnessCon && ToughnessCon.costToughness(hurtone.data.perCostToughness)){
+                
+            }
+        }
     }
     
     /** 死亡 */
