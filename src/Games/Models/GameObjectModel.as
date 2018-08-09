@@ -10,8 +10,26 @@ public class GameObjectModel{
 	public var arm:ArmorModel;
 	public var item:ItemModel;
 	public var mat:MaterialModel;
-	
-	public function GameObjectModel(dic:*)	{
+    public function get Name():String{
+        if(wea)return wea.Name;
+        if(arm)return arm.Name;
+        if(item)return item.Name;
+        if(mat)return mat.Name;
+        return "";
+    }
+    public function get rank():int{
+        if(wea)return wea.rank;
+        if(arm)return arm.rank;
+        return 0;
+    }
+    public function get lv():int{
+        if(wea)return wea.lv;
+        if(arm)return arm.lv;
+        return 0;
+    }
+
+
+    public function GameObjectModel(dic:*)	{
 		initF(dic);	
 	}
 	public function initF(dic:*):void{

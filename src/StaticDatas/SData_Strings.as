@@ -63,6 +63,12 @@ package StaticDatas
 		//SWF
 		public static const SWF_DefaultUI:String="SWF_Default";
         public static const SWF_FightUI:String="SWF_Fight";
+        public static const SWF_IconHead:String="SWF_IconHead";
+        public static const SWF_IconWea:String="SWF_IconWea";
+        public static const SWF_IconArm:String="SWF_IconArm";
+        public static const SWF_IconItem:String="SWF_IconItem";
+        public static const SWF_IconMat:String="SWF_IconMat";
+        public static const SWF_IconSkill:String="SWF_IconSkill";
 		/****************************游戏中显示使用，随语言环境变化***********************************/
 		public	static var Alert_Error:String="游戏出现意外错误，请重新启动！";
 		public	static var Alert_ErrorTitle:String="哎呀出错了";
