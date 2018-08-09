@@ -225,7 +225,7 @@ public class FightRole {
     
     /** 被击打 */
     public function beHurt(hurtone:AttackModel):void{
-        
+        //有霸体则不进入被击打状态
     }
     
     /** 死亡 */
