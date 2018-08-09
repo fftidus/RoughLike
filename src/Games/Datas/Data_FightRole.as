@@ -36,12 +36,12 @@ public class Data_FightRole {
      * */
     public function setValue(key:String,value:int):void{
         switch (key){
-            case "_hp":
+            case "hp":
             case "生命":
                 hp=value;
                 hpMax=value;
                 break;
-            case "_mp":
+            case "mp":
             case "魔法":
                 mp=value;
                 mpMax=value;
@@ -61,7 +61,9 @@ public class Data_FightRole {
             case "移速":  spdMove=value;break;
             case "攻击速度":  spdPhy=value;break;
             case "释放速度":  spdMag=value;break;
-            case "硬直":  hitRecover=value;break;
+            case "硬直":  iron=value;break;
+            case "韧性":  toughness=value;break;
+            case "重量":  weight=value;break;
             case "物攻加成":  perPhy=value;break;
             case "魔攻加成":  perMag=value;break;
             case "伤害加成":  perAtk=value;break;
@@ -148,8 +150,12 @@ public class Data_FightRole {
     public function set spdPhy(value:int):void {  setValueByName("攻速",value); }
     public function get spdMag():int {  return getValueByName("释放速度"); }
     public function set spdMag(value:int):void {  setValueByName("释放速度",value); }
-    public function get hitRecover():int {  return getValueByName("硬直"); }
-    public function set hitRecover(value:int):void {  setValueByName("硬直",value); }
+    public function get iron():int {  return getValueByName("硬直抗性"); }
+    public function set iron(value:int):void {  setValueByName("硬直抗性",value); }
+    public function get toughness():int {  return getValueByName("韧性"); }
+    public function set toughness(value:int):void {  setValueByName("韧性",value); }
+    public function get weight():int {  return getValueByName("重量"); }
+    public function set weight(value:int):void {  setValueByName("重量",value); }
     //加成型数据
     public function get perPhy():int {  return getValueByName("perPhy"); }
     public function set perPhy(value:int):void {  setValueByName("perPhy",value); }

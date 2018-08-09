@@ -22,20 +22,14 @@ public class Data_Attack {
     /** 攻击中心点：用来判断是否背后攻击。null表示无法造成背后攻击，其他数字表示来源相对坐标 */
     public var middlePo:*;
     
-    /** 攻击作用-硬直 */
-    public var hit_CostIron:*;
-    /** 攻击作用-上：y轴 */
-    public var hit_up:*;
-    /** 攻击作用-下：y轴 */
-    public var hit_down:*;
-    /** 攻击作用-左 */
-    public var hit_left:*;
-    /** 攻击作用-右 */
-    public var hit_right:*;
-    /** 攻击作用-浮空 */
-    public var hit_sky:*;
-    /** 攻击作用-下落 */
-    public var hit_ground:*;
+    /** 攻击硬直 */
+    public var hit_CostIron:int;
+    /** 攻击击飞：力度 */
+    public var hit_awayPower:int;
+    /** 攻击击飞：方向：上下左右落:12345 */
+    public var hit_awayDirect:int;
+    /** 攻击浮空：力度 */
+    public var hit_upPower:int;
     
     /** 命中光效：swf,url, 固定坐标:bool(为true表示只有一个相对施法者的光效),x,y */
     public var hitLight:*;
@@ -60,12 +54,9 @@ public class Data_Attack {
         perCostToughness=dic["削韧"];
         middlePo=dic["中心"];
         hit_CostIron=dic["硬直"];
-        hit_up=dic["上"];
-        hit_down=dic["下"];
-        hit_left=dic["左"];
-        hit_right=dic["右"];
-        hit_sky=dic["升"];
-        hit_ground=dic["落"];
+        hit_awayPower=dic["击飞力度"];
+        hit_awayDirect=dic["击飞方向"];
+        hit_upPower=dic["浮空力度."];
         hitLight=dic["光效"];
         hitSound=dic["音效"];
     }

@@ -1,11 +1,14 @@
 package Games.Map {
+import Games.Fights.FightRole;
 import Games.Models.RoleModel;
 
 public class Map_Object_Roles extends Map_Object{
+    private var roleFight:FightRole;
     public var RM:RoleModel;
-    public function Map_Object_Roles(rm:RoleModel) {
+    public function Map_Object_Roles(fr:FightRole) {
         super();
-        RM=rm;
+        roleFight=fr;
+        RM=fr.baseRoleMo;
     }
     override public function initF(data:*,info:*):void{
         super.initData(data,info);
@@ -14,6 +17,11 @@ public class Map_Object_Roles extends Map_Object{
             this.addChild(Role);
         }
     }
-    
+
+    override public function destroyF():void {
+        super.destroyF();
+        roleFight=null;
+        RM=null;
+    }
 }
 }

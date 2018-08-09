@@ -1,13 +1,12 @@
 package Games.Fights {
 import Games.Controller_Scene;
+import Games.Datas.Data_RoleSkills;
 import Games.Models.RoleModel;
 import Games.Scene;
 
 import StaticDatas.SData_RolesInfo;
 
 import StaticDatas.SData_Strings;
-
-import com.MyClass.Config;
 
 import com.MyClass.MainManagerOne;
 
@@ -21,15 +20,16 @@ import starling.display.Sprite;
  * 战斗场景+UI
  * */
 public class ViewClass_FightMain extends Sprite{
-    private var scene:Scene;
+    public var scene:Scene;
     private var UI:Fight_UI;
-    private var mainRoleModel:RoleModel;
+    public var mainRoleModel:RoleModel;
     private var conMainRole:RoleController_Player;
     private var mmo:MainManagerOne=new MainManagerOne();
     
     public function ViewClass_FightMain(info:*) {
         mainRoleModel=new RoleModel();
         mainRoleModel.initRoleInfo(SData_RolesInfo.getInstance().Dic[1]);
+        mainRoleModel.Skills=new Data_RoleSkills(mainRoleModel,{"装备":{"A":2},"学习":{"2":{"等级":1}}});
         var source:Array=[
             [SData_Strings.SWF_FightUI,"swf"]
         ];
@@ -43,12 +43,19 @@ public class ViewClass_FightMain extends Sprite{
         mainRole.mapRole.y=600;
         conMainRole=new RoleController_Player(mainRole);
         UI=new Fight_UI(this);
-        if(Config.OS=="WIN"){
-            UI.conMove.setMKM(conMainRole.mkm);
-        }
-        conMainRole.btnCon =UI.conMove;
+        conMainRole.initMoveCon(UI.getSpr_MoveCon());
+        conMainRole.initAttackCon(UI.getSpr_AttackCon());
+        
+        mmo.addEnterFrameFun(Handler.create(this,enterF,null,false));
     }
     
+    private function enterF():void{
+        if(scene.DicRoles.mainRole.isDead == 100){
+            mmo.destroyF();
+            mmo=null;
+            new FightUI_DeadWindow(this);
+        }
+    }
     
     public function destroyF():void{
         Tool_ObjUtils.destroyDisplayObj(this);

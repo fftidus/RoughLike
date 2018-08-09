@@ -1,4 +1,8 @@
 package Games.Models {
+import Games.Datas.Data_RoleSkills;
+
+import StaticDatas.SData_Skills;
+
 import StaticDatas.SData_Strings;
 
 import com.MyClass.Tools.Tool_Function;
@@ -22,8 +26,7 @@ public class RoleModel {
 	public var DicBaseValues:* =Tool_ObjUtils.getNewObjectFromPool();
 	public var DicValues:* =Tool_ObjUtils.getNewObjectFromPool();
 	public var DicEquipe:*;
-	public var DicSkills:*;
-	public var Arr_SkillEquip:Array;
+    public var Skills:Data_RoleSkills;
 	
 	/** 
 	 * 角色模型，用来保存每个角色，可以生成战斗用Fight_Role
@@ -72,16 +75,6 @@ public class RoleModel {
 				}
 			}
 		}
-		if(dic["拥有技能"] != null){
-			DicSkills=dic["拥有技能"];
-			for(var sid:int in DicSkills){
-				var smodel:SkillModel=new  SkillModel(sid,DicSkills[sid]);
-				DicSkills[sid]=smodel;
-			}
-		}
-		if(dic["携带技能"] != null){
-			Arr_SkillEquip=dic["携带技能"];
-		}
         if(dic["基础属性"]!=null){
             for(var key:String in dic["基础属性"]){
                 DicBaseValues[key]=dic["基础属性"][key];
@@ -101,6 +94,9 @@ public class RoleModel {
 				}
             }
 		}
+        if(dic["技能"] != null){
+            Skills=new Data_RoleSkills(this,dic["技能"]);
+        }
 	}
 	/** 修改某个属性，几个特殊属性特殊修改 */
 	public function onChangeValues(key:String,value:*,	fouse:Boolean=false):void{
@@ -119,7 +115,7 @@ public class RoleModel {
 		}
 		return DicValues[vname];
 	}
-	
+	/** 获得头像链接 **/
 	public function getHeadIcon():String{
 		if(SData_RolesInfo.getInstance().Dic[baseID]!=null && SData_RolesInfo.getInstance().Dic[baseID]["头像"]!=null)
 		{
@@ -132,11 +128,25 @@ public class RoleModel {
 	public function addSource(source:Array,	types:Array):void{
 		var dic:* =SData_RolesInfo.getInstance().Dic[baseID];
 		if(dic==null){return;}
+		//动作资源
 		if(dic[SData_Strings.ActionName_Stand] != null && (types==null || types.indexOf(SData_Strings.ActionName_Stand)!=-1)){
             addSwfToSource(dic[SData_Strings.ActionName_Stand]["swf"]);
 		}
         if(dic[SData_Strings.ActionName_Run] != null && (types==null || types.indexOf(SData_Strings.ActionName_Run)!=-1)){
             addSwfToSource(dic[SData_Strings.ActionName_Run]["swf"]);
+			if(dic[SData_Strings.ActionName_Run]["音效"]) {
+                if (dic[SData_Strings.ActionName_Run]["音效"]["Name"] is String) {
+					addSoundToSource(dic[SData_Strings.ActionName_Run]["音效"]["Name"]+"1");
+                    addSoundToSource(dic[SData_Strings.ActionName_Run]["音效"]["Name"]+"2");
+                    addSoundToSource(dic[SData_Strings.ActionName_Run]["音效"]["Name"]+"3");
+                }else{
+					for(var i:int=0;i<dic[SData_Strings.ActionName_Run]["音效"]["Name"].length;i++){
+						addSoundToSource(dic[SData_Strings.ActionName_Run]["音效"]["Name"][i]+"1");
+                        addSoundToSource(dic[SData_Strings.ActionName_Run]["音效"]["Name"][i]+"2");
+                        addSoundToSource(dic[SData_Strings.ActionName_Run]["音效"]["Name"][i]+"3");
+					}
+				}
+            }
         }
         if(dic[SData_Strings.ActionName_RunStop] != null && (types==null || types.indexOf(SData_Strings.ActionName_RunStop)!=-1)){
             addSwfToSource(dic[SData_Strings.ActionName_RunStop]["swf"]);
@@ -144,6 +154,13 @@ public class RoleModel {
         if(dic[SData_Strings.ActionName_Jump] != null && (types==null || types.indexOf(SData_Strings.ActionName_Jump)!=-1)){
             addSwfToSource(dic[SData_Strings.ActionName_Jump]["swf"]);
         }
+		//技能资源
+		if(Skills){
+			if(Skills.norAttack != null){
+                addSkillSourceToSource(Skills.norAttack.SID);
+            }
+		}
+		
 		function addSwfToSource(swfName:String):void{
 			for(var i:int=0;i<source.length;i++){
 				if(source[i] && source[i][0] == swfName && source[i][1]=="swf"){
@@ -152,6 +169,25 @@ public class RoleModel {
 			}
 			source.push([swfName,"swf","Roles/"+swfName])
 		}
+		function addSoundToSource(sName:String):void{
+            for(var i:int=0;i<source.length;i++){
+                if(source[i] && source[i][0] == sName && source[i][1]=="mp3"){
+                    return;
+                }
+            }
+			source.push([sName,"mp3"])
+		}
+        function addSkillSourceToSource(sid:int):void{
+            var infoskill:* =SData_Skills.getInstance().Dic[sid];
+            if(infoskill && infoskill["step"]){
+                for(var i:int=0;i<infoskill["step"].length;i++){
+                    addSwfToSource(infoskill["step"][i]["swf"]);
+                    if(infoskill["step"][i]["音效"]!=null){
+                        //TODO 添加音效资源
+                    }
+                }
+            }
+        }
 	}
 	
 	/** 生成战斗Role需要的数据 */
@@ -202,29 +238,8 @@ public class RoleModel {
 		info["RoleID"]=baseID;
 		info["Name"]=Name;
 		info["Lv"]=Lv;
-		info["基础属性"]=Tool_ObjUtils.CopyF(DicBaseValues);
-		var dic:* =Tool_ObjUtils.getInstance().CopyF(DicValues);
-		info["属性"]=dic;
-		//技能
-		if(DicSkills){
-			info["技能"]=[];
-			for(var sid:int in DicSkills){
-				var sdata:SkillModel=DicSkills[sid];
-//				if(sdata.isPassive==false && Arr_SkillEquip!=null && Arr_SkillEquip.indexOf(sid)==-1){continue;}
-				var slv:int =sdata.getRealLv(this);
-				info["技能"].push({"id":sdata.SID,"lv":sdata.Lv});
-			}
-		}
-		//特殊属性
-		if(dic["属性随等级加成"]!=null){
-			for(key in dic["属性随等级加成"]){
-				var add:int =Lv * dic["属性随等级加成"][key] * 0.01;
-				if(dic[key]==null)dic[key]=add;
-				else dic[key]+=add;
-			}
-			delete dic["属性随等级加成"];
-		}
-		delete dic["技能等级增加"];
+		info["属性"]=DicValues;
+        info["技能"]=Skills;
 		//还原基础属性
 		DicValues=save;
 		return info;
@@ -235,9 +250,9 @@ public class RoleModel {
 	}
 	
 	public function destroyF():void{
-		Arr_SkillEquip=Tool_ObjUtils.getInstance().destroyF_One(Arr_SkillEquip);
-		DicEquipe=Tool_ObjUtils.getInstance().destroyF_One(DicEquipe);
-		DicValues=Tool_ObjUtils.getInstance().destroyF_One(DicValues);
+        Skills=Tool_ObjUtils.destroyF_One(Skills);
+		DicEquipe=Tool_ObjUtils.destroyF_One(DicEquipe);
+		DicValues=Tool_ObjUtils.destroyF_One(DicValues);
         DicBaseValues=Tool_ObjUtils.destroyF_One(DicBaseValues);
 	}
 }

@@ -17,6 +17,7 @@ public class Fight_ActionCD{
 	public function Fight_ActionCD(r:FightRole,	_skill:FAction_SkillDefault){
 		Role=r;
 		skill=_skill;
+		cd =skill.skillmodel.cd;
 		//TODO 初始化cd
 	}
 	

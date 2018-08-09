@@ -11,6 +11,8 @@ public class Data_FActionStep {
     public var Arr_frame:Array;
     /** 循环，true则不会自动进入下一步，需要外部触发 */
     public var loop:Boolean=false;
+	/** 特殊的碰撞范围 */
+    public var hitArea:Data_AttackArea;
     /** 攻击 */
     public var attackInfo:Array;
     /** 飞行物体 */
@@ -26,7 +28,7 @@ public class Data_FActionStep {
     /** 位移 */
     public var moveInfo:*;
     /** 音效 */
-    public var soundInfo:*;
+    public var soundInfo:Data_FActionStep_sound;
     /** 残影 */
     public var ghostInfo:*;
     /** 震动 */
@@ -38,6 +40,7 @@ public class Data_FActionStep {
             url =dic["url"];
             Arr_frame=dic["帧"];
             loop=dic["循环"]==true;
+            if(dic["被击范围"]!=null)hitArea=new Data_AttackArea(dic["被击范围"]);
             if(dic["伤害"]!=null){//[{范围，伤害……}]
                 attackInfo=[];
                 if(Tool_Function.isTypeOf(dic["伤害"],Array)==true) {
@@ -53,9 +56,13 @@ public class Data_FActionStep {
             isGod=dic["无敌"]==true;
             frameGod=dic["无敌帧"];
             moveInfo=dic["位移"];
-            soundInfo=dic["音效"];
+            if(dic["音效"]){
+                soundInfo=new Data_FActionStep_sound();
+                soundInfo.initF(dic["音效"]);
+            }
             ghostInfo=dic["残影"];
             shockInfo=dic["震动"];
+//            if(dic["飞行"]!=null)flyobjInfo
         }
     }
 }

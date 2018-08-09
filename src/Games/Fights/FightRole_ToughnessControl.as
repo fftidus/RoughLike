@@ -6,9 +6,18 @@ import laya.utils.Handler;
  * */
 public class FightRole_ToughnessControl {
     private var Role:FightRole;
+    private var baseToughness:int;
+    private var _nowToughness:int;
     public function FightRole_ToughnessControl(role:FightRole) {
         Role=role;
 		Role.registEnterHandler("韧性",Handler.create(this,enterF,null,false));
+        baseToughness=Role.valueFight.toughness;
+        if(baseToughness==0)baseToughness=100;
+        nowToughness=baseToughness;
+    }
+    
+    public function resetToughness(value:int):void{
+        nowToughness=value;
     }
     
     public function enterF():void{
@@ -16,6 +25,14 @@ public class FightRole_ToughnessControl {
     }
     
     
+    public function get nowToughness():int {
+        return _nowToughness;
+    }
+    public function set nowToughness(value:int):void {
+        _nowToughness = value;
+    }
+
+
     public function destroyF():void{
         Role=null;
     }

@@ -1,4 +1,6 @@
 package Games.Fights {
+import Games.Models.SkillModel;
+
 import com.MyClass.Tools.Tool_Function;
 
 /**
@@ -10,8 +12,10 @@ public class Fight_ActionCost {
     private var costName:*;
     private var dependValue:*;//前置
     private var dependValueNum:int;
-    public function Fight_ActionCost(r:FightRole) {
+    public function Fight_ActionCost(r:FightRole,   sm:SkillModel) {
         Role=r;
+        costName=sm.costValue;
+        costValue=sm.costNum;
     }
     
     public function canUse():Boolean{

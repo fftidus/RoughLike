@@ -17,7 +17,7 @@ package StaticDatas
 		{
 			if(VertionVo.instance && VertionVo.instance.getVertion("SData_IP") > 0)
 			{
-				Dic=VertionVo.instance.get数据资源("SData_IP");
+				Dic=VertionVo.instance.getDataSource("SData_IP");
 			}
 			if(Dic==null)	_本地数据();
 			if(Config.MainDevice=="易接")

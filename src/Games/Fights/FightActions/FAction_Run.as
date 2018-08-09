@@ -1,9 +1,15 @@
 package Games.Fights.FightActions {
+import Games.Datas.Data_Sound;
+
+import StaticDatas.SData_EventNames;
+
 import com.MyClass.Config;
 
 import Games.Fights.FightRole;
 
 import StaticDatas.SData_Strings;
+
+import com.MyClass.MainManager;
 
 import starling.utils.deg2rad;
 
@@ -13,14 +19,18 @@ public class FAction_Run extends FAction_Default{
     public function FAction_Run(fr:FightRole) {
         Role=fr;
         Name="移动";
-        Role=fr;
         isLoopAni=true;
     }
+    override public function initF(info:*):void {
+        super.initF(info);
+    }
+
     override public function checkCanStopByItem():Boolean{
         return true;
     }
     override public function resetF():void{
         super.resetF();
+        Role.IronCon.onClearF();
         countRun=0;
         checkSpd();
     }
@@ -28,7 +38,6 @@ public class FAction_Run extends FAction_Default{
     public function checkSpd():void{
         var spd:Number =Role.getValue("移速");
         if(spd<0)spd=0;
-        spd=200;
         spdMove= spd / Config.playSpeedTrue;
         var spdmore:int =spd - Role.getBaseValue("移速");
         if(spdmore>0){//y = x/(x+0.5)		厂形状弧线，永不达到1
@@ -41,13 +50,29 @@ public class FAction_Run extends FAction_Default{
     override public function enterF():void{
         countRun++;
         super.enterF();
+        if(onCheckFallDown()==true){
+            return;
+        }
         checkKeyController();
+    }
+
+    override protected function onCheckToPlaySound():void {
+        if(soundData && soundData.dicFrame && soundData.dicFrame[nowIndex] != null){
+            var soundone:Data_Sound =Data_Sound.getNewData(soundData.dicFrame[nowIndex],Role.x,Role.y);
+            MainManager.getInstence().MEM.dispatchF(SData_EventNames.Scene_Sound+Role.mapRole.nowGroundType,soundone);
+        }
     }
 
     /** 检查操作 */
     override protected function checkKeyController():void{
         if(Role.controller==null){//错误？？？？
             onActEndF();
+            return;
+        }
+	    if(checkKey_Jump()==true){
+		    return;
+	    }
+        if(checkKey_NormalAttack()==true){
             return;
         }
         var ang:int =Role.controller.nowMoveAng;
@@ -88,7 +113,12 @@ public class FAction_Run extends FAction_Default{
             Role.onWantMoveY(spdy);
         }
     }
-    
+
+    override protected function onAtLastFrame():void {
+        super.onAtLastFrame();
+        
+    }
+
     /** 是否需要急停 */
     private function neetStopAct():Boolean{
         var time:Number =countRun / Config.playSpeedTrue;
@@ -97,6 +127,10 @@ public class FAction_Run extends FAction_Default{
     }
 
     override protected function onActEndF():void{
+        if(Role.mapRole.nowGroundType==8){
+            super.onActEndF();
+            return;
+        }
         if(neetStopAct()==true){
             Role.onWantChangeAction(SData_Strings.ActionName_RunStop);
         }else{

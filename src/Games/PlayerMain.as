@@ -117,7 +117,7 @@ public class PlayerMain{
 					Dic_Roles[nid]=role;
 				}
 			}
-			MainManager.getInstence().MEM.dispatchF(SData_EventNames.Role_Change,nid);
+//			MainManager.getInstence().MEM.dispatchF(SData_EventNames.Role_Change,nid);
 		}
 	}
 	private function onChangeTaskF(val:*):void{
@@ -125,7 +125,7 @@ public class PlayerMain{
 		if(Dic_任务==null){
 			Dic_任务=val;
 		}else{
-			Tool_ObjUtils.getInstance().on合并Object(Dic_任务,val,false);
+			Tool_ObjUtils.getInstance().onComboObject(Dic_任务,val,false);
 		}
 		MainManager.getInstence().MEM.dispatchF("玩家"+"Dic_任务"+"改变",null);
 	}
@@ -297,7 +297,7 @@ public class PlayerMain{
 				Tool_Function.onRunFunction(f);
 				return;
 			}
-			if(Tool_ObjUtils.getInstance().判断相等(Dic_每日[want],val)==true){
+			if(Tool_ObjUtils.getInstance().isEqual(Dic_每日[want],val)==true){
 				Tool_Function.onRunFunction(f);
 				return;
 			}

@@ -1,4 +1,6 @@
 package Games.Map.Datas{
+import com.MyClass.Tools.Tool_Function;
+
 /**
  * 地图的整体数据
  * */
@@ -58,6 +60,14 @@ public class MAP_Data{
 				}
 			}
 		}
+	}
+	/** 根据坐标获得地形 */
+	public function getGroundType(row:int,col:int):*{
+		if(Arr_groundType==null)return null;
+		if(Arr_groundType[row]){
+			return Arr_groundType[row][col];
+		}
+		return null;
 	}
 		
 		

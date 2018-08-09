@@ -1,4 +1,7 @@
 package Games.Fights {
+import Games.Models.AttackModel;
+
+import com.MyClass.Config;
 import com.MyClass.Tools.MyHitArea;
 import com.MyClass.Tools.Tool_Function;
 import com.MyClass.Tools.Tool_ObjUtils;
@@ -17,6 +20,8 @@ import StaticDatas.SData_Strings;
 public class FightRole {
     /** 基础属性 */
     public var baseRoleMo:RoleModel;
+    /** 战斗数据 */
+    public var infoFight:*;
     /** 属性 */
     public var valueFight:Data_FightRole;
     /** 显示 */
@@ -32,29 +37,36 @@ public class FightRole {
     public var nowDirection:int=0;//方向：0向右，1向左，10无方向角色
     public var isGod:int=0;//无敌
     public var isEndure:int=0;//霸体
-    public var ToughnessCon:FightRole_ToughnessControl;//韧性恢复控制
-    public var isDead:int=0;//死亡的步骤，0未死，1死亡动画中，100可清理
+    /** 韧性控制器 */
+    public var ToughnessCon:FightRole_ToughnessControl;
+    /** 硬直控制器 */
+    public var IronCon:FightRole_IronControl;
+    /** 死亡的步骤，0未死，1死亡动画中，100可清理 */
+    public var isDead:int=0;
     //动作
     private var DicActions:FightRole_DicActions;
     public var nowAction:FAction_Default;
     public var nextAction:String;
     public var nextAction_Item:Map_Object;//下一个动作来自的某个组件
+    public var hurtData:data_att
 	/** 帧频事件 */
 	public var DicEnterHandler:*;
     
     public function FightRole(rm:RoleModel) {
         baseRoleMo=rm;
         valueFight=new Data_FightRole();
-        valueFight.initFromDic(baseRoleMo.getFightRoleInfo());
+        infoFight =baseRoleMo.getFightRoleInfo();
+        valueFight.initFromDic(infoFight["属性"]);
         DicActions=new FightRole_DicActions(this);
 		buffs=new  FightRole_Buffs(this);
         ToughnessCon=new FightRole_ToughnessControl(this);
+        IronCon=new FightRole_IronControl(this);
         initF();
         onWantChangeAction(SData_Strings.ActionName_Stand);
     }
     /** 初始化 */
     public function initF():void{
-        mapRole=new Map_Object_Roles(baseRoleMo);
+        mapRole=new Map_Object_Roles(this);
         mapRole.mhitArea=new  MyHitArea();
         mapRole.mhitArea.initFromDic({"type":2,"p":{"x":0,"y":0},"r":50});
     }
@@ -75,6 +87,16 @@ public class FightRole {
         }
         if(value==null && nullToZero==true)return 0;
         return value;
+    }
+    /** 修改属性 */
+    public function changeValue(vname:String,   val:*):void{
+        if(valueFight){
+            valueFight.setValueByName(vname,val);
+        }
+    }
+    /** 修改韧性 */
+    public function changeToughness(value:int):void{
+        ToughnessCon.resetToughness(value);
     }
     
     /** 改变动画 */
@@ -182,10 +204,47 @@ public class FightRole {
         mapRole.z+=_z;
     }
     
+    /** 坐标 */
+    public function get x():Number{
+        if(mapRole)return mapRole.x;
+        return 0;
+    }
+    public function get y():Number{
+        if(mapRole)return mapRole.y;
+        return 0;
+    }
+    public function get z():Number{
+        if(mapRole)return mapRole.z;
+        return 0;
+    }
+    public function get nowGroundType():*{
+        if(mapRole)return mapRole.nowGroundType;
+        return null;
+    }
+    
+    /** 被击打 */
+    public function beHurt(hurtone:AttackModel):void{
+        
+    }
+    
+    /** 死亡 */
+    public function onDeadF():void{
+        if(isDead!=0){return;}
+        isDead=1;
+        if(DicActions.hasAction("死亡")==false){
+            isDead=100;
+            clearF();
+        }else{
+            nextAction="死亡";
+            onChangeAction();
+        }
+    }
+    
     /** 清理数据，但保留引用等待进入下一个场景 */
     public function clearF():void{
         if(mapRole){
             mapRole.removeFromParent(false);
+            mapRole=null;
         }
     }
     public function destroyF():void{
@@ -198,6 +257,7 @@ public class FightRole {
         moveWaite=Tool_ObjUtils.destroyF_One(moveWaite);
 		DicEnterHandler=Tool_ObjUtils.destroyF_One(DicEnterHandler);
         ToughnessCon=Tool_ObjUtils.destroyF_One(ToughnessCon);
+        IronCon=Tool_ObjUtils.destroyF_One(IronCon);
     }
 }
 }

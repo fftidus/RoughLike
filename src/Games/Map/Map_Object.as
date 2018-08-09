@@ -2,6 +2,7 @@ package Games.Map{
 import com.MyClass.Tools.MyHitArea;
 import com.MyClass.Tools.MyPools;
 import com.MyClass.Tools.Tool_ArrayUtils;
+import com.MyClass.Tools.Tool_Function;
 import com.MyClass.Tools.Tool_ObjUtils;
 
 import Games.Controller_Scene;
@@ -41,9 +42,11 @@ public class Map_Object extends Sprite{
     /*******************************************************************************/
 	public var map:MAP_Instance;
 	public var Role:Map_ObjectView;
+	public var nowGroundType:*;
 	private var _z:Number=0;
 	public var index:int=1;
 	public var mhitArea:MyHitArea;
+	public var canFall:Boolean=true;
 	
 	public function Map_Object(){
 	}
@@ -63,6 +66,7 @@ public class Map_Object extends Sprite{
             this.addChild(Role);
         }
         Role.initBaseMc(null,null);
+        checkMoveOnGroundType(null);
 	}
 
 	public function initHitArea(dic:*):Boolean{
@@ -88,12 +92,12 @@ public class Map_Object extends Sprite{
             return;
         }
 		//地形
-		
+        moveWaite= checkMoveOnGroundType(moveWaite);
+        if(moveWaite==null)return;
 		//与其他物体的碰撞
 		var arrHit:Array=Tool_ArrayUtils.getNewArrayFromPool();
         var arr:* =map.getAllObjects();
         var tar:Map_Object;
-		trace("enter");
         for(var i:int=0;i<arr.length;i++){
             tar=arr[i];
             if(tar==this)continue;
@@ -120,6 +124,46 @@ public class Map_Object extends Sprite{
 		if(moveWaite.x != null)this.x += moveWaite.x;
 		if(moveWaite.y != null)this.y += moveWaite.y;
 		Tool_ArrayUtils.returnArrayToPool(arrHit);
+	}
+	/** 获得当前脚底的地形,{"1":"通用","2":"水面","3":"泥地","8":"落下","9":"无法通行"} */
+	public function getNowGroundType():*{
+        var row:int =Tool_Function.onForceConvertType(this.y/map.data.size);
+        var col:int =Tool_Function.onForceConvertType(this.x/map.data.size);
+        var nowType:* =map.data.getGroundType(row,col);
+		return nowType;
+	}
+	/** 移动检测 */
+	protected function checkMoveOnGroundType(moveWaite:*):*{
+		if(map==null)return null;
+        var row:int =Tool_Function.onForceConvertType(this.y/map.data.size);
+        var col:int =Tool_Function.onForceConvertType(this.x/map.data.size);
+        nowGroundType =map.data.getGroundType(row,col);
+        if(moveWaite==null)return null;
+        if(nowGroundType==8 && canFall==true){
+			return null;
+        }
+        var canx:Boolean=true;
+		var cany:Boolean=true;
+		var row2:int =Tool_Function.onForceConvertType((this.y+moveWaite.y)/map.data.size);
+		if(row2!=row){
+            var nowType2:* =map.data.getGroundType(row2,col);
+			if(isCannotMoveType(nowType2)==true)cany=false;
+		}
+        var col2:int =Tool_Function.onForceConvertType((this.x+moveWaite.x)/map.data.size);
+        if(col2 != col){
+            var nowType3:* =map.data.getGroundType(row,col2);
+            if(isCannotMoveType(nowType3)==true)canx=false;
+        }
+		if(canx==false && cany==false)return null;
+		if(canx==false) moveWaite.x =0;
+		if(cany==false) moveWaite.y =0;
+		return moveWaite;
+	}
+	/** type是否属于无法移动的格子，9为无法移动，部分敌人的8无法移动（不允许掉落） */
+	protected function isCannotMoveType(type:int):Boolean{
+		if(type==9)return true;
+		if(canFall==false && type==8)return true;
+		return false;
 	}
 
 	public function get z():Number{return _z;}

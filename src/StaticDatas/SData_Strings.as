@@ -53,10 +53,11 @@ package StaticDatas
 		//Action
 		public static const ActionName_Stand:String="站立";
 		public static const ActionName_Run:String="跑步";
-        public static const ActionName_RunStop:String="跑步停";
+        public static const ActionName_RunStop:String="急停";
         public static const ActionName_Jump:String="跳";
         public static const ActionName_Hurt:String="挨打";
         public static const ActionName_leiDown:String="倒地";
+        public static const ActionName_NorAttack:String="X";//普攻
         public static const ActionName_Skill:String="技能";
 		
 		//SWF

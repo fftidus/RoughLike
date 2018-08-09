@@ -17,10 +17,13 @@ import StaticDatas.SData_Strings;
 
 import laya.utils.Handler;
 
+import lzm.starling.swf.display.SwfMovieClip;
+
 public class MainClass
 {
 	public function MainClass()
 	{
+		SwfMovieClip.CacheNumBegin =0;
 		Config.mainClassInstance=this;
 		if(Config.FunRestart!=null){FunRestartOld=Config.FunRestart;};
 		Config.FunRestart=Handler.create(this,on重启);
@@ -54,7 +57,7 @@ public class MainClass
 	private function startF(重启:Boolean=false):void
 	{
 		MainManager.getInstence().init(Config.mStage);
-		MgsSocket.getInstance().CMD心跳=1;
+		MgsSocket.getInstance().CMDHeart=1;
 		PlayerMain.getInstance();
 		Controller_Main.getInstance();
 		Controller_Scene.getInstance();

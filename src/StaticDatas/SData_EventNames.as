@@ -15,9 +15,8 @@ package StaticDatas
 		
 		public static const Package_Change:String="背包修改";
 		public static const Package_Update:String="背包升级";
-		public static const Storage_Change:String="仓库修改";
-		public static const Storage_Update:String="仓库升级";
-		public static const Role_Change:String="佣兵修改";
+		
+		public static const Scene_Sound:String="播放音效";
 		
 	}
 }

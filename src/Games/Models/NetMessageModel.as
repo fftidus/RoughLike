@@ -79,9 +79,9 @@ public class NetMessageModel {
 			if(countReConnect==0){//自动重练一次
 				countReConnect++;
 				MainManager._instence.pause=true;
-				MgsSocket.getInstance().need断网事件=false;
+				MgsSocket.getInstance().needCloseEvent=false;
 				LoadingSmall.showF(SData_Strings.Loading_netting);
-				if(MgsSocket.getInstance().now状态 == "连接"){
+				if(MgsSocket.getInstance().nowFlag == "连接"){
 					onConnectF(true);
 				}else{
 					onStaticConnectF(onConnectF);
@@ -106,8 +106,8 @@ public class NetMessageModel {
 		}
 		function onNet重连F(dic:*):void{
 			if(dic["结果"]==true){
-				MgsSocket.getInstance().need断网事件=true;
-				MgsSocket.getInstance().onSend缓存(on重连指令F);
+				MgsSocket.getInstance().needCloseEvent=true;
+				MgsSocket.getInstance().onSendCache(on重连指令F);
 			}else{
 				LoadingSmall.removeF();
 				AlertWindow.showF(dic["失败原因"],null,on断网F);
@@ -194,7 +194,7 @@ public class NetMessageModel {
 			Tool_Function.onRunFunction(f,{"结果":true});
 			return;
 		}
-		if(MgsSocket.getInstance().now状态 != "连接"){
+		if(MgsSocket.getInstance().nowFlag != "连接"){
 			onStaticConnectF(function (suc:*):void{
 				if(suc is String){
 					Tool_Function.onRunFunction(f,{"结果":false,"失败原因":suc});

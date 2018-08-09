@@ -7,7 +7,7 @@ public class RoleController_Player extends RoleController{
     
     public function RoleController_Player(_role:FightRole) {
         super(_role);
-        if (Config.OS == "WIN") {
+        if (Config.OS.indexOf( "Windows") != -1) {
             mkm = new MyKeyboardManager(Config.mStage);
         }
     }

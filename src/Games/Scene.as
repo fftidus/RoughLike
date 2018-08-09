@@ -2,6 +2,7 @@ package Games {
 import Games.Datas.Data_Scene_init;
 import Games.Fights.Fight_DicRoles;
 
+
 import com.MyClass.MainManagerOne;
 import com.MyClass.MySourceManagerOne;
 import com.MyClass.MyView.LayerStarlingManager;
@@ -25,6 +26,7 @@ public class Scene extends Sprite{
 	public var pool:MyPools=new MyPools();
 	private var mso:MySourceManagerOne=new MySourceManagerOne();
 	private var mmo:MainManagerOne=new MainManagerOne();
+	private var sCon:Scene_Sounds;
 	public var Map:MAP_Instance;
     public var DicRoles:Fight_DicRoles;
 	
@@ -51,6 +53,7 @@ public class Scene extends Sprite{
 	private function initF():void{
 		if(mso==null){return;}
 		LoadingSmall.removeF();
+        sCon=new Scene_Sounds(this);
 		this.addChild(this.Map);
 		DicRoles=new Fight_DicRoles(this);
 		this.Map.initF();
@@ -58,8 +61,11 @@ public class Scene extends Sprite{
 		Tool_Function.onRunFunction(initData.FunInit);
 	}
 	
+	
+	
 	private function enterF():void{
         DicRoles.enterF();
+		this.sCon.enterF();
 		this.Map.enterF();
 	}
 	
@@ -71,6 +77,7 @@ public class Scene extends Sprite{
 		Map=Tool_ObjUtils.destroyF_One(Map);
 		mso=Tool_ObjUtils.destroyF_One(mso);
 		mmo=Tool_ObjUtils.destroyF_One(mmo);
+        sCon=Tool_ObjUtils.destroyF_One(sCon);
         pool=Tool_ObjUtils.destroyF_One(pool);
         DicRoles=Tool_ObjUtils.destroyF_One(DicRoles);
 	}
