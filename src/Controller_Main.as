@@ -4,12 +4,15 @@ package
 	import com.MyClass.MainManager;
 	import com.MyClass.MyEventManagerOne;
 	import com.MyClass.MyKeyboardManager;
+	import com.MyClass.MyView.LayerStarlingManager;
 	import com.MyClass.Tools.MyKeyboard;
 	import com.MyClass.Tools.Tool_ObjUtils;
 	
 	import StaticDatas.SData_EventNames;
 	
 	import laya.utils.Handler;
+	
+	import starling.display.Sprite;
 	
 	public class Controller_Main
 	{
@@ -26,41 +29,74 @@ package
 			}
 		}
 		
-		public var dicView:* ={};
-		private var meo:MyEventManagerOne=new MyEventManagerOne();
+		private var nowMainView:Sprite;
+		private var nowWindow:Sprite;
+		private var arrWaiteWin:Array=[];
 		private var mkm:MyKeyboardManager=new  MyKeyboardManager(Config.mStage);
 		public function Controller_Main()
 		{
-			meo.addListenerF(SData_EventNames.Title_进入,Handler.create(this,on进入F,null,false),"登录");
-			meo.addListenerF(SData_EventNames.Title_离开,Handler.create(this,on离开F,null,false),"登录");
-			
-			meo.addListenerF(SData_EventNames.ItemShop_进入,Handler.create(this,on进入F,null,false),"商店");
-			meo.addListenerF(SData_EventNames.ItemShop_离开,Handler.create(this,on离开F,null,false),"商店");
-			
-			meo.addListenerF(SData_EventNames.Fuben_进入,Handler.create(this,on进入F,null,false),"副本");
-			meo.addListenerF(SData_EventNames.Fuben_离开,Handler.create(this,on离开F,null,false),"副本");
-			
-			mkm.stop冒泡(MyKeyboard.BACK);
+			mkm.stopEventMop(MyKeyboard.BACK);
 			mkm.addFunctionListener(null,Handler.create(this,onKeyBoardF,null,false));
+			MainManager.getInstence().addEnterFrameFun(Handler.create(this,enterF,null,false));
 		}
-		
-		private function on进入F(tar:String,val:* =null):void{
-			Config.Log("收到进入："+tar+"，参数="+val);
-			if(dicView[tar]!=null){
-				trace("重复的界面："+tar);
+		private function enterF():void{
+			if(nowWindow && nowWindow.parent==null){
+				nowWindow=null;
+			}else 	if(nowWindow==null && arrWaiteWin.length>0){
+				var arr:Array =arrWaiteWin.shift();
+				var v:Sprite=showOneWindow(arr[0],arr[1]);
+				if(v){
+					LayerStarlingManager.instance.LayerTop.addChild(v);
+					nowWindow=v;
+				}
+			}
+		}
+		/**
+		 * 添加主界面界面
+		 * */
+		public function addMainView(type:String,value:* =null):void{
+			if(nowMainView!=null){
+				nowMainView=Tool_ObjUtils.destroyF_One(nowMainView);
+			}
+			switch(type){
+			}
+		}
+		/**
+		 * 关闭主界面
+		 * */
+		public function onRemoveViewF(tar:String):void{
+			nowMainView=Tool_ObjUtils.destroyF_One(nowMainView);
+		}
+		/**
+		 * 添加一个弹窗，上一个弹窗未被移除则加入缓存中
+		 * @param type 类型
+		 * @param value 参数
+		 * @param force 强制显示
+		 * */
+		public function addWindow(type:String,value:* = null,	force:Boolean=false):void{
+			var v:Sprite;
+			if(force==true){
+				v =showOneWindow(type,value);
+				if(v){
+					LayerStarlingManager.instance.LayerTop.addChild(v);
+				}
 				return;
 			}
-			var v:*;
-			switch (tar){
+			if(nowWindow){
+				arrWaiteWin.push([type,value]);
+				return;
 			}
-			dicView[tar]=v;
-		}
-		private function on离开F(tar:String):void{
-			Config.Log("收到离开："+tar);
-			if(dicView[tar]!=null){
-				delete dicView[tar];
+			v =showOneWindow(type,value);
+			if(v){
+				LayerStarlingManager.instance.LayerTop.addChild(v);
+				nowWindow=v;
 			}
 		}
+		private function showOneWindow(type:String,value:*):Sprite{
+			return null;
+		}
+		
+		
 		
 		private function onKeyBoardF(key:*):void{
 			if(key == MyKeyboard.BACK){
@@ -70,9 +106,8 @@ package
 		
 		public function destroyF():void{
 			instance=null;
-			meo=Tool_ObjUtils.getInstance().destroyF_One(meo);
-			mkm=Tool_ObjUtils.getInstance().destroyF_One(mkm);
-			dicView.clear();
+			nowMainView=Tool_ObjUtils.getInstance().destroyF_One(nowMainView);
+			nowWindow=Tool_ObjUtils.destroyF_One(nowWindow);
 		}
 		
 	}

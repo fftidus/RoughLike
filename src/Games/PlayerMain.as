@@ -5,9 +5,9 @@ import com.MyClass.SoundManagerMy;
 import com.MyClass.Tools.AlertWindow;
 import com.MyClass.Tools.MyLocalStorage;
 import com.MyClass.Tools.MyNetAlertWindow;
-import com.MyClass.Tools.Tool_Function;
 import com.MyClass.Tools.Tool_ObjUtils;
 
+import Games.Models.ArmorModel;
 import Games.Models.ItemModel;
 import Games.Models.MaterialModel;
 import Games.Models.NetMessageModel;
@@ -16,11 +16,9 @@ import Games.Models.Server_Config;
 import Games.Models.WeaponModel;
 
 import StaticDatas.SData_Default;
-import StaticDatas.SData_EventNames;
 import StaticDatas.SData_Strings;
 
 import laya.utils.Handler;
-import Games.Models.ArmorModel;
 
 public class PlayerMain{
 	private static var Instance:PlayerMain;
@@ -30,23 +28,24 @@ public class PlayerMain{
 	}
 	
 	public var ID:int=-1;
-	public var 金币:int;
-	public var 钻石:int;
-	public var 头像:int;
-	public var 性别:String;
-	public var 体力:int;
+	public var nickName:String;
+	public var gold:int;
+	public var money:int;
+	public var money2:int;//绑定钻石
+	public var headIcon:*;
+	public var sex:String;
+	public var vigor:int;//体力
 	public var Dic_SD:* ={};//所有没有定义为变量的属性
 	public var Dic_Roles:*;
 	public var Dic_Formation:*;
-	public var Dic_商城:*;
-	public var Dic_每日:*;
-	public var Dic_任务:*;
+	public var Dic_Shop:*;
+	public var Dic_EveryDay:*;
+	public var Dic_Tasks:*;
 	public var Dic_Flag:*;
-	public var Dic_背包:*;//背包的详情
-	public var Info背包:*;//背包的其他属性
-	public var Dic_仓库:*;
-	public var Info仓库:*;
-	public var Dic_酒馆:*;
+	public var Dic_Package:*;//背包的详情
+	public var InfoPackage:*;//背包的其他属性
+	public var Dic_Storage:*;
+	public var InfoStorage:*;
 	public var Dic_Fuben:*;
 	
 	public function PlayerMain(){
@@ -60,7 +59,7 @@ public class PlayerMain{
 	
 	private function onNetMessageF(dic:*):void{
 		if(dic["type"] == "弹窗"){
-			net弹窗(dic["value"]);
+			netWindow(dic["value"]);
 		}else if(dic["type"]=="改变属性"){
 			valueChanged(dic["value"]);
 		}
@@ -81,23 +80,6 @@ public class PlayerMain{
 		}
 	}
 	public function onChangePackageF(dic:*):void{
-		if(Dic_背包==null){Dic_背包={};}
-		if(dic["页数"]!=null){
-			Info背包["页数"]=dic["页数"];
-			delete dic["页数"];
-			MainManager.getInstence().MEM.dispatchF(SData_EventNames.Package_Update);
-		}
-		for(var i:int in dic){
-			var val:* =dic[i];//val = {"类型","id","baseid","num"}
-			var po:int=i;
-			Config.Log("收到修改背包po="+i,val);
-			if(val == "删除"){
-				Dic_背包[po]=null;
-			}else{
-				Dic_背包[po]=getObjByInfo(val);
-			}
-			MainManager.getInstence().MEM.dispatchF(SData_EventNames.Package_Change,po);
-		}
 	}
 	public function onRoleChangeF(val:*):void{//{"netid","baseid","lv","rank","属性","skill"}
 		if(Dic_Roles==null){Dic_Roles={};}
@@ -122,12 +104,12 @@ public class PlayerMain{
 	}
 	private function onChangeTaskF(val:*):void{
 		Config.Log("收到修改任务：",val);
-		if(Dic_任务==null){
-			Dic_任务=val;
+		if(Dic_Tasks==null){
+			Dic_Tasks=val;
 		}else{
-			Tool_ObjUtils.getInstance().onComboObject(Dic_任务,val,false);
+			Tool_ObjUtils.getInstance().onComboObject(Dic_Tasks,val,false);
 		}
-		MainManager.getInstence().MEM.dispatchF("玩家"+"Dic_任务"+"改变",null);
+		MainManager.getInstence().MEM.dispatchF("玩家"+"Dic_Tasks"+"改变",null);
 	}
 	/** 将服务器发过来的属性名改到本地属性名 */
 	private function onChangeValueDefault(vname:String,val:*):void{
@@ -135,18 +117,17 @@ public class PlayerMain{
 		var dic:*;
 		switch (vname){
 			case "uid":		vname="ID";break;
-			case Server_Config.Columns_User_昵称:	vname="昵称";break;
-			case Server_Config.Columns_User_性别:	vname="性别";break;
-			case Server_Config.Columns_User_金币:	vname="金币";break;
-			case Server_Config.Columns_User_钻石:	vname="钻石";break;
-			case Server_Config.Columns_User_体力:	vname="体力";break;
-			case Server_Config.Columns_User_编队:	vname="Dic_Formation";break;
-			case Server_Config.Columns_User_商城:	vname="Dic_商城";break;
-			case Server_Config.Columns_User_酒馆: vname="Dic_酒馆";break;
-			case Server_Config.Columns_User_每日:	vname="Dic_每日";break;
+			case Server_Config.Columns_User_NickName:	vname="nickName";break;
+			case Server_Config.Columns_User_Sex:	vname="sex";break;
+			case Server_Config.Columns_User_Gold:	vname="gold";break;
+			case Server_Config.Columns_User_Money:	vname="money";break;
+			case Server_Config.Columns_User_vigor:	vname="vigor";break;
+			case Server_Config.Columns_User_Team:	vname="Dic_Formation";break;
+			case Server_Config.Columns_User_Shop:	vname="Dic_Shop";break;
+			case Server_Config.Columns_User_EveryDay:	vname="Dic_EveryDay";break;
 			case Server_Config.Columns_User_Flag:	vname="Dic_Flag";break;
-			case Server_Config.Columns_User_任务:	vname="Dic_任务";break;
-			case Server_Config.Columns_User_副本: vname="Dic_Fuben";break;
+			case Server_Config.Columns_User_Tasks:	vname="Dic_Tasks";break;
+			case Server_Config.Columns_User_Fuben: vname="Dic_Fuben";break;
 			case Server_Config.Columns_User_Roles:
 				vname="Dic_Roles";
 				dic={};
@@ -157,23 +138,7 @@ public class PlayerMain{
 				}
 				val=dic;
 				break;
-			case Server_Config.Columns_User_背包:
-			case Server_Config.Columns_User_仓库:
-				if(vname==Server_Config.Columns_User_背包){
-					vname="Dic_背包";
-					Info背包=val;
-				}else{
-					vname="Dic_仓库";
-					Info仓库=val;
-				}
-				dic=val["详情"];
-				for(key in dic){//{"level","容量","详情"}，详情=po:{"类型"，“属性”}，属性={"id","baseid","数量"}
-					if(dic[key]==null){continue;}
-					dic[key]=getObjByInfo(dic[key]);
-				}
-				delete val["详情"];
-				val =dic;
-				break;
+			case Server_Config.Columns_User_Package:
 			default:break;
 		}
 		Config.Log("收到玩家属性：",vname,"->"+vname+" =",val);
@@ -222,63 +187,18 @@ public class PlayerMain{
 	}
 	
 	public function getWeaponByNetID(needid:int):WeaponModel{
-		if(Dic_背包){
-			for(var nid:int in Dic_背包){
-				if(Dic_背包[nid]!=null && Tool_Function.isTypeOf(Dic_背包[nid],WeaponModel)==true){
-					if((Dic_背包[nid]as WeaponModel).NetID==needid){
-						return Dic_背包[nid];
-					}
-				}
-			}
-		}
 		return null;
 	}
 	public function getArmorByNetID(needid:int):ArmorModel{
-		if(Dic_背包){
-			for(var nid:int in Dic_背包){
-				if(Dic_背包[nid]!=null && Tool_Function.isTypeOf(Dic_背包[nid],ArmorModel)==true){
-					if((Dic_背包[nid]as ArmorModel).NetID==needid){
-						return Dic_背包[nid];
-					}
-				}
-			}
-		}
 		return null;
 	}
 	public function getItemByBaseID(needid:int):ItemModel{
-		if(Dic_背包){
-			for(var nid:int in Dic_背包){
-				if(Dic_背包[nid]!=null && Tool_Function.isTypeOf(Dic_背包[nid],ItemModel)==true){
-					if((Dic_背包[nid]as ItemModel).baseID==needid){
-						return Dic_背包[nid];
-					}
-				}
-			}
-		}
 		return null;
 	}
 	public function getItemByNetID(needid:int):ItemModel{
-		if(Dic_背包){
-			for(var nid:int in Dic_背包){
-				if(Dic_背包[nid]!=null && Tool_Function.isTypeOf(Dic_背包[nid],ItemModel)==true){
-					if((Dic_背包[nid]as ItemModel).NetID==needid){
-						return Dic_背包[nid];
-					}
-				}
-			}
-		}
 		return null;
 	}
 	public function getMatByNetID(needid:int):MaterialModel{
-		if(Dic_背包){
-			for(var nid:int in Dic_背包){
-				if(Dic_背包[nid]!=null && Tool_Function.isTypeOf(Dic_背包[nid],MaterialModel)==true){
-					if((Dic_背包[nid]as MaterialModel).NetID==needid){
-						return Dic_背包[nid];
-					}
-				}
-			}
-		}
 		return null;
 	}
 	
@@ -286,37 +206,22 @@ public class PlayerMain{
 		var role:RoleModel =Dic_Roles[nid];
 		return role;
 	}
-	
-	public function on手动修改F(want:String,	val:*,		f:*):void{
+	/** 手动改变玩家某个属性并发送网络 */
+	public function onChangeValueF(want:String,	val:*,		f:*):void{
 		MainManager._instence.MEM.addListenF("玩家"+want+"改变",f,null,true);
-		NetMessageModel.getInstance().on手动修改F(want,val);
+		NetMessageModel.getInstance().onChangeValueF(want,val);
 	}
-	public function on改变Dic_每日(want:*,	val:*,	f:*):void{
-		if(Dic_每日 && want!=null){
-			if(val is Number && Dic_每日[want]>=val){
-				Tool_Function.onRunFunction(f);
-				return;
-			}
-			if(Tool_ObjUtils.getInstance().isEqual(Dic_每日[want],val)==true){
-				Tool_Function.onRunFunction(f);
-				return;
-			}
-		}
-		if(Dic_每日==null){
-			Dic_每日={};
-		}
-		if(want!=null){
-			Dic_每日[want]=val;
-		}
+	/** 改变每日数据 */
+	public function onChangeEveryDay(want:*,	val:*,	f:*):void{
 		if(f){
-			MainManager._instence.MEM.addListenF("玩家Dic_每日改变",f,null,true);
+			MainManager._instence.MEM.addListenF("玩家Dic_EveryDay改变",f,null,true);
 		}
 		NetMessageModel.getInstance().on改变Dic_每日(want,val);
 	}
-	public function on发送当前界面(name:String):void{
+	public function onSendNowView(name:String):void{
 		var sd:SData_Default=SData_Default.getInstance();
 		if(sd.Dic["上传界面"]==false)return;
-		NetMessageModel.getInstance().on发送当前界面(name);
+		NetMessageModel.getInstance().onSendNowView(name);
 	}
 	
 	public function onErrorF(info:*):void{
@@ -325,7 +230,7 @@ public class PlayerMain{
 		AlertWindow.showF(SData_Strings.Alert_Error,SData_Strings.Alert_ErrorTitle,Config.onCloseProgram);
 	}
 	
-	private function net弹窗(dic:*):void{
+	private function netWindow(dic:*):void{
 		new MyNetAlertWindow(dic);
 	}
 	

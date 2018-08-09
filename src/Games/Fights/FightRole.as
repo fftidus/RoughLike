@@ -1,4 +1,5 @@
 package Games.Fights {
+import Games.Datas.Data_Hurt;
 import Games.Models.AttackModel;
 
 import com.MyClass.Config;
@@ -48,7 +49,7 @@ public class FightRole {
     public var nowAction:FAction_Default;
     public var nextAction:String;
     public var nextAction_Item:Map_Object;//下一个动作来自的某个组件
-    public var hurtData:data_att
+    public var hurtData:Data_Hurt;
 	/** 帧频事件 */
 	public var DicEnterHandler:*;
     
@@ -258,6 +259,7 @@ public class FightRole {
 		DicEnterHandler=Tool_ObjUtils.destroyF_One(DicEnterHandler);
         ToughnessCon=Tool_ObjUtils.destroyF_One(ToughnessCon);
         IronCon=Tool_ObjUtils.destroyF_One(IronCon);
+        hurtData=Tool_ObjUtils.destroyF_One(hurtData);
     }
 }
 }

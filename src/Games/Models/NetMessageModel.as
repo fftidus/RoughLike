@@ -226,7 +226,7 @@ public class NetMessageModel {
 		}
 	}
 	/** 手动修改属性并发送 */
-	public function on手动修改F(want:String,	val:*):void{
+	public function onChangeValueF(want:String,	val:*):void{
 		if(isLocal==true){
 			var dic:* ={};
 			dic[want]=val;
@@ -241,16 +241,16 @@ public class NetMessageModel {
 	public function on改变Dic_每日(want:String,val:*):void{
 		if(isLocal==true){
 			var dic:* ={};
-			dic["Dic_每日"]=PlayerMain.getInstance().Dic_每日;
+			dic["Dic_每日"]=PlayerMain.getInstance().Dic_EveryDay;
 			valueChanged(dic);
 		}else{
 			var c101:CMD101	= new CMD101();
-			c101.writeValue_Dic("Dic_每日",PlayerMain.getInstance().Dic_每日);
+			c101.writeValue_Dic("Dic_每日",PlayerMain.getInstance().Dic_EveryDay);
 			c101.sendF(true);
 		}
 	}
 	/** 发送当前界面 */
-	public function on发送当前界面(name:String):void{
+	public function onSendNowView(name:String):void{
 		if(isLocal==false) {
 			var c105:CMD105 = new CMD105();
 			c105.writeValue_Dic("界面", name);
