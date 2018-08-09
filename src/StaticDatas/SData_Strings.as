@@ -69,6 +69,7 @@ package StaticDatas
         public static const SWF_IconItem:String="SWF_IconItem";
         public static const SWF_IconMat:String="SWF_IconMat";
         public static const SWF_IconSkill:String="SWF_IconSkill";
+		public static const SWF_PackageModelView:String="SWF_PackageView";
 		/****************************游戏中显示使用，随语言环境变化***********************************/
 		public	static var Alert_Error:String="游戏出现意外错误，请重新启动！";
 		public	static var Alert_ErrorTitle:String="哎呀出错了";
