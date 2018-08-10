@@ -11,7 +11,7 @@ import com.MyClass.Tools.Tool_ObjUtils;
 public class Fight_DicRoles {
     private var nowScenc:Scene;
     public var mainRole:FightRole;
-    private var dicRoles:* ={};//通过netid作为key保存的role
+    public var dicRoles:* ={};//通过netid作为key保存的role
     
     public function Fight_DicRoles(scene:Scene) {
         nowScenc=scene;

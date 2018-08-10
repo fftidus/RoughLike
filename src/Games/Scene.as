@@ -1,5 +1,6 @@
 package Games {
 import Games.Datas.Data_Scene_init;
+import Games.Fights.FightRole;
 import Games.Fights.Fight_DicRoles;
 
 
@@ -61,12 +62,24 @@ public class Scene extends Sprite{
 		Tool_Function.onRunFunction(initData.FunInit);
 	}
 	
-	
 	private function enterF():void{
         DicRoles.enterF();
 		this.sCon.enterF();
 		this.Map.enterF();
 	}
+	/**
+	 * 获得角色：camp==-1：全部||阵营。传入function获得role，return false则表示停止遍历
+	 * **/
+	public function getAllFightRoles(fun:*	,camp:int=-1):void{
+		var role:FightRole;
+		for(var nid:* in DicRoles.dicRoles){
+			role =DicRoles.dicRoles[nid];
+			
+		}
+	}
+	
+	
+	
 	
 	public function destroyF():void{
 		if(Controller_Scene.getInstance().nowScene==this){

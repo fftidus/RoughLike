@@ -46,6 +46,8 @@ public class Map_Object extends Sprite{
 	private var _z:Number=0;
 	public var index:int=1;
 	public var mhitArea:MyHitArea;
+	/** 是否会对其他物体产生碰撞 **/
+	public var needHitOthers:Boolean=true;
 	public var canFall:Boolean=true;
 	
 	public function Map_Object(){
@@ -175,6 +177,7 @@ public class Map_Object extends Sprite{
 	/** 碰撞检测 */
 	protected function hitTestWith(obj:Map_Object):Boolean{
 		if(this.mhitArea==null || obj.mhitArea==null){return false;}
+		if(this.needHitOthers==false && obj.needHitOthers==false){return false;}
 		return mhitArea.hitTestWith(obj.mhitArea,this.x,this.y,this._z,obj.x,obj.y,obj._z);
 	}
 

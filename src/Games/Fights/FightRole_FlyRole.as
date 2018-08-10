@@ -11,6 +11,7 @@ public class FightRole_FlyRole extends FightRole{
         super(null);
         ownerRole=_role;
         mapRole=new Map_Object_FLys(this);
+        mapRole.needHitOthers=false;
     }
     
     

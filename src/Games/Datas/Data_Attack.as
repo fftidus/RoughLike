@@ -63,5 +63,15 @@ public class Data_Attack {
         hitLight=dic["光效"];
         hitSound=dic["音效"];
     }
+    
+    /** 判断处于攻击帧 */
+    public function isInFrames(f:int):Boolean{
+        if(Frames && Frames.indexOf(f)!=-1){
+            return true;
+        }
+        return false;
+    }
+    
+    
 }
 }

@@ -135,6 +135,7 @@ public class FAction_SkillDefault extends FAction_Default{
 	}
 	/** 检测一次攻击 **/
 	protected function checkAttackOne(data:Data_Attack):void{
+		if(data.isInFrames(nowFrame)==false){return;}
 		
 	}
 	/** 检测释放飞行物体 **/

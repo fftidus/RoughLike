@@ -70,7 +70,7 @@ public class FightRole {
     public function initF():void{
         mapRole=new Map_Object_Roles(this);
         mapRole.mhitArea=new  MyHitArea();
-        mapRole.mhitArea.initFromDic({"type":2,"p":{"x":0,"y":0},"r":50});
+        mapRole.mhitArea.initFromDic({"type":3,"p":{"x":0,"y":0},"a":30,"b":15});
     }
     /** 获得基础属性 */
     public function getBaseValue(vname:String, nullToZero:Boolean=true):*{
@@ -233,7 +233,7 @@ public class FightRole {
                 return;
             }
         }
-        
+        //TODO 修改被击数值
     }
     
     /** 死亡 */

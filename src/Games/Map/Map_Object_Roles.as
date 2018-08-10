@@ -9,6 +9,7 @@ public class Map_Object_Roles extends Map_Object{
         super();
         roleFight=fr;
         RM=fr.baseRoleMo;
+        needHitOthers=false;
     }
     override public function initF(data:*,info:*):void{
         super.initData(data,info);
