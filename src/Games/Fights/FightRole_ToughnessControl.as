@@ -1,4 +1,7 @@
 package Games.Fights {
+import com.MyClass.Config;
+import com.MyClass.Tools.Tool_Function;
+
 import laya.utils.Handler;
 
 /**
@@ -9,9 +12,12 @@ public class FightRole_ToughnessControl {
     private static const spdRecover:Number=0.2;//每秒恢复百分比
     private var Role:FightRole;
     private var _nowToughness:int;
-    private var isEntering:Boolean=false;
+    private var isEntering:int=0;
+    private var countSec:int;
+    private var countFrame:int;
     public function FightRole_ToughnessControl(role:FightRole) {
         Role=role;
+	    resetToughness();
     }
     /** 重置韧性 **/
     public function resetToughness():void{
@@ -22,7 +28,7 @@ public class FightRole_ToughnessControl {
     public function costToughness(num:int):Boolean{
         if(Role.isEndure==true) {
             _nowToughness -= num;
-            if (_nowToughness <= 0) {
+            if (_nowToughness <= 0) {//破霸体
                 resetToughness();
                 return true;
             }else {
@@ -34,28 +40,44 @@ public class FightRole_ToughnessControl {
     }
     
     /** 计时，超过30秒则恢复 **/
-    public function enterF():void{
-        if(isEntering==false){return;}
+    private function enterF():void{
+        if(isEntering==0){return;}
+        if(isEntering==1) {
+	        if (countFrame++ >= Config.playSpeedTrue) {
+		        countFrame = 0;
+		        countSec++;
+		        if (countSec >= secStartRecover) {
+			        isEntering = 2;
+		        }
+	        }
+        }
+        else{
+            _nowToughness += Tool_Function.onForceConvertType(spdRecover * Role.valueFight.toughness);
+            if(_nowToughness>=Role.valueFight.toughness){
+                stopCountTime();
+            }
+        }
     }
     
     /** 开始计时 */
     private function startCountTime():void{
-        if(isEntering==true){return;}
-        isEntering=true;
+	    countSec=0;
+	    countFrame=0;
+        if(isEntering!=0){
+            return;
+        }
+        isEntering=1;
         Role.registEnterHandler("韧性",Handler.create(this,enterF,null,false));
     }
     /** 结束计时 */
     private function stopCountTime():void{
-        if(isEntering==true){
-            isEntering=false;
+        if(isEntering != 0){
+            isEntering=0;
             Role.removeEnterHandler("韧性");
         }
     }
 
 
-    private function get nowToughness():int {
-        return _nowToughness;
-    }
     public function destroyF():void{
         Role=null;
     }

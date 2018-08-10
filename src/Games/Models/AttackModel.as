@@ -7,14 +7,8 @@ import Games.Fights.FightRole;
  * */
 public class AttackModel {
     public var data:Data_Attack;
-    /** 攻击来源 */
+    /** 攻击来源，角色或飞行 */
     public var fromRole:FightRole;
-    /** 缓存命中率 */
-    public var hit:int;
-    /** 缓存是否暴击 */
-    public var isCritical:Boolean=false;
-    /** 缓存暴击值 */
-    public var numCritical:int;
     
     public function AttackModel(from:FightRole,_data:Data_Attack) {
         data=_data;
@@ -22,8 +16,9 @@ public class AttackModel {
     }
     /** 削韧数量 */
     public function get costToughness():int{
-        var base:int =fromRole
-        data.perCostToughness;
+//        var base:int =fromRole
+//        data.perCostToughness;
+		return 0;
     }
     
     public function destroyF():void{

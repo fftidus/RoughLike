@@ -14,7 +14,7 @@ public class Data_FightRole {
     private static var DicNewValue:*;
     /****************************************************************************************/
     
-    public var DicValue:* =Tool_ObjUtils.getNewObjectFromPool();
+    public var DicValue:*;
     public var DicOther:*;
     private var dicChanged:* =Tool_ObjUtils.getNewObjectFromPool();
     /** 防修改 */
@@ -27,9 +27,17 @@ public class Data_FightRole {
      * */
     public function initFromDic(dic:*):void{
         if(dic==null){return;}
+	    DicValue=Tool_ObjUtils.getNewObjectFromPool();
         for(var key:String in dic){
             setValue(key,dic[key]);
         }
+    }
+    /** 复制 **/
+    public function copyOne():Data_FightRole{
+        var one:Data_FightRole=new Data_FightRole();
+        one.DicValue =Tool_ObjUtils.CopyF(this.DicValue,false);
+        one.DicOther =Tool_ObjUtils.CopyF(this.DicOther,false);
+        return one;
     }
     /**
      * 使用名字直接赋值

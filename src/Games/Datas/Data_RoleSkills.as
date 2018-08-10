@@ -49,6 +49,7 @@ public class Data_RoleSkills {
     }
     /** 获得某个技能学习的等级 */
     public function getSkillBaseLv(sid:int):int{
+        if(Dic_skillInfo is String)return 1;//所有技能都学了1级，怪物专用
         if(Dic_skillInfo && Dic_skillInfo[sid]){
             return Dic_skillInfo[sid]["等级"];
         }

@@ -1,4 +1,5 @@
 package Games.Fights.FightActions{
+import Games.Datas.Data_Attack;
 import Games.Datas.Data_FActionStep;
 import Games.Models.SkillModel;
 
@@ -13,6 +14,7 @@ public class FAction_SkillDefault extends FAction_Default{
 	public var cost:Fight_ActionCost;
 	public var Arr_aniStep:Array;//动画步骤，null表示播放完
 	private var _nowStep:int;//当前动画的步骤
+	protected var hits:*;//命中数据
 	
 	public function FAction_SkillDefault(){
         isSpdEffectByValue="攻速";
@@ -44,6 +46,11 @@ public class FAction_SkillDefault extends FAction_Default{
 		}
 		nowStep=0;
 		Role.IronCon.onClearF();
+        if(hits==null){
+			hits=Tool_ObjUtils.getNewObjectFromPool();
+        }else{
+			Tool_ObjUtils.onClearObj(hits);
+		}
 		super.resetF();
 	}
 	
@@ -92,6 +99,8 @@ public class FAction_SkillDefault extends FAction_Default{
     override protected function onDoFrameEvent():void {
 		if(isEnd==false){return;}
         setGodEndure();
+        checkAttack();
+		checkCreatFly();
 	}
     /** 设置霸体、无敌等 **/
 	protected function setGodEndure():void{
@@ -115,6 +124,26 @@ public class FAction_SkillDefault extends FAction_Default{
             }
         }
 	}
+	/** 检测攻击**/
+	protected function checkAttack():void{
+        var rsm:Data_FActionStep=Arr_aniStep[nowStep];
+		if(rsm.attackInfo){
+			for(var i:int=0;i<rsm.attackInfo.length;i++){
+                checkAttackOne(rsm.attackInfo[i]);
+			}
+		}
+	}
+	/** 检测一次攻击 **/
+	protected function checkAttackOne(data:Data_Attack):void{
+		
+	}
+	/** 检测释放飞行物体 **/
+	protected function checkCreatFly():void{
+        var rsm:Data_FActionStep=Arr_aniStep[nowStep];
+        if(rsm.flyobjInfo){
+
+        }
+	}
 	
 	/** 下一个步骤动作 */
 	public function nextStep():void{
@@ -126,6 +155,7 @@ public class FAction_SkillDefault extends FAction_Default{
 			nowStep++;
 			onChangeRoleMcByURL();
 		}
+        Tool_ObjUtils.onClearObj(hits);
 		nowIndex=0;
         setGodEndure();
 	}
@@ -147,6 +177,7 @@ public class FAction_SkillDefault extends FAction_Default{
 	override public function destroyF():void{
 		cd=Tool_ObjUtils.destroyF_One(cd);
 		cost=Tool_ObjUtils.destroyF_One(cost);
+        hits=Tool_ObjUtils.destroyF_One(hits);
 		super.destroyF();
 	}
 	

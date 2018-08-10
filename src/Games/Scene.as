@@ -62,7 +62,6 @@ public class Scene extends Sprite{
 	}
 	
 	
-	
 	private function enterF():void{
         DicRoles.enterF();
 		this.sCon.enterF();

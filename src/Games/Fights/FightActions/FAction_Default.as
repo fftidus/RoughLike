@@ -143,7 +143,7 @@ public class FAction_Default {
     /** 下一帧动作 */
     protected function nextFrame():void{
 	    nowIndex++;
-        if(Role.mapRole.Role==null || nowIndex > Role.mapRole.Role.totalFrames-1){
+        if(Role.mapRole==null || Role.mapRole.Role==null || nowIndex > Role.mapRole.Role.totalFrames-1){
             onAtLastFrame();
             if(isEnd==true){return;}
         }

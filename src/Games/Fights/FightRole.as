@@ -26,7 +26,7 @@ public class FightRole {
     /** 属性 */
     public var valueFight:Data_FightRole;
     /** 显示 */
-    public var mapRole:Map_Object_Roles;
+    public var mapRole:Map_Object;
     /** 控制器 */
     public var controller:RoleController;
     /** 移动缓存*/
@@ -54,6 +54,7 @@ public class FightRole {
 	public var DicEnterHandler:*;
     
     public function FightRole(rm:RoleModel) {
+        if(rm==null)return;
         baseRoleMo=rm;
         valueFight=new Data_FightRole();
         infoFight =baseRoleMo.getFightRoleInfo();
@@ -97,7 +98,7 @@ public class FightRole {
     }
     /** 修改韧性 */
     public function changeToughness(value:int):void{
-        ToughnessCon.resetToughness(value);
+        ToughnessCon.resetToughness();
     }
     
     /** 改变动画 */
@@ -228,10 +229,11 @@ public class FightRole {
         if(hurtone==null){return;}
         //有霸体则不进入被击打状态
         if(isEndure==true){
-            if(ToughnessCon && ToughnessCon.costToughness(hurtone.data.perCostToughness)){
-                
+            if(ToughnessCon && ToughnessCon.costToughness(hurtone.data.perCostToughness)==false){
+                return;
             }
         }
+        
     }
     
     /** 死亡 */

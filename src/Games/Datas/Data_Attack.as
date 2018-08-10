@@ -7,6 +7,8 @@ import com.MyClass.Tools.Tool_Function;
 public class Data_Attack {
     /** 作用帧 */
     public var Frames:Array;
+    /** 多段攻击 */
+    public var isMultihit:Boolean;
     /** 所有范围 */
     public var Areas:Array;
     /** 攻击类型：用于计算硬直：钝击、穿刺、斩击、魔法 */
@@ -39,6 +41,7 @@ public class Data_Attack {
     
     public function Data_Attack(dic:*) {
         Frames=dic["帧"];
+        isMultihit=dic["多段"]==true;
         Areas=[];
         if(Tool_Function.isTypeOf(dic["范围"],Array)==true) {
             for (var i:int = 0; i < dic["范围"].length; i++) {

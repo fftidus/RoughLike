@@ -34,7 +34,7 @@ public class Map_ObjectView extends Sprite{
     protected var poolName:String;
     public function Map_ObjectView() {
 	}
-	
+	/** 显示mc **/
 	public function initBaseMc(swf:String,url:String):void{
 		if(swf!=null){
             mc=MySourceManager.getInstance().getObjFromSwf(swf,url);

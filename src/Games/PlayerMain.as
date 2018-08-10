@@ -1,4 +1,6 @@
 package Games{
+import Games.Models.PackageModel.PackageModel;
+
 import com.MyClass.Config;
 import com.MyClass.MainManager;
 import com.MyClass.SoundManagerMy;
@@ -42,10 +44,6 @@ public class PlayerMain{
 	public var Dic_EveryDay:*;
 	public var Dic_Tasks:*;
 	public var Dic_Flag:*;
-	public var Dic_Package:*;//背包的详情
-	public var InfoPackage:*;//背包的其他属性
-	public var Dic_Storage:*;
-	public var InfoStorage:*;
 	public var Dic_Fuben:*;
 	
 	public function PlayerMain(){
@@ -54,6 +52,7 @@ public class PlayerMain{
 			SoundManagerMy.soundVal=soundObj[SData_Strings.LOCS_SoundControl_volume];
 			SoundManagerMy.getInstance().setVol(SoundManagerMy.soundVal);
 		}
+		PackageModel.getInstance();
 		NetMessageModel.getInstance().initF(Handler.create(this,onNetMessageF,null,false));
 	}
 	

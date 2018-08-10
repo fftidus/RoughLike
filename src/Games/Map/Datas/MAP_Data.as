@@ -1,4 +1,8 @@
 package Games.Map.Datas{
+import Games.Models.RoleModel;
+
+import StaticDatas.SData_RolesInfo;
+
 import com.MyClass.Tools.Tool_Function;
 
 /**
@@ -13,6 +17,8 @@ public class MAP_Data{
 	public var Arr_grips:Array;
 	public var dicGripSegmentation:*;//地块分段
 	public var Arr_groundType:Array;//二维数组，地形
+	public var dicComps:*;//组件
+	public var arrRoles:Array;
 	
 	public function MAP_Data(){
 	}
@@ -26,6 +32,7 @@ public class MAP_Data{
 		Arr_grips=dic["地图"];
         dicGripSegmentation=dic["分段"];
 		Arr_groundType=dic["地形"];
+		dicComps=dic["组件"];
 		
 		var tmpdic:* ={};
 		if(Arr_gripSource){
@@ -57,6 +64,24 @@ public class MAP_Data{
 				if(arrswf.indexOf(data.swf)==-1){
 					arrswf.push(data.swf);
 					source.push([data.swf,"swf"]);
+				}
+			}
+		}
+		if(dicComps){
+			if(dicComps["独立"]){//"独立":[{"info":{"y":700,"EID":"1","x":560},"type":"怪物点"}]
+				for(i=0;i<dicComps["独立"].length;i++){
+					if(dicComps["独立"][i]["type"]=="怪物点"){
+						var eid:int =dicComps["独立"][i]["info"]["EID"];
+						if(arrswf.indexOf("EID="+eid)==-1){
+							arrswf.push("EID="+eid);
+							if(arrRoles==null)arrRoles=[];
+							var rm:RoleModel =new RoleModel();
+                            rm.initRoleInfo(SData_RolesInfo.getInstance().Dic[eid]);
+                            rm.addSource(source,null);
+							rm.NetID=-(arrRoles.length+1);
+							arrRoles.push([rm,dicComps["独立"][i]["info"]]);
+						}
+					}
 				}
 			}
 		}
