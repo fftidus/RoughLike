@@ -153,7 +153,7 @@ public class FAction_Default {
     }
     /** 跳转动画到当前帧:默认动作index就是帧 **/
     protected function setRoleFrameToIndex():void{
-        if(Role.mapRole.Role!=null && isEnd==false){
+        if(Role.mapRole!=null && Role.mapRole.Role!=null && isEnd==false){
             Role.mapRole.Role.currentFrame = nowIndex;
         }
     }

@@ -24,6 +24,8 @@ public class Data_Attack {
     /** 攻击中心点：用来判断是否背后攻击。null表示无法造成背后攻击，其他数字表示来源相对坐标 */
     public var middlePo:*;
     
+    /** 攻击会破坏站姿 **/
+    public var hit_breakStand:Boolean;
     /** 攻击硬直 */
     public var hit_CostIron:int;
     /** 攻击击飞：力度 */
@@ -56,10 +58,11 @@ public class Data_Attack {
         atkPer=dic["比例攻击"];
         perCostToughness=dic["削韧"];
         middlePo=dic["中心"];
+        hit_breakStand=dic["破坏姿势"]==true;
         hit_CostIron=dic["硬直"];
         hit_awayPower=dic["击飞力度"];
         hit_awayDirect=dic["击飞方向"];
-        hit_upPower=dic["浮空力度."];
+        hit_upPower=dic["浮空力度"];
         hitLight=dic["光效"];
         hitSound=dic["音效"];
     }
@@ -71,7 +74,6 @@ public class Data_Attack {
         }
         return false;
     }
-    
-    
+   
 }
 }

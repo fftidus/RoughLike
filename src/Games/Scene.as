@@ -3,6 +3,8 @@ import Games.Datas.Data_Scene_init;
 import Games.Fights.FightRole;
 import Games.Fights.Fight_DicRoles;
 
+import com.MyClass.Config;
+
 
 import com.MyClass.MainManagerOne;
 import com.MyClass.MySourceManagerOne;
@@ -23,6 +25,9 @@ import starling.display.Sprite;
  * 游戏场景
  * */
 public class Scene extends Sprite{
+    public static var G:Number=0;
+	public static var G_away:Number=0;
+	
 	public var initData:Data_Scene_init;
 	public var pool:MyPools=new MyPools();
 	private var mso:MySourceManagerOne=new MySourceManagerOne();
@@ -32,6 +37,10 @@ public class Scene extends Sprite{
     public var DicRoles:Fight_DicRoles;
 	
 	public function Scene(info:Data_Scene_init) {
+		if(G==0){
+			G=50/Config.playSpeedTrue;
+            G_away=50/Config.playSpeedTrue;
+		}
         initData=info;
 		var data:MAP_Data=info.data;
 		LayerStarlingManager.instance.LayerView.addChild(this);
@@ -69,13 +78,22 @@ public class Scene extends Sprite{
 	}
 	/**
 	 * 获得角色：camp==-1：全部||阵营。传入function获得role，return false则表示停止遍历
+	 * @param camp 阵营，默认0表示全部，大于0表示指定阵营，小于0表示不等于该阵营
 	 * **/
-	public function getAllFightRoles(fun:*	,camp:int=-1):void{
+	public function getAllFightRolesByCamp(fun:*	,camp:int=0):void{
 		var role:FightRole;
 		for(var nid:* in DicRoles.dicRoles){
 			role =DicRoles.dicRoles[nid];
-			
+			if(role==null || role.isDead>=100){
+				continue;
+			}
+			if(camp==0 || (camp>0 && camp==role.camp) || (camp<0 && role.camp != -camp)){
+                if(Tool_Function.onRunFunction(fun,role) == false){
+                    break;
+                }
+			}
 		}
+        Tool_ObjUtils.destroyF_One(fun);
 	}
 	
 	

@@ -21,6 +21,7 @@ public class Fight_DicRoles {
     /** 添加玩家角色，根据入口门数据确定初始位置 */
     public function addMainRole(role:FightRole):void{
         mainRole=role;
+        mainRole.camp=1;
         dicRoles[role.baseRoleMo.NetID]=role;
         var door:int=0;
         var initData:Data_Scene_init=nowScenc.initData;
@@ -40,6 +41,7 @@ public class Fight_DicRoles {
                 var rm:RoleModel =arrERm[i][0];
                 var info:* =arrERm[i][1];
                 var fr:FightRole=new FightRole(rm);
+                fr.camp=2;
                 fr.mapRole.initF(null,{"x":info["x"],"y":info["y"]});
                 nowScenc.Map.addMapObjectToLayer(fr.mapRole);
                 dicRoles[rm.NetID]=fr;

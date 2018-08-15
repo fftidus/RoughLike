@@ -1,7 +1,16 @@
 package Games.Fights.FightActions{
+import Games.Controller_Scene;
 import Games.Datas.Data_Attack;
+import Games.Datas.Data_AttackArea;
 import Games.Datas.Data_FActionStep;
+import Games.Fights.FightRole;
+import Games.Models.AttackModel;
 import Games.Models.SkillModel;
+
+import com.MyClass.Tools.Tool_ArrayUtils;
+
+import com.MyClass.Tools.Tool_Function;
+import com.MyClass.Tools.Tool_HitTest;
 
 import com.MyClass.Tools.Tool_ObjUtils;
 
@@ -93,14 +102,15 @@ public class FAction_SkillDefault extends FAction_Default{
         if(rsm && rsm.Arr_frame) {
            return rsm.Arr_frame[nowIndex];
         }
-		return -1;
+		return nowIndex;
 	}
 
     override protected function onDoFrameEvent():void {
-		if(isEnd==false){return;}
+		if(isEnd==true){return;}
         setGodEndure();
         checkAttack();
 		checkCreatFly();
+		//TODO 生成己方buff
 	}
     /** 设置霸体、无敌等 **/
 	protected function setGodEndure():void{
@@ -136,13 +146,69 @@ public class FAction_SkillDefault extends FAction_Default{
 	/** 检测一次攻击 **/
 	protected function checkAttackOne(data:Data_Attack):void{
 		if(data.isInFrames(nowFrame)==false){return;}
-		
+        Controller_Scene.getInstance().nowScene.getAllFightRolesByCamp(_checkAttackOne,-Role.camp);
+        function _checkAttackOne(tar:FightRole):Boolean{
+			if(tar == Role)return false;
+			//检测重复
+			if(data.isMultihit==false){
+				if(hits[tar.netID]!=null)return false;
+			}
+            //检测范围
+            var tarArea:Data_AttackArea =tar.hitArea;
+			var tarx:Number=tar.x - Role.x;
+			var tary:Number=tar.y - Role.y;
+            for(var i:int=0;i<data.Areas.length;i++){
+                var one:Data_AttackArea =data.Areas[i];
+                var onePoints:Array;
+                if(Role.nowDirection==1){
+                    onePoints=one.getScaleXPoints();
+                }else {
+                    onePoints = one.points;
+                }
+				//倒地状态
+				if(tar.nowAction && tar.nowAction.Name=="倒地" && one.canHitGound==false){continue;}
+                if(tarArea!=null){
+                    //先y轴
+                    if(tary+tarArea.yDown >= -one.yUp  &&  tary-tarArea.yUp <= one.yDown){
+                        //再多边形
+                        var newPoint:Array =tarArea.getLocalPoints(Role,tarx,tary);
+                        var suc:Boolean =Tool_HitTest.onHitTestEclipse(onePoints,newPoint);
+                        Tool_ArrayUtils.returnArrayToPool(newPoint);
+                        if(suc==true){
+                            onHitOne(tar,data);
+                            return true;
+                        }
+                    }
+                }else{//没有碰撞范围的角色，默认为一个点
+                    //先y轴
+                    if(tary >= -one.yUp  &&  tary <= one.yDown){
+                        //再多边形
+                        suc =Tool_Function.onPointInEclipse(onePoints,null,tarx,tary);
+                        if(suc==true){
+                            onHitOne(tar,data);
+                            return true;
+                        }
+                    }
+                }
+                if(onePoints != one.points){
+                    Tool_ArrayUtils.returnArrayToPool(onePoints);
+                }
+            }
+            return false;
+        }
+	}
+	/** 成功攻击 **/
+	protected function onHitOne(tar:FightRole,data:Data_Attack):void{
+		var atk:AttackModel=new AttackModel(Role,data);
+		tar.beHurt(atk);
+		if(hits[tar.netID]==null)hits[tar.netID]=0;
+		hits[tar.netID]++;
 	}
 	/** 检测释放飞行物体 **/
 	protected function checkCreatFly():void{
         var rsm:Data_FActionStep=Arr_aniStep[nowStep];
         if(rsm.flyobjInfo){
-
+			//TODO 生成飞行物体
         }
 	}
 	

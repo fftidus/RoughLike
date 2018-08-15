@@ -1,5 +1,6 @@
 package Games.Fights.FightActions {
 import Games.Fights.FightRole;
+import Games.Scene;
 
 import com.MyClass.Config;
 
@@ -8,18 +9,13 @@ import starling.utils.deg2rad;
 public class FAction_Jump extends FAction_Default{
     private var nowFlag:int=0;
     private var dicUrls:* ={};
-    private var isFalling:Boolean;
     private var LAll:int;//跳跃力
     private var nowSpd:Number;
     private var spdMove:Number;
-    private static var G:Number=0;
     
     public function FAction_Jump(fr:FightRole) {
         Role=fr;
         Name="跳";
-        if(G==0){
-            G=50/Config.playSpeedTrue;
-        }
     }
 
     override public function initF(info:*):void {
@@ -52,13 +48,9 @@ public class FAction_Jump extends FAction_Default{
         if(Role.nowGroundType ==8){//落下
             nowFlag=2;
             nowSpd=0;
-	        isFalling=true;
-            //改变层级到地面层
-            Role.mapRole.map.addMapObjectToLayer(Role.mapRole,1);
         }else{//起跳
             nowFlag=0;
             nowSpd=LAll;
-	        isFalling=false;
         }
         url=dicUrls[nowFlag];
         super.resetF();
@@ -67,7 +59,7 @@ public class FAction_Jump extends FAction_Default{
     override public function enterF():void {
         if(nowFlag==1){
             Role.onWantMoveZ(nowSpd);
-            nowSpd-=G;
+            nowSpd-=Scene.G;
             if(nowSpd<=0){
                 nowSpd=0;
                 nextFlag();
@@ -77,22 +69,13 @@ public class FAction_Jump extends FAction_Default{
         }
         else if(nowFlag==2){
             Role.onWantMoveZ(-nowSpd);
-            nowSpd+=G;
+            nowSpd+=Scene.G;
             if(Role.z<=0){
                 if(Role.nowGroundType!=8){
                     Role.onWantMoveZ(-Role.z);
                     nextFlag();
                 }else{
-                    if(isFalling==false){
-                        isFalling=true;
-                        Role.mapRole.map.addMapObjectToLayer(Role.mapRole,1);
-                    }
-                    if(Role.z<-200){
-                        //TODO 死亡
-                        Role.mapRole.z =-200;
-//	                    Role.mapRole.map.addMapObjectToLayer(Role.mapRole);//复活
-                        Role.onDeadF();
-                    }
+                    Role.onFalling();
                 }
             }else{
 	            checkKeyController();
@@ -110,7 +93,6 @@ public class FAction_Jump extends FAction_Default{
     }
 	
 	override protected function checkKeyController():void {
-        if(isFalling==true){ return;  }
 		if(Role.controller==null){return;}
 		var ang:int =Role.controller.nowMoveAng;
         if(ang==-1){return;}

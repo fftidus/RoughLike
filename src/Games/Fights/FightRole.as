@@ -1,8 +1,8 @@
 package Games.Fights {
+import Games.Datas.Data_AttackArea;
 import Games.Datas.Data_Hurt;
 import Games.Models.AttackModel;
 
-import com.MyClass.Config;
 import com.MyClass.Tools.MyHitArea;
 import com.MyClass.Tools.Tool_Function;
 import com.MyClass.Tools.Tool_ObjUtils;
@@ -19,6 +19,8 @@ import StaticDatas.SData_Strings;
  * 角色战斗
  * */
 public class FightRole {
+    /** netid */
+    public function get netID():*{return baseRoleMo.NetID;}
     /** 基础属性 */
     public var baseRoleMo:RoleModel;
     /** 战斗数据 */
@@ -42,6 +44,8 @@ public class FightRole {
     public var ToughnessCon:FightRole_ToughnessControl;
     /** 硬直控制器 */
     public var IronCon:FightRole_IronControl;
+    /** 掉落 */
+    public var isFalling:Boolean=false;
     /** 死亡的步骤，0未死，1死亡动画中，100可清理 */
     public var isDead:int=0;
     //动作
@@ -70,7 +74,11 @@ public class FightRole {
     public function initF():void{
         mapRole=new Map_Object_Roles(this);
         mapRole.mhitArea=new  MyHitArea();
-        mapRole.mhitArea.initFromDic({"type":3,"p":{"x":0,"y":0},"a":30,"b":15});
+        if(baseRoleMo.hitArea) {
+            mapRole.mhitArea.initFromDic({"type": 3, "p": {"x": 0, "y": 0}, "a": -baseRoleMo.hitArea.points[0], "b": baseRoleMo.hitArea.yUp});
+        }else{
+            mapRole.mhitArea.initFromDic({"type": 3, "p": {"x": 0, "y": 0}, "a": 30, "b": 15});
+        }
     }
     /** 获得基础属性 */
     public function getBaseValue(vname:String, nullToZero:Boolean=true):*{
@@ -118,6 +126,10 @@ public class FightRole {
     }
     /** 修改动作，但不会立刻修改 */
     public function onWantChangeAction(act:String,fromComp:Map_Object=null):void{
+        if(netID==-1){
+            trace(act);
+        }
+        if(nextAction==SData_Strings.ActionName_Hurt){return;}
         if(DicActions.hasAction(act)==false){
             act= SData_Strings.ActionName_Stand;
         }
@@ -166,6 +178,18 @@ public class FightRole {
             mapRole.moveF(moveWaite);
             moveWaite.x=0;
             moveWaite.y=0;
+        }
+    }
+    /** 掉落到地下 */
+    public function onFalling():void{
+        if(isFalling==false) {
+            isFalling = true;
+            mapRole.map.addMapObjectToLayer(mapRole, 1);
+        }
+        if(z<-200){
+            mapRole.z =-200;
+//	        mapRole.map.addMapObjectToLayer(Role.mapRole);//复活
+            onDeadF();
         }
     }
 	
@@ -224,6 +248,15 @@ public class FightRole {
         return null;
     }
     
+    /** 被击打范围：如果当前动作有特殊范围则使用，没有则用默认rolemodel的范围 **/
+    public function get hitArea():Data_AttackArea{
+        if(nowAction && nowAction.hitArea){
+            return nowAction.hitArea;
+        }
+        if(baseRoleMo.hitArea){return baseRoleMo.hitArea;}
+        return null;
+    }
+    
     /** 被击打 */
     public function beHurt(hurtone:AttackModel):void{
         if(hurtone==null){return;}
@@ -233,7 +266,13 @@ public class FightRole {
                 return;
             }
         }
-        //TODO 修改被击数值
+        if(nowAction && nowAction.Name!="挨打") {
+            nextAction = SData_Strings.ActionName_Hurt;
+        }
+        if(hurtData==null){
+            hurtData=Data_Hurt.getNewOne(this);
+        }
+        hurtData.beHurt(hurtone);
     }
     
     /** 死亡 */

@@ -5,19 +5,22 @@ package
 	import com.MyClass.MainManager;
 	import com.MyClass.MySourceManager;
 	import com.MyClass.MySourceManager_AIR;
-import com.MyClass.Tools.MyErrorSend;
-import com.MyClass.VertionVo;
+	import com.MyClass.VertionVo;
 	import com.MyClass.VertionVo_Air;
 	import com.MyClass.MyView.ImageNum;
 	import com.MyClass.MyView.LoadingView;
+	import com.MyClass.NetTools.Net_HttpRequest;
 	import com.MyClass.Tools.AlertSmall;
 	import com.MyClass.Tools.AlertWindow;
+	import com.MyClass.Tools.MyErrorSend;
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.UncaughtErrorEvent;
 	
 	import StaticDatas.SData_Strings;
+	
+	import lzm.util.LSOManager;
 	
 	import parser.Script;
 	
@@ -29,6 +32,7 @@ import com.MyClass.VertionVo;
 			__MC_Logo;
 			super();
 			Script.init(this);
+			AlertWindow.classOrg=__MC_Alert;
 			AlertSmall.Class_AlertMc=__MC_AlerForGet;
 			VertionVo.Class_VertionVo=VertionVo_Air;
 			VertionVo.getInstance();
@@ -42,7 +46,6 @@ import com.MyClass.VertionVo;
 			MySourceManager.ClassManager=MySourceManager_AIR;
 			ImageNum.SWFDefault=SData_Strings.SWF_DefaultUI;
 			this.addEventListener(Event.ADDED_TO_STAGE,init);
-			MyErrorSend.onSendF(null);
 		}
 		private function uncatchErrorF(e:UncaughtErrorEvent):void{
 			e.preventDefault();
@@ -56,6 +59,7 @@ import com.MyClass.VertionVo;
 		}
 		private function init(e:Event):void
 		{
+			onSendSaveErrorF(null);
 			this.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR,uncatchErrorF);
 			this.removeEventListener(Event.ADDED_TO_STAGE,init);
 			Config.mStage	= stage;
@@ -64,6 +68,32 @@ import com.MyClass.VertionVo;
 				VertionVo.StaticVer =Config.VerMain;
 			}
 			new MainClass();
+		}
+		private static function onSendSaveErrorF(str:String):void{
+			var netURL:String=MyErrorSend.netURL;
+			if(netURL==null){return;}
+			var strOld:String=LSOManager.get("报错待上传信息");
+			if(strOld==null && str==null){return;}
+			if(str==null){
+				str="";
+			}
+			if(netURL.indexOf("/SendError?")==-1){
+				netURL+="/SendError?";
+			}
+			var data:String ="message=";
+			if(strOld){
+				data+=strOld+'\n--------------\n';
+			}
+			data+=str;
+			new Net_HttpRequest(netURL,data,netSuccess,true);
+			function netSuccess(data:* =null):void{
+				trace("报错上传结果："+(data));
+				if(netSuccess==null){//失败！
+					LSOManager.put("报错待上传信息",data);
+				}else{
+					LSOManager.del("报错待上传信息");
+				}
+			}
 		}
 		
 	}

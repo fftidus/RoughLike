@@ -39,7 +39,7 @@ public class FAction_Stand extends FAction_Default{
             Role.onWantChangeAction(SData_Strings.ActionName_Run);
             if(Role.controller.nowMoveAng > 180){
                 Role.onChangeDirect("左");
-            }else{
+            }else if(Role.controller.nowMoveAng>0 && Role.controller.nowMoveAng<180){
                 Role.onChangeDirect("右");
             }
         }

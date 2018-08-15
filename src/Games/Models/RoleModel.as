@@ -1,4 +1,5 @@
 package Games.Models {
+import Games.Datas.Data_AttackArea;
 import Games.Datas.Data_RoleSkills;
 
 import StaticDatas.SData_Skills;
@@ -23,6 +24,7 @@ public class RoleModel {
 	public var Potential:int;//潜力
 	public var spine:String;//spine动画的名字
     public var Exp:int;
+	public var hitArea:Data_AttackArea;//默认碰撞范围：x轴半径，y轴半径，z轴高度直径
 	public var DicBaseValues:* =Tool_ObjUtils.getNewObjectFromPool();
 	public var DicValues:* =Tool_ObjUtils.getNewObjectFromPool();
 	public var DicEquipe:*;
@@ -48,6 +50,8 @@ public class RoleModel {
         if(dic["品质"]!=null){Rank=dic["品质"];}
         if(dic["潜力"]!=null){Potential=dic["潜力"];}
 		if(dic["当前经验"]!=null){Exp=dic["当前经验"];}
+        if(dic["当前经验"]!=null){Exp=dic["当前经验"];}
+		if(dic["碰撞"]!=null){hitArea=new Data_AttackArea(dic["碰撞"]);}
 		if(dic["装备"]!=null){
 			if(DicEquipe==null)DicEquipe=Tool_ObjUtils.getNewObjectFromPool("防具",Tool_ObjUtils.getNewObjectFromPool());
 			if(dic["装备"]["武器"]==null || dic["装备"]["武器"]==-1){

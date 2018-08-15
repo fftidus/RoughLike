@@ -19,7 +19,6 @@ public class IconModel extends Sprite{
     private var imgBack:Image;//品质底
     private var swfIcon:String;
     private var mnum:MyViewNumsController;
-    public var poInPackage:int=-1;
     /** 图标类 */
     public function IconModel(_obj:*,spr:Sprite,_swfIcon:String,  needELv:Boolean=true,	needNum:Boolean=true){
         swfIcon=_swfIcon;

@@ -51,6 +51,7 @@ public class FightRole_DicActions {
         }
         //挨打
         var hurt:FAction_Hurt=new FAction_Hurt(fr);
+        hurt.initF(info[SData_Strings.ActionName_Hurt]);
         Dic[SData_Strings.ActionName_Hurt]=hurt;
         //技能：主动且已装备、普攻
         if(fr.infoFight && fr.infoFight["技能"]){

@@ -83,7 +83,8 @@ public class FAction_Run extends FAction_Default{
         if((ang>180 && Role.nowDirection!=1) || (ang<180 && ang>0 && Role.nowDirection!=0)){//不同方向
             if(neetStopAct()==false){//直接转身
                 countRun=0;
-                if(ang>180){
+                if(ang==0 || ang==180){}
+                else if(ang>180){
                     Role.onChangeDirect("左");
                 }else{
                     Role.onChangeDirect("右");
