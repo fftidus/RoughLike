@@ -126,9 +126,6 @@ public class FightRole {
     }
     /** 修改动作，但不会立刻修改 */
     public function onWantChangeAction(act:String,fromComp:Map_Object=null):void{
-        if(netID==-1){
-            trace(act);
-        }
         if(nextAction==SData_Strings.ActionName_Hurt){return;}
         if(DicActions.hasAction(act)==false){
             act= SData_Strings.ActionName_Stand;

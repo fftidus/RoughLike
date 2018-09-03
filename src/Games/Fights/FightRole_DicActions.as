@@ -2,6 +2,7 @@ package Games.Fights {
 import Games.Datas.Data_RoleSkills;
 import Games.Fights.FightActions.FAction_Hurt;
 import Games.Fights.FightActions.FAction_Jump;
+import Games.Fights.FightActions.FAction_LayDown;
 import Games.Fights.FightActions.FAction_RunStop;
 import Games.Fights.FightActions.FAction_SkillDefault;
 import Games.Models.SkillModel;
@@ -53,6 +54,12 @@ public class FightRole_DicActions {
         var hurt:FAction_Hurt=new FAction_Hurt(fr);
         hurt.initF(info[SData_Strings.ActionName_Hurt]);
         Dic[SData_Strings.ActionName_Hurt]=hurt;
+        //倒地
+        if(info[SData_Strings.ActionName_leiDown]!=null) {
+            var laydown:FAction_LayDown = new FAction_LayDown(fr);
+            Dic[SData_Strings.ActionName_leiDown]=laydown;
+            laydown.initF(info[SData_Strings.ActionName_leiDown]);
+        }
         //技能：主动且已装备、普攻
         if(fr.infoFight && fr.infoFight["技能"]){
             var skills:Data_RoleSkills = fr.infoFight["技能"];

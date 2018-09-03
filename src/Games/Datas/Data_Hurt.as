@@ -50,11 +50,8 @@ public class Data_Hurt {
     }
     /** 被攻击，进入被击状态，叠加数据 */
     public function beHurt(data:AttackModel):void{
-        if(isKeepPose==true && data.data.hit_breakStand==true){
+        if(isKeepPose==true && (data.data.hit_breakStand==true || Role.nowAction.Name=="倒地")){
             isKeepPose=false;
-        }
-        if(data.data.hit_CostIron > 0){
-            Role.IronCon.costIron(data.data.hit_CostIron);
         }
         if(data.data.hit_awayDirect > 0){
             var realAway:int =data.data.hit_awayPower - Tool_Function.onForceConvertType(Role.getValue("重量") * data.data.hit_awayPower * 0.01);
@@ -93,6 +90,13 @@ public class Data_Hurt {
         }else if(isUp ==true){//浮空中，强制继续浮空
             if(spdUp > 0)spdUp+=1;
             else spdUp=1;
+        }
+        if(isUp==false){
+            if(data.data.hit_CostIron > 0){
+                Role.IronCon.costIron(data.data.hit_CostIron);
+            }
+        }else{
+            Role.IronCon.onClearF();
         }
     }
     

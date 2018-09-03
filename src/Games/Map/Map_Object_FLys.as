@@ -2,6 +2,7 @@ package Games.Map {
 import Games.Fights.FightRole_FlyRole;
 
 public class Map_Object_FLys extends Map_Object{
+	
     private var roleFight:FightRole_FlyRole;
     public function Map_Object_FLys(fr:FightRole_FlyRole) {
         super();

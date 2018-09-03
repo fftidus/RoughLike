@@ -1,11 +1,27 @@
 <TextureAtlas imagePath="Role1_B1.png">
-  <SubTexture name="img_师匠_210-1" x="0" y="0" width="139" height="101" frameX="-423" frameWidth="1000" frameY="-412" frameHeight="976"/>
-  <SubTexture name="img_师匠_210-8" x="141" y="0" width="105" height="127" frameX="-434" frameWidth="1000" frameY="-396" frameHeight="976"/>
-  <SubTexture name="img_师匠_210-2" x="0" y="129" width="154" height="70" frameX="-418" frameWidth="1000" frameY="-416" frameHeight="976"/>
-  <SubTexture name="img_师匠_210-6" x="156" y="129" width="134" height="116" frameX="-442" frameWidth="1000" frameY="-406" frameHeight="976"/>
-  <SubTexture name="img_师匠_210-7" x="0" y="201" width="98" height="132" frameX="-453" frameWidth="1000" frameY="-391" frameHeight="976"/>
-  <SubTexture name="img_师匠_210-0" x="100" y="247" width="112" height="128" frameX="-436" frameWidth="1000" frameY="-392" frameHeight="976"/>
-  <SubTexture name="img_师匠_210-5" x="214" y="247" width="111" height="146" frameX="-450" frameWidth="1000" frameY="-375" frameHeight="976"/>
-  <SubTexture name="img_师匠_210-4" x="0" y="377" width="182" height="119" frameX="-405" frameWidth="1000" frameY="-401" frameHeight="976"/>
-  <SubTexture name="img_师匠_210-3" x="292" y="0" width="101" height="128" frameX="-434" frameWidth="1000" frameY="-392" frameHeight="976"/>
+  <SubTexture name="img_师匠_210-4" x="0" y="0" width="182" height="119" frameX="-405" frameWidth="1000" frameY="-401" frameHeight="976"/>
+  <SubTexture name="img_火雷冰球_雷_球_00008" x="0" y="121" width="71" height="70" frameX="-1" frameWidth="72" frameY="-2" frameHeight="72"/>
+  <SubTexture name="img_落雷_雷_00011" x="184" y="0" width="190" height="295" frameX="0" frameWidth="191" frameY="0" frameHeight="301"/>
+  <SubTexture name="img_落雷_气_00002" x="0" y="193" width="148" height="58" frameX="-1" frameWidth="149" frameY="0" frameHeight="58"/>
+  <SubTexture name="img_师匠_210-7" x="0" y="253" width="98" height="132" frameX="-453" frameWidth="1000" frameY="-391" frameHeight="976"/>
+  <SubTexture name="img_落雷_气_00000" x="100" y="297" width="118" height="51" frameX="-31" frameWidth="149" frameY="-7" frameHeight="58"/>
+  <SubTexture name="img_落雷_雷_00017" x="150" y="121" width="16" height="90"/>
+  <SubTexture name="img_师匠_210-2" x="220" y="297" width="154" height="70" frameX="-418" frameWidth="1000" frameY="-416" frameHeight="976"/>
+  <SubTexture name="img_火雷冰球_雷_球_00010" x="73" y="121" width="68" height="68" frameX="-2" frameWidth="72" frameY="-3" frameHeight="72"/>
+  <SubTexture name="img_落雷_雷_00010" x="376" y="0" width="179" height="301" frameX="-11" frameWidth="191" frameY="0" frameHeight="301"/>
+  <SubTexture name="img_落雷_雷_00012" x="376" y="303" width="190" height="293" frameX="0" frameWidth="191" frameY="0" frameHeight="301"/>
+  <SubTexture name="img_师匠_210-8" x="557" y="0" width="105" height="127" frameX="-434" frameWidth="1000" frameY="-396" frameHeight="976"/>
+  <SubTexture name="img_落雷_雷_00009" x="0" y="387" width="83" height="268"/>
+  <SubTexture name="img_师匠_210-5" x="557" y="129" width="111" height="146" frameX="-450" frameWidth="1000" frameY="-375" frameHeight="976"/>
+  <SubTexture name="img_火雷冰球_雷_球_00009" x="664" y="0" width="70" height="70" frameX="-2" frameWidth="72" frameY="-2" frameHeight="72"/>
+  <SubTexture name="img_师匠_210-6" x="85" y="387" width="134" height="116" frameX="-442" frameWidth="1000" frameY="-406" frameHeight="976"/>
+  <SubTexture name="img_师匠_210-3" x="85" y="505" width="101" height="128" frameX="-434" frameWidth="1000" frameY="-392" frameHeight="976"/>
+  <SubTexture name="img_落雷_气_00001" x="188" y="505" width="141" height="57" frameX="-8" frameWidth="149" frameY="-1" frameHeight="58"/>
+  <SubTexture name="img_落雷_雷_00014" x="188" y="564" width="157" height="289" frameX="-14" frameWidth="191" frameY="0" frameHeight="301"/>
+  <SubTexture name="img_落雷_雷_00016" x="85" y="635" width="41" height="286"/>
+  <SubTexture name="img_落雷_雷_00015" x="568" y="277" width="89" height="297"/>
+  <SubTexture name="img_火雷冰球_雷_球_00007" x="221" y="369" width="72" height="71" frameX="0" frameWidth="72" frameY="-1" frameHeight="72"/>
+  <SubTexture name="img_落雷_雷_00013" x="568" y="576" width="189" height="294" frameX="-1" frameWidth="191" frameY="0" frameHeight="301"/>
+  <SubTexture name="img_师匠_210-1" x="659" y="277" width="139" height="101" frameX="-423" frameWidth="1000" frameY="-412" frameHeight="976"/>
+  <SubTexture name="img_师匠_210-0" x="736" y="0" width="112" height="128" frameX="-436" frameWidth="1000" frameY="-392" frameHeight="976"/>
 </TextureAtlas>

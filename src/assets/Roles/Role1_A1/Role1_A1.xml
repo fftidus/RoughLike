@@ -1,7 +1,20 @@
 <TextureAtlas imagePath="Role1_A1.png">
-  <SubTexture name="img_师匠_200-4" x="0" y="0" width="140" height="118" frameX="-413" frameWidth="1000" frameY="-405" frameHeight="976"/>
-  <SubTexture name="img_师匠_200-2" x="0" y="120" width="152" height="116" frameX="-409" frameWidth="1000" frameY="-406" frameHeight="976"/>
-  <SubTexture name="img_师匠_200-3" x="142" y="0" width="154" height="116" frameX="-410" frameWidth="1000" frameY="-406" frameHeight="976"/>
-  <SubTexture name="img_师匠_200-0" x="154" y="118" width="140" height="118" frameX="-413" frameWidth="1000" frameY="-405" frameHeight="976"/>
-  <SubTexture name="img_师匠_200-1" x="296" y="118" width="151" height="115" frameX="-408" frameWidth="1000" frameY="-407" frameHeight="976"/>
+  <SubTexture name="img_一阶-舞枪气爆06能量波_00013" x="0" y="0" width="233" height="89" frameX="0" frameWidth="234" frameY="0" frameHeight="89"/>
+  <SubTexture name="img_师匠_200-3" x="0" y="91" width="154" height="116" frameX="-410" frameWidth="1000" frameY="-406" frameHeight="976"/>
+  <SubTexture name="img_一阶-舞枪气爆05地裂喷射_00011" x="235" y="0" width="84" height="356"/>
+  <SubTexture name="img_师匠_200-1" x="0" y="209" width="151" height="115" frameX="-408" frameWidth="1000" frameY="-407" frameHeight="976"/>
+  <SubTexture name="img_一阶-舞枪气爆05地裂喷射_00012" x="0" y="326" width="77" height="331"/>
+  <SubTexture name="img_一阶_舞枪气爆07地裂" x="79" y="358" width="208" height="112"/>
+  <SubTexture name="img_一阶-舞枪气爆06能量波_00015" x="289" y="358" width="252" height="97" frameX="0" frameWidth="252" frameY="0" frameHeight="98"/>
+  <SubTexture name="img_师匠_200-2" x="543" y="358" width="152" height="116" frameX="-409" frameWidth="1000" frameY="-406" frameHeight="976"/>
+  <SubTexture name="img_一阶-舞枪气爆06能量波_00010" x="321" y="0" width="307" height="131" frameX="0" frameWidth="308" frameY="0" frameHeight="132"/>
+  <SubTexture name="img_普攻06溅射" x="153" y="209" width="29" height="90"/>
+  <SubTexture name="img_一阶-舞枪气爆05地裂喷射_00013" x="289" y="457" width="65" height="348"/>
+  <SubTexture name="img_一阶-舞枪气爆06能量波_00011" x="630" y="0" width="221" height="84" frameX="0" frameWidth="222" frameY="0" frameHeight="84"/>
+  <SubTexture name="img_一阶-舞枪气爆05地裂喷射_00010" x="79" y="472" width="75" height="350"/>
+  <SubTexture name="img_师匠_200-0" x="630" y="86" width="140" height="118" frameX="-413" frameWidth="1000" frameY="-405" frameHeight="976"/>
+  <SubTexture name="img_一阶-舞枪气爆06能量波_00014" x="321" y="133" width="246" height="91" frameX="0" frameWidth="246" frameY="0" frameHeight="92"/>
+  <SubTexture name="img_普攻04飞石" x="153" y="301" width="32" height="35"/>
+  <SubTexture name="img_师匠_200-4" x="569" y="206" width="140" height="118" frameX="-413" frameWidth="1000" frameY="-405" frameHeight="976"/>
+  <SubTexture name="img_一阶-舞枪气爆06能量波_00012" x="321" y="226" width="224" height="86" frameX="0" frameWidth="224" frameY="0" frameHeight="87"/>
 </TextureAtlas>

@@ -15,8 +15,8 @@ public class Data_FActionStep {
     public var hitArea:Data_AttackArea;
     /** 攻击 */
     public var attackInfo:Array;
-    /** 飞行物体 */
-    public var flyobjInfo:Array;
+    /** 飞行物体：生成飞行物体的帧，key=1、2、"end" */
+    public var flyobjInfo:*;
     /** 是否霸体 */
     public var isEndure:Boolean;
     /** 霸体帧：isEndure为true时，霸体帧为null表示一直霸体 */
@@ -62,7 +62,9 @@ public class Data_FActionStep {
             }
             ghostInfo=dic["残影"];
             shockInfo=dic["震动"];
-//            if(dic["飞行"]!=null)flyobjInfo
+            if(dic["飞行"]!=null){
+                flyobjInfo=dic["飞行"];
+            }
         }
     }
 }
